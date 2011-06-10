@@ -1,23 +1,23 @@
 package igem.model;
 
 public class GeneSequence {
-	String sequence;
+	String unmodifiedSequence;
+	String modifiedSequence;
 	int codingIndex;
 	int[] changes;
 	
 	public GeneSequence(String newSeq){
-		sequence = newSeq;
-		
-		/*
-		 * All need to change just testing sequences
-		 */
-		codingIndex = 0;
+		unmodifiedSequence = newSeq;
+		codingIndex = GeneSequence.findStartOfCodingSequence(unmodifiedSequence);
+		modifiedSequence = null;
 		changes = null;
-		
 	}
 	
-	/* no error checking yet */
-	public int findStartOfCodingSequence(){
-		return this.sequence.indexOf("ATG");
+	
+	/**
+	 * @return
+	 */
+	public static int findStartOfCodingSequence(String seq){
+		return -1;
 	}
 }

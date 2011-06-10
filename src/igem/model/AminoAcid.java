@@ -14,4 +14,15 @@ public class AminoAcid {
 		this.abrvName = abrvName;
 		this.symbol = symbol;
 	}
+	
+	/**
+	 * For rank of 1 it determines the most frequent codon,
+	 * for rank 2 it determines the next most frequent codon etc.
+	 * 
+	 * @param rank
+	 * @return The nth most frequent Codon for that particular amino acid
+	 */
+	public Codon geDesiredCodon(int rank){
+		return null;
+	}
 }

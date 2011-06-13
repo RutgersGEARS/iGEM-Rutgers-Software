@@ -22,7 +22,7 @@ public class AminoAcid {
 	 * @param rank
 	 * @return The nth most frequent Codon for that particular amino acid
 	 */
-	public Codon geDesiredCodon(int rank){
+	public Codon getDesiredCodon(int rank){
 		return null;
 	}
 }

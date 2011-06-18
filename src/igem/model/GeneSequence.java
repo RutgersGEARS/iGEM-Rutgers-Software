@@ -1,12 +1,14 @@
 package igem.model;
 
+import java.util.ArrayList;
+
 public class GeneSequence {
 	
 	public String unmodifiedSequence;
 	public String modifiedSequence;
 	public int codingIndex;
 	public int[] changes;
-	
+	public ArrayList<Primer> primers;
 	
 	/**
 	 * Constructor for a GeneSequence object
@@ -16,12 +18,14 @@ public class GeneSequence {
 	public GeneSequence(String newSeq){
 		unmodifiedSequence = newSeq;
 		codingIndex = GeneSequence.findStartOfCodingSequence(unmodifiedSequence);
+		primers = new ArrayList<Primer>();
 		modifiedSequence = null;
 		changes = null;
 	}
 	
 	public GeneSequence(){
-
+		
+		primers = new ArrayList<Primer>();
 		changes = new int[20];
 	}
 	
@@ -44,7 +48,6 @@ public class GeneSequence {
 		
 	}
 	
-
 	/**
 	 * Determines the percentage of GC content in a particular sequence of DNA.
 	 * Example for a 50% GC content the function returns 50.
@@ -66,5 +69,9 @@ public class GeneSequence {
 		gcPercent = (gcContent / length) * 100;
 		return gcPercent;
 		
+	}
+	
+	public void addPrimer(Primer primer){
+		primers.add(primer);
 	}
 }

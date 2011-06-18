@@ -23,6 +23,7 @@ public class AminoAcid {
 	 * @return The nth most frequent Codon for that particular amino acid
 	 */
 	public Codon getDesiredCodon(int rank){
+		
 		return null;
 	}
 }

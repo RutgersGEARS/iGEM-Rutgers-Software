@@ -1,31 +1,27 @@
 package igem.control;
 
 import igem.model.*;
-import java.math.*;
 
 public class PrimerDesign {
-
-	public int randomTestPDA(GeneSequence seq){
-		
-		
-		
-		return -1;
-	}
 	
-	public static int linearTestPDA(GeneSequence seq){
+	/**
+	 * @param seq
+	 * @return
+	 */
+	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq){
 		int[] primerIndices = new int[4];
 		int[] changes = seq.changes;
-		int primerDesignIndex;
+		int primerDesignCount;
 		int pivotChange;
+		int currentChangeIndex;
+		
 		boolean tooFar;
-		int tempIndex;
 		
 		// Go through each change and see if anything is close to it
 		for(int i = 0; i < changes.length; i++){
 			
 			/*
 			 * If the change has not already been incorporated into a primer
-			 * 
 			 */
 			if(changes[i] != -1){
 				
@@ -37,88 +33,225 @@ public class PrimerDesign {
 				tooFar = false;
 				pivotChange = changes[i];
 				
-				primerDesignIndex = 0;
-				primerIndices[primerDesignIndex] = pivotChange;
+				primerDesignCount = 0;
+				primerIndices[primerDesignCount] = pivotChange;
 				
 				System.out.println("SAF Mutation at : " + pivotChange);
-				
-				/*
-				 * so that change isn't incorporated into 2 primers
-				 */
-				changes[i] = -1;
 				
 				/*
 				 * Not at last change check for things that are close
 				 */
 				if(i < changes.length - 1){
-					tempIndex = i + 1;
+					currentChangeIndex = i + 1;
 					
 					/*
 					 * find all changes up to 4 that are closer than 25 bp
 					 * and make sure you don't get an ArrayOutOfBounds exception
 					 */
-					while(tooFar == false && tempIndex < changes.length){
-						if(changes[tempIndex] - pivotChange <= 25 && primerDesignIndex < 3){
-								primerDesignIndex++;
-								primerIndices[primerDesignIndex] = changes[tempIndex];
-								//primerIndices[primerDesignIndex] = tempIndex;
-								System.out.println("SAF Mutation in same primer : " + primerIndices[primerDesignIndex]);
+					while(tooFar == false && currentChangeIndex < changes.length){
+						if(changes[currentChangeIndex] - pivotChange <= 25 && primerDesignCount < 3){
+								primerDesignCount++;
+								primerIndices[primerDesignCount] = changes[currentChangeIndex];
 								
-								changes[tempIndex] = -1;
+								currentChangeIndex++;
+
+								System.out.println("SAF Mutation in same primer : " + primerIndices[primerDesignCount]);
 						}
 						else{
 							tooFar = true;
 						}
-						
-						tempIndex++;
-						
 					}
 					
 				}
-					/* call the primer design method  with the indices that need to be changed */
-					designPrimer(seq, primerIndices );
-				
+
+					/*
+					 * Loop through to make sure that the primer is able to be made
+					 */
+					Primer tempPrimer;
+					
+					for(int verifyIndex = primerDesignCount; verifyIndex >= 0; verifyIndex--){
+						/* call the primer design method  with the indices that need to be changed */
+						tempPrimer = designPrimer(seq, primerIndices);
+						
+						/* success */
+						if(tempPrimer != null){
+							
+							/* add primer to input sequence */
+							seq.addPrimer(tempPrimer);
+							
+							/* clear out changes that went into primer !!! maybe off by 1 !!!!*/
+							for(int clearIndex = i; clearIndex < i + verifyIndex + 1; clearIndex ++){
+								changes[clearIndex] = -1;
+							}
+							
+							break;
+							
+						}
+						/* failure */
+						else{
+							/* even a single change index doesn't work */
+							if(verifyIndex == 0){
+								/* TODO update field in gene sequence */
+								
+								/* don't have to worry about clearing last change from changes array because 
+								 * they'll just stay in good way to let user know which ones aren't changed
+								 */
+							}
+							/* delete last entry from the primer array */
+							primerIndices[verifyIndex] = -1;
+						}
+					}
+					
 			}
 			
 			
 		}
 		
-		
-		
-		return -1;
+		return seq;
 	}
 	/*
 	 * Just used to test for now
-	 * 
 	 */
-	public static boolean designPrimer(GeneSequence seq, int[] indices){
+	public static Primer designPrimer(GeneSequence seq, int[] indices){
 		
 		/*
 		 * Check if there are two many mismatches for GC content
 		 */
 		int firstIndex = indices[0];
 		int lastIndex = 0;
+		
+		int begPrimer;
+		int endPrimer;
+		
 		int numberMismatches = 1;
+		int primerLength;
+		
+		double gcContentPrimer;
+		double meltingTemperature;
+		
+		boolean success;
 		
 		// find last viable index
-		for(int i = 1; i < indices.length ; i++){
+		for(int i = 0; i < indices.length ; i++){
 			if(indices[i] != -1){
 				lastIndex = indices[i]; 
 				numberMismatches++;
 			}
 		}
 		
-		// Only 1 mismatch
-		if(numberMismatches == 1){
+		/* 
+		 * Only 1 mismatch
+		 * Primer length 30 to 40
+		 * Try to make primer as small as possible
+		 */
+		// TODO handle primer going off one of the ends depending on standard
+		
+		begPrimer = firstIndex - 10;
+		endPrimer = lastIndex + 10;
+		
+		success = false;
+		
+		// may be repeating code might want to place in method
+		for(primerLength = endPrimer - begPrimer + 1 ; primerLength < 46 ; primerLength += 2){
 			
+			// primer has not been able to be successfully designed yet
+			if(success == false){
+				// Find gc content of substring of genetic sequence
+				gcContentPrimer = GeneSequence.getGCPercentage(seq.modifiedSequence.substring(begPrimer, endPrimer + 1));
+					
+				// Find Tm of the primer
+				meltingTemperature = findMeltingTemperature(endPrimer - begPrimer + 1, gcContentPrimer, numberMismatches);
+					
+				// Primers an ok length
+				if((meltingTemperature > 78) && (primerLength > 25)){
+					success = true;
+				}
+				// Primer needs to be longer
+				else{
+					begPrimer --;
+					endPrimer ++;
+				}
+			}	
 		}
-		// More than one mismatch
+		
+		// can't design primer
+		if(success == false){
+			return null;
+		}
+		
+		// can design primer
 		else{
+			// Use helper method to figure out sequence given indices and return new primer
+			return transcribePrimerSequences(seq, begPrimer, endPrimer, numberMismatches);	
+		}
+	}
+	
+	public static Primer transcribePrimerSequences(GeneSequence seq, int begIndex, int endIndex, int numbMismatches){
+		Primer newPrimer;
+		String bottomSeq;
+		String topSeq;
+		char[] nucleotides;
+		char currentNuc;
+		int index;
+		int counter;
+		
+		// bottom primer
+		bottomSeq = seq.modifiedSequence.substring(begIndex, endIndex + 1);
+		
+		// top primer
+		counter = 0;
+		nucleotides = new char[endIndex - begIndex + 1];
+		for(index = endIndex; endIndex >= begIndex; index--){
+			currentNuc = seq.modifiedSequence.charAt(index);
 			
+			// get complement of nucleotide
+			switch(currentNuc){
+			case 'c' :
+				currentNuc = 'g';
+			case 'C' :
+				currentNuc = 'g';
+			case 'g' :
+				currentNuc = 'c';
+			case 'G' :
+				currentNuc = 'c';
+			case 'a' :
+				currentNuc = 't';
+			case 'A' :
+				currentNuc = 't';
+			case 't' :
+				currentNuc = 'a';
+			case 'T' :
+				currentNuc = 'a';
+			// TODO figure this out later should be no error checking for correct nucleotide format at this point
+			default :
+				currentNuc = 'g';
+			}
+			// set correct nucleotide
+			nucleotides[counter] = seq.modifiedSequence.charAt(index);
+			counter++;
 		}
 		
+		// set top sequence
+		topSeq = new String(nucleotides);
 		
-		return false;
+		// create new primer
+		newPrimer = new Primer(topSeq, bottomSeq, numbMismatches);
+		
+		return newPrimer;
+	}
+	
+	/**
+	 * Finds the melting temperature of a primer given the length, gc percentage, and the number of mismatches
+	 * 
+	 * @param primerLength
+	 * @param gcContent
+	 * @param numbMismatches
+	 * @return
+	 */
+	public static double findMeltingTemperature(int primerLength, double gcContent, int numbMismatches){
+		double meltingTemperature;
+		meltingTemperature = 81.5 + (0.41 * (gcContent)) - (675 / primerLength) - (numbMismatches / primerLength);
+		return meltingTemperature;
 	}
 	
 	public static void main(String[] args){
@@ -129,11 +262,11 @@ public class PrimerDesign {
 			x =  x + x;
 		}
 		
-		linearTestPDA(firstSequence);
+		linearPrimerDesignAlgo(firstSequence);
 		
 	}
 	
-	/*public static void designPrimer(GeneSequence seq, int[] indices){
+	/*public static Primer designPrimer(GeneSequence seq, int[] indices){
 		System.out.println("    Designed Primer!");
 		
 		for(int i = 0; i < indices.length ; i++){

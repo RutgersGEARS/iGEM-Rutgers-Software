@@ -1,10 +1,18 @@
 package igem.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 public class Data implements Serializable {
 	
+
 	public static final String	TTT = "ttt";
 	public static final String	TTC = "ttc";
 	public static final String	TTA = "tta";
@@ -92,15 +100,134 @@ public class Data implements Serializable {
 	public static final int		VALINE			=	19;
 	public static final int		STOP_CODON		=	20;
 	
+	
+	private static final long serialVersionUID = -1052856132128737969L;
+	
 	AminoAcid[]		aminoAcids;
 	Codon[]			codons;
 	ArrayList<OrgCodonTable>	organisms;
+	ArrayList<Standard>			standards;
+	
+	/**
+	 * Folder where the program's data is stored after session ends.
+	 */
+	public static final String storeDir = "data";
+	
+	/**
+	 * File where the program's data is stored after session ends.
+	 */
+	public static final String storeFile = "myss.dat";
 	
 	public Data(){
 		
 	}
 	
+	/**
+	 * 
+	 * Stores all data into the file specified by storeDir and storeFile.
+	 * 
+	 * @param usrList
+	 * @throws IOException
+	 */
+	public static void store(Data d) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(
+				new FileOutputStream(storeDir + File.separator + storeFile));
+		oos.writeObject(d);
+	}
 	
+	/**
+	 * @param data
+	 * @return
+	 */
+	public int saveData(Data data){
+		try{
+			Data.store(data);
+		}
+		catch(IOException e){
+			System.out.println("Data failed to save : IOException"); // Error checking statement
+			return -1;
+		}
+		return 0;
+	}
+	
+	
+	/**
+	 * 
+	 * Loads all data from the file specified by storeDir and storeFile.
+	 * 
+	 * @return Returns the reconstructed user list from storage.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static Data load()
+	throws IOException, ClassNotFoundException {
+		ObjectInputStream ois = new ObjectInputStream(
+			new FileInputStream(storeDir + File.separator + storeFile));
+		Data d = (Data)ois.readObject();
+		return d;
+	}
+	
+	/**
+	 * @param data
+	 * @return
+	 */
+	public Data loadData(Data data){
+		File dataFile = new File(Data.storeDir + File.separator + Data.storeFile);
+		
+		/* check if file exists */
+		if(dataFile.exists() == true){
+			try{
+				data = Data.load(); // loads data
+			}
+			catch(IOException e){
+				System.out.println("Data failed to load : IOException"); // Error checking statement
+				return null;
+			}
+			catch(ClassNotFoundException e){
+				System.out.println("Data failed to load : ClassNotFoundException"); // Error checking statement
+				return null;
+			}
+			
+			return data;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param newOrganism
+	 */
+	public void addOrganism(OrgCodonTable newOrganism){
+		
+	}
+	
+	/**
+	 * @param orgName
+	 */
+	public void removeOrganism(String orgName){
+		
+	}
+	
+	/**
+	 * @param standard
+	 */
+	public void addStandard(Standard standard){
+		
+	}
+	
+	/**
+	 * @param standardName
+	 */
+	public void removeStandard(String standardName){
+		
+	}
+	
+	/**
+	 * Given a three character codon it determines the amino acid that corresponds.
+	 * 
+	 * @param codon
+	 * @return integer corresponding to amino acid in organism codon table
+	 */
 	public static int findAminoAcidIndex(String codon){
 		String seq = codon.toLowerCase();
 		int aminoAcidIndex = -1;
@@ -215,5 +342,6 @@ public class Data implements Serializable {
 		
 		return aminoAcidIndex;
 	}
+	
 	
 }

@@ -8,8 +8,6 @@ import java.util.ArrayList;
  */
 public class OrgCodonTable{
 	
-	
-	
 	/**
 	 * Stores each amino acid in this order in the array list
 	 * 
@@ -38,7 +36,7 @@ public class OrgCodonTable{
 	 * 20		X		Stop Codon
 	 * 
 	 */
-	ArrayList<AminoAcid> aminoAcid;
+	ArrayList<AminoAcid> aminoAcids;
 	
 	/**
 	 * Name of organism
@@ -52,8 +50,83 @@ public class OrgCodonTable{
 	 * @param codonInformation
 	 * @param name
 	 */
-	public OrgCodonTable(String codonInformation, String name){
+	public OrgCodonTable(String name){
+		this.organismName = name;
+		this.aminoAcids = new ArrayList<AminoAcid>(21);
 		
+		AminoAcid newAmino;
+		
+		// populate new organism codon table
+		newAmino = new AminoAcid("Alanine", "Ala", 'A');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Arganine", "Arg", 'R');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Asparagine", "Asn", 'N');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Aspartic acid", "Asp", 'D');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Cysteine", "Cys", 'C');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Glutamic acid", "Gly", 'E');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Glutamine", "Gln", 'Q');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Histidine", "His", 'H');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Isoleucine", "Ile", 'I');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Leucine", "Leu", 'L');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Lysine", "Lys", 'K');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Methionine", "Met", 'M');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Phenylalanine", "Phe", 'F');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Proline", "Pro", 'P');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Serine", "Ser", 'S');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Threonine", "Thr", 'T');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Tryptophan", "Thr", 'W');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Tyrosine", "Tyr", 'Y');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Valine", "Val", 'V');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Stop codon", "stop", 'X');
+		this.aminoAcids.add(newAmino);
+	}
+	
+	/**
+	 * @param newCodon
+	 * @param index
+	 * @return
+	 */
+	public void addCodon(Codon newCodon){
+		int aminoAcidIndex;
+		aminoAcidIndex = Data.findAminoAcidIndex(newCodon.sequence);
+		this.aminoAcids.get(aminoAcidIndex).insertCodon(newCodon);
 	}
 	
 	/* (non-Javadoc)
@@ -63,8 +136,12 @@ public class OrgCodonTable{
 		
 		String orgCodonTableString = this.organismName + "\n";
 		
+		for(int i = 0; i < aminoAcids.size(); i++){
+			// print out amino acid which in turn prints out all the codon
+			orgCodonTableString += aminoAcids.get(i).toString();
+		}
 		
-		return null;
+		return orgCodonTableString;
 	}
 	
 

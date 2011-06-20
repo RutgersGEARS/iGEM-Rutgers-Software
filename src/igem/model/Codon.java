@@ -38,6 +38,7 @@ public class Codon {
 		this.frequency = frequency;
 	}
 	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

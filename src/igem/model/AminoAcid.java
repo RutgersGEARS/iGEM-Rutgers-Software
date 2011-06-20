@@ -2,14 +2,26 @@ package igem.model;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * AminoAcid class describes an amino acid that has codons which contain certain frequencies these codons are stored in order of highest to lowest frequency.
+ * 
+ * @author 
+ *
+ */
 public class AminoAcid {
 	ArrayList<Codon> codons;
 	String name;
 	String abrvName;
 	char symbol;
 	
-	public AminoAcid(ArrayList<Codon> codons, String name, String abrvName, char symbol){
-		this.codons = codons;
+	/**
+	 * @param name
+	 * @param abrvName
+	 * @param symbol
+	 */
+	public AminoAcid(String name, String abrvName, char symbol){
+		this.codons = new ArrayList<Codon>();
 		this.name = name;
 		this.abrvName = abrvName;
 		this.symbol = symbol;
@@ -24,6 +36,58 @@ public class AminoAcid {
 	 */
 	public Codon getDesiredCodon(int rank){
 		
-		return null;
+		// invalid index return null
+		if(this.codons.size() < rank){
+			return null;
+		}
+		
+		// valid index go get that codon
+		else{
+			return this.codons.get(rank - 1);
+		}
+	}
+	
+	/**
+	 * Inserts codons in order of most frequent with index 0 to least frequent with index 1 ... 6.
+	 * @param newCodon
+	 */
+	public void insertCodon(Codon newCodon){
+		
+		boolean isAdded = false;
+		
+		// no codons are in array list yet just pop in front
+		if(this.codons.size() == 0){
+			this.codons.add(newCodon);
+			isAdded = true;
+		}
+		
+		// codons are already in array find appropriate spot
+		else{
+			for(int i = 0; i < this.codons.size(); i++){
+				if(this.codons.get(i).frequency < newCodon.frequency){
+					this.codons.add(i, newCodon);
+					isAdded = true;
+				}
+			}
+		}
+		
+		if(isAdded == false){
+			this.codons.add(newCodon);
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		String output;
+		output = this.name + "     " + this.symbol + "     " + this.abrvName + "\n";
+		for(int i = 0; i < this.codons.size(); i++){
+			
+			output += "\t";
+			output += this.codons.get(i).toString();
+		}
+		
+		return output;
 	}
 }

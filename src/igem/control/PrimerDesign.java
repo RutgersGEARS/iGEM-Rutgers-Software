@@ -1,6 +1,9 @@
 package igem.control;
 
-import igem.model.*;
+import igem.model.GeneSequence;
+import igem.model.Primer;
+
+import java.util.ArrayList;
 
 public class PrimerDesign {
 	
@@ -10,7 +13,7 @@ public class PrimerDesign {
 	 */
 	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq){
 		int[] primerIndices = new int[4];
-		int[] changes = seq.changes;
+		ArrayList<Integer> changes = seq.changes;
 		int primerDesignCount;
 		int pivotChange;
 		int currentChangeIndex;
@@ -18,12 +21,12 @@ public class PrimerDesign {
 		boolean tooFar;
 		
 		// Go through each change and see if anything is close to it
-		for(int i = 0; i < changes.length; i++){
+		for(int i = 0; i < changes.size(); i++){
 			
 			/*
 			 * If the change has not already been incorporated into a primer
 			 */
-			if(changes[i] != -1){
+			if(changes.get(i) != -1){
 				
 				/* initialize array for primer design to -1 at each entry*/
 				for(int j = 0; j < 4; j++){
@@ -31,7 +34,7 @@ public class PrimerDesign {
 				}
 				
 				tooFar = false;
-				pivotChange = changes[i];
+				pivotChange = changes.get(i);
 				
 				primerDesignCount = 0;
 				primerIndices[primerDesignCount] = pivotChange;
@@ -41,17 +44,17 @@ public class PrimerDesign {
 				/*
 				 * Not at last change check for things that are close
 				 */
-				if(i < changes.length - 1){
+				if(i < changes.size() - 1){
 					currentChangeIndex = i + 1;
 					
 					/*
 					 * find all changes up to 4 that are closer than 25 bp
 					 * and make sure you don't get an ArrayOutOfBounds exception
 					 */
-					while(tooFar == false && currentChangeIndex < changes.length){
-						if(changes[currentChangeIndex] - pivotChange <= 25 && primerDesignCount < 3){
+					while(tooFar == false && currentChangeIndex < changes.size()){
+						if(changes.get(currentChangeIndex) - pivotChange <= 25 && primerDesignCount < 3){
 								primerDesignCount++;
-								primerIndices[primerDesignCount] = changes[currentChangeIndex];
+								primerIndices[primerDesignCount] = changes.get(currentChangeIndex);
 								
 								currentChangeIndex++;
 
@@ -81,7 +84,7 @@ public class PrimerDesign {
 							
 							/* clear out changes that went into primer !!! maybe off by 1 !!!!*/
 							for(int clearIndex = i; clearIndex < i + verifyIndex + 1; clearIndex ++){
-								changes[clearIndex] = -1;
+								changes.set(clearIndex, -1);
 							}
 							
 							break;
@@ -222,7 +225,8 @@ public class PrimerDesign {
 				currentNuc = 'a';
 			case 'T' :
 				currentNuc = 'a';
-			// TODO figure this out later should be no error checking for correct nucleotide format at this point
+				
+			// TODO figure this out later should be no error checking for nucleotides
 			default :
 				currentNuc = 'g';
 			}
@@ -257,26 +261,13 @@ public class PrimerDesign {
 	public static void main(String[] args){
 		GeneSequence firstSequence = new GeneSequence();
 		int x = 3;
-		for(int i = 0; i < firstSequence.changes.length; i++){
-			firstSequence.changes[i] = x;
+		for(int i = 0; i < firstSequence.changes.size(); i++){
+			firstSequence.changes.add(x);
 			x =  x + x;
 		}
 		
 		linearPrimerDesignAlgo(firstSequence);
 		
 	}
-	
-	/*public static Primer designPrimer(GeneSequence seq, int[] indices){
-		System.out.println("    Designed Primer!");
-		
-		for(int i = 0; i < indices.length ; i++){
-			
-			if(indices[i] != -1){
-				System.out.println("    Mutated Index : " + indices[i]);
-			}
-			
-		}
-		
-	}*/
 	
 }

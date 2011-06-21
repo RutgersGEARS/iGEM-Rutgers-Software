@@ -8,7 +8,7 @@ package igem.model;
  */
 public class Codon {
 	
-	String sequence;
+	public String sequence;
 	char aminoAcidSymbol;
 	double frequency;
 	

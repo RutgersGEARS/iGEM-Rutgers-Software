@@ -73,4 +73,12 @@ public class GeneSequence {
 	public void addPrimer(Primer primer){
 		primers.add(primer);
 	}
+	
+	/**
+	 * Determines the number of rounds of PCR required to transfom the unmodified part into the modified part.  Used to determine whether a less optimal algorithm should be used
+	 * @return
+	 */
+	public int getNumberRoundsPCR(){
+		return primers.size();
+	}
 }

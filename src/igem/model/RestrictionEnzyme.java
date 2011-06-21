@@ -11,5 +11,16 @@ public class RestrictionEnzyme {
 	 * Name of restriction enzyme
 	 */
 	String name;
+	
+	/**
+	 * Constructor for a restriction enzyme
+	 * 
+	 * @param name
+	 * @param recogSeq
+	 */
+	public RestrictionEnzyme(String name, String recogSeq){
+		this.name = name;
+		this.recognitionSequence = recogSeq;
+	}
 
 }

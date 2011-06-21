@@ -100,6 +100,21 @@ public class Data implements Serializable {
 	public static final int		VALINE			=	19;
 	public static final int		STOP_CODON		=	20;
 	
+	public static final RestrictionEnzyme EcoRI = new RestrictionEnzyme("EcoRI", "gaatc");
+	public static final RestrictionEnzyme XbaI = new RestrictionEnzyme("XbaI", "tctaga");
+	public static final RestrictionEnzyme SpeI = new RestrictionEnzyme("SpeI", "actagt");
+	public static final RestrictionEnzyme PstI = new RestrictionEnzyme("PstI", "ctgcag");
+	public static final RestrictionEnzyme NotI = new RestrictionEnzyme("NotI", "gcggccgc");
+	public static final RestrictionEnzyme PvuI = new RestrictionEnzyme("PvuI", "cagctg");
+	public static final RestrictionEnzyme XhoI = new RestrictionEnzyme("XhoI", "ctcgac");
+	public static final RestrictionEnzyme AvrII = new RestrictionEnzyme("AvrII", "cctagg");
+	public static final RestrictionEnzyme NheI = new RestrictionEnzyme("NheI", "gctagc");
+	public static final RestrictionEnzyme SapI = new RestrictionEnzyme("SapI", "gctcttc");
+	public static final RestrictionEnzyme AgeI = new RestrictionEnzyme("AgeI", "tbd"); //TODO look up when I have Internet
+	public static final RestrictionEnzyme NgoMIV = new RestrictionEnzyme("NgoMIV", "gccggc");
+	public static final RestrictionEnzyme BglII = new RestrictionEnzyme("BglII", "agatct");
+	public static final RestrictionEnzyme BamHI = new RestrictionEnzyme("BamHI", "ggatcc");
+	
 	
 	private static final long serialVersionUID = -1052856132128737969L;
 	
@@ -118,8 +133,67 @@ public class Data implements Serializable {
 	 */
 	public static final String storeFile = "myss.dat";
 	
+	/**
+	 * Use this to generate all the data
+	 */
 	public Data(){
 		
+		/*
+		 *  Intialize all the standards
+		 */
+		standards = new ArrayList<Standard>();
+		
+		Standard assemblyStandard10 = new Standard("gaattcgcggccgcttctag", "tactagtagcggccgctgcag");
+		Standard assemblyStandard23 = new Standard("gaattcgcggccgcttcta", "actagtagcggccgctgcag");
+		Standard assemblyStandard25 = new Standard("gaattccgcggccgcttctagatggccggc", "accggttaatactagtagcggccgctgcag");
+		Standard assemblyStandard21 = new Standard("gaattcatgagatct", "ggatcctaactcgag");
+		
+		// set up assembly standard 10
+		assemblyStandard10.addRestrictionSite(EcoRI, false);
+		assemblyStandard10.addRestrictionSite(XbaI, false);
+		assemblyStandard10.addRestrictionSite(SpeI, false);
+		assemblyStandard10.addRestrictionSite(PstI, false);
+		assemblyStandard10.addRestrictionSite(NotI, false);
+		
+		assemblyStandard10.addRestrictionSite(PvuI, true);
+		assemblyStandard10.addRestrictionSite(XhoI, true);
+		assemblyStandard10.addRestrictionSite(AvrII, true);
+		assemblyStandard10.addRestrictionSite(NheI, true);
+		assemblyStandard10.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 23
+		assemblyStandard23.addRestrictionSite(EcoRI, false);
+		assemblyStandard23.addRestrictionSite(XbaI, false);
+		assemblyStandard23.addRestrictionSite(SpeI, false);
+		assemblyStandard23.addRestrictionSite(PstI, false);
+		assemblyStandard23.addRestrictionSite(NotI, false);
+		
+		assemblyStandard23.addRestrictionSite(PvuI, true);
+		assemblyStandard23.addRestrictionSite(XhoI, true);
+		assemblyStandard23.addRestrictionSite(AvrII, true);
+		assemblyStandard23.addRestrictionSite(NheI, true);
+		assemblyStandard23.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 25
+		assemblyStandard10.addRestrictionSite(EcoRI, false);
+		assemblyStandard10.addRestrictionSite(XbaI, false);
+		assemblyStandard10.addRestrictionSite(SpeI, false);
+		assemblyStandard10.addRestrictionSite(PstI, false);
+		assemblyStandard10.addRestrictionSite(NotI, false);
+		assemblyStandard25.addRestrictionSite(AgeI, false);
+		assemblyStandard25.addRestrictionSite(NgoMIV, false);
+		
+		assemblyStandard10.addRestrictionSite(PvuI, true);
+		assemblyStandard10.addRestrictionSite(XhoI, true);
+		assemblyStandard10.addRestrictionSite(AvrII, true);
+		assemblyStandard10.addRestrictionSite(NheI, true);
+		assemblyStandard10.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 21
+		assemblyStandard21.addRestrictionSite(EcoRI, false);
+		assemblyStandard21.addRestrictionSite(BglII, false);
+		assemblyStandard21.addRestrictionSite(BamHI, false);
+		assemblyStandard21.addRestrictionSite(XhoI, false);
 	}
 	
 	/**

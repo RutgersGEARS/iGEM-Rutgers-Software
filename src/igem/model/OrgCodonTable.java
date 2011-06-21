@@ -36,12 +36,12 @@ public class OrgCodonTable{
 	 * 20		X		Stop Codon
 	 * 
 	 */
-	ArrayList<AminoAcid> aminoAcids;
+	public ArrayList<AminoAcid> aminoAcids;
 	
 	/**
 	 * Name of organism
 	 */
-	String organismName;
+	public String organismName;
 	
 	/**
 	 * Creates an organism codon object from a string of codons and frequencies.

@@ -3,11 +3,9 @@ package igem.control;
 import igem.model.*;
 
 /**
- * 
  * Contains the method for optimizing a genetic coding sequence
  * 
  * @author 
- *
  */
 public class SeqModification {
 	
@@ -20,8 +18,25 @@ public class SeqModification {
 	 * @return
 	 */
 	public static String seqOptimizationAlgorithimSimple(String sequence, OrgCodonTable codonTable){
+		String currentCodon;
+		String optimalCodon;
+		String modifiedSequence = "";
+		AminoAcid currentAA;
 		
-		return null;
+		for(int seqIndex = 0; seqIndex < sequence.length(); seqIndex += 3){
+			// get the next codon
+			currentCodon = sequence.substring(seqIndex, seqIndex + 3);
+			
+			// find what amino acid it is
+			currentAA = codonTable.aminoAcids.get(Data.findAminoAcidIndex(currentCodon));
+			
+			// get most frequent amino acid
+			optimalCodon = currentAA.getDesiredCodon(0).sequence;
+			
+			// add it to the modified sequence
+			modifiedSequence += optimalCodon;	
+		}
+		return modifiedSequence;
 		
 	}
 	

@@ -2,6 +2,7 @@ package igem.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,33 +19,22 @@ public class MainMenu extends JFrame {
 	JLabel welcomeMessageLabel;
 	
 	JButton analyzeSequenceButton;
-	
 	JButton addOrganismButton;
-	
-	JButton modifyOrganismButton;
-	
+	JButton modifyOrganismButton;	
 	JButton addStandardButton;
-	
 	JButton modifyStandardButton;
-	
 	JButton settingsButton;
 	
 	protected MenuListener ml;
 	
 	GridBagLayout gb = new GridBagLayout();
-	
 	GridBagConstraints gc = new GridBagConstraints();
 	
-	/**
-	 * The foreground color for all button labels.
-	 */ 
 	public static final Color foreColor = Color.black;
 	
-	/**
-	 * Khaki color
-	 */ 
-	public static final Color khaki = new Color(255, 246, 143);
-	
+	public static final Font fontBold = new Font("Courier", Font.BOLD, 24);
+	public static final Font font = new Font("Courier", Font.PLAIN, 14);
+		
 	public MainMenu(){
 		super("MYS!S Menu");
 		
@@ -54,31 +44,38 @@ public class MainMenu extends JFrame {
 	}
 	
 	public void make(){
+		ml = new MenuListener();
+		
 		welcomeMessageLabel = new JLabel("Welcome to MYS!S");
+		welcomeMessageLabel.setFont(fontBold);
 		
 		analyzeSequenceButton = new JButton("Analyze Sequence");
-		analyzeSequenceButton.setForeground(foreColor);
-		analyzeSequenceButton.setBackground(khaki);
+		analyzeSequenceButton.setFont(font);
 		analyzeSequenceButton.addActionListener(ml);
 		
 		addOrganismButton = new JButton("Add Organism");
+		addOrganismButton.setFont(font);
 		addOrganismButton.addActionListener(ml);
 		
 		modifyOrganismButton = new JButton("Modify Organism");
+		modifyOrganismButton.setFont(font);
 		modifyOrganismButton.addActionListener(ml);
 		
 		addStandardButton = new JButton("Add Standard");
+		addStandardButton.setFont(font);
 		addStandardButton.addActionListener(ml);
 		
 		modifyStandardButton = new JButton("Modify Standard");
+		modifyStandardButton.setFont(font);
 		modifyStandardButton.addActionListener(ml);
 		
 		settingsButton = new JButton("Settings");
+		settingsButton.setFont(font);
 		settingsButton.addActionListener(ml);
 	}
 	
 	public void layOut(){
-		gc.insets = new Insets(4,4,4,4);
+		gc.insets = new Insets(8,8,8,8);
 		
 		gc.gridx = 1;
 		gc.gridy = 0;
@@ -87,6 +84,7 @@ public class MainMenu extends JFrame {
 		
 		gc.gridx = 0;
 		gc.gridy = 1;
+		gc.ipady = 16;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gb.setConstraints(analyzeSequenceButton, gc);
 		add(analyzeSequenceButton);
@@ -123,6 +121,7 @@ public class MainMenu extends JFrame {
 	}
 	
 	public static void main(String[] args){
+		
 		MainMenu main = new MainMenu();
 		
 		// set the close program operation
@@ -151,8 +150,24 @@ public class MainMenu extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton)e.getSource();
 			
-			if(source == analyzeSequenceButton){
+			// open the analyze sequence window
+			if(source == analyzeSequenceButton){			
+				AnalyzeSequenceView seqView = new AnalyzeSequenceView();
 				
+				// set the close program operation
+				seqView.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						// TODO make sure everything saves
+						System.exit(0);
+					}
+				});
+				
+				seqView.pack();  // least possible size for your window
+				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+				seqView.setLocation(d.width/2-seqView.getWidth()/2,
+							  d.height/2-seqView.getHeight()/2);
+				seqView.setResizable(true);
+				seqView.setVisible(true);
 			}
 			else if(source == addOrganismButton){
 				

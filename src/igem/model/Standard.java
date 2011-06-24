@@ -31,6 +31,11 @@ public class Standard {
 	String suffix;
 	
 	/**
+	 * Name of standard
+	 */
+	String standardName;
+	
+	/**
 	 * Constructor for Standard class takes a prefix and suffix.  Restriction enzymes need to be added separately
 	 * 
 	 * @param prefix

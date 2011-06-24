@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class Data implements Serializable {
@@ -296,6 +297,26 @@ public class Data implements Serializable {
 		
 	}
 	
+	public Vector<String> getOrganismNames(){
+		Vector<String> orgNames = new Vector<String>();
+		
+		for(int i = 0; i < this.organisms.size(); i++){
+			orgNames.add(this.organisms.get(i).organismName);
+		}
+		
+		return orgNames;
+	}
+	
+	public Vector<String> getStandardNames(){
+		Vector<String> standNames = new Vector<String>();
+		
+		for(int i = 0; i < this.standards.size(); i++){
+			standNames.add(this.standards.get(i).standardName);
+		}
+		
+		return standNames;
+	}
+	
 	/**
 	 * Given a three character codon it determines the amino acid that corresponds.
 	 * 
@@ -417,7 +438,9 @@ public class Data implements Serializable {
 		return aminoAcidIndex;
 	}
 	
-	
+	public OrgCodonTable createOrgFromFile(String fileName){
+		return null;
+	}
 	
 	
 }

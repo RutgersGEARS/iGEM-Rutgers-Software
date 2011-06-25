@@ -2,6 +2,8 @@ package igem.model;
 
 import java.util.ArrayList;
 
+import igem.control.*;
+
 /**
  * Stores the data for an organisms codon table
  *
@@ -125,7 +127,7 @@ public class OrgCodonTable{
 	 */
 	public void addCodon(Codon newCodon){
 		int aminoAcidIndex;
-		aminoAcidIndex = Data.findAminoAcidIndex(newCodon.sequence);
+		aminoAcidIndex = UtilityMethods.findAminoAcidIndex(newCodon.sequence);
 		this.aminoAcids.get(aminoAcidIndex).insertCodon(newCodon);
 	}
 	

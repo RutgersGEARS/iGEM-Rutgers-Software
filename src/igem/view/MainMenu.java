@@ -1,5 +1,7 @@
 package igem.view;
 
+import igem.model.*;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,9 +14,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class MainMenu extends JFrame {
+	
+	public static Data myss;
 	
 	JLabel welcomeMessageLabel;
 	
@@ -123,6 +129,7 @@ public class MainMenu extends JFrame {
 	public static void main(String[] args){
 		
 		MainMenu main = new MainMenu();
+		myss = new Data();
 		
 		// set the close program operation
 		main.addWindowListener(new WindowAdapter() {
@@ -152,13 +159,13 @@ public class MainMenu extends JFrame {
 			
 			// open the analyze sequence window
 			if(source == analyzeSequenceButton){			
-				AnalyzeSequenceView seqView = new AnalyzeSequenceView();
+				final AnalyzeSequenceView seqView = new AnalyzeSequenceView();
 				
 				// set the close program operation
 				seqView.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
-						// TODO make sure everything saves
-						System.exit(0);
+						seqView.setVisible(false);
+				        seqView.dispose();
 					}
 				});
 				
@@ -169,9 +176,26 @@ public class MainMenu extends JFrame {
 				seqView.setResizable(true);
 				seqView.setVisible(true);
 			}
+			
 			else if(source == addOrganismButton){
+				final AddOrganismView orgView = new AddOrganismView();
 				
+				// set the close program operation
+				orgView.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						orgView.setVisible(false);
+				        orgView.dispose();
+					}
+				});
+				
+				orgView.pack();  // least possible size for your window
+				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+				orgView.setLocation(d.width/2-orgView.getWidth()/2,
+							  d.height/2-orgView.getHeight()/2);
+				orgView.setResizable(true);
+				orgView.setVisible(true);
 			}
+			
 			else if(source == modifyOrganismButton){
 				
 			}

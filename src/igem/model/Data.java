@@ -140,7 +140,18 @@ public class Data implements Serializable {
 	public Data(){
 		
 		/*
+		 * Initialize Codon table this should only happen once
+		 */
+		codons = new Codon[64];
+		populateCodonArray();
+		
+		/*
+		 * TODO Initialize Amino Acid table again this should only happen once
+		 */
+		
+		/*
 		 *  Intialize all the standards
+		 *  TODO add a couple more standards
 		 */
 		standards = new ArrayList<Standard>();
 		
@@ -317,130 +328,98 @@ public class Data implements Serializable {
 		return standNames;
 	}
 	
+
+	
 	/**
-	 * Given a three character codon it determines the amino acid that corresponds.
-	 * 
-	 * @param codon
-	 * @return integer corresponding to amino acid in organism codon table
+	 * Ugly method to populate the codon array
 	 */
-	public static int findAminoAcidIndex(String codon){
-		String seq = codon.toLowerCase();
-		int aminoAcidIndex = -1;
+	public void populateCodonArray(){
+		// column 1
+		codons[0] = new Codon("TTT", 'F');
+		codons[1] = new Codon("TTC", 'F');
+		codons[2] = new Codon("TTA", 'L');
+		codons[3] = new Codon("TTG", 'L');
 		
-		/* Alanine GCA GCC GCG GCT*/
-		if(seq.compareTo(GCA) == 0 || seq.compareTo(GCC) == 0 || seq.compareTo(GCG) == 0 || seq.compareTo(GCT) == 0){
-			aminoAcidIndex = ALANINE;
-		}
+		codons[4] = new Codon("CTT", 'L');
+		codons[5] = new Codon("CTC", 'L');
+		codons[6] = new Codon("CTA", 'L');
+		codons[7] = new Codon("CTG", 'L');
 		
-		/* Arganine AGA AGG CGA CGC CGG CGT */
-		else if(seq.compareTo(AGA) == 0 || seq.compareTo(AGG) == 0 || seq.compareTo(CGA) == 0 || seq.compareTo(CGC) == 0
-				|| seq.compareTo(CGG) == 0 || seq.compareTo(CGT) == 0){
-			aminoAcidIndex = ARGANINE;
-		}
+		codons[8] = new Codon("ATT", 'I');
+		codons[9] = new Codon("ATC", 'I');
+		codons[10] = new Codon("ATA", 'I');
+		codons[11] = new Codon("ATG", 'M');
 		
-		/* Asparagine AAC AAT */
-		else if(seq.compareTo(AAC) == 0 || seq.compareTo(AAT) == 0){
-			aminoAcidIndex = ASPARAGINE;
-		}
+		codons[12] = new Codon("GTT", 'V');
+		codons[13] = new Codon("GTC", 'V');
+		codons[14] = new Codon("GTA", 'V');
+		codons[15] = new Codon("GTG", 'V');
 		
-		/* Aspartic Acid GAC GAT */
-		else if(seq.compareTo(GAC) == 0 || seq.compareTo(GAT) == 0){
-			aminoAcidIndex = ASPARTIC_ACID;
-		}
+		// column 2
+		codons[16] = new Codon("TCT", 'S');
+		codons[17] = new Codon("TCC", 'S');
+		codons[18] = new Codon("TCA", 'S');
+		codons[19] = new Codon("TCG", 'S');
 		
-		/* Cysteine TGC TGT */
-		else if(seq.compareTo(TGC) == 0 || seq.compareTo(TGT) == 0){
-			aminoAcidIndex = CYSTEINE;
-		}
+		codons[20] = new Codon("CCT", 'P');
+		codons[21] = new Codon("CCC", 'P');
+		codons[22] = new Codon("CCA", 'P');
+		codons[23] = new Codon("CCG", 'P');
 		
-		/* Glutamine CAA CAG*/
-		else if(seq.compareTo(CAA) == 0 || seq.compareTo(CAG) == 0){
-			aminoAcidIndex = GLUTAMINE;
-		}
+		codons[24] = new Codon("ACT", 'T');
+		codons[25] = new Codon("ACC", 'T');
+		codons[26] = new Codon("ACA", 'T');
+		codons[27] = new Codon("ACG", 'T');
 		
-		/* Glutamic Acid GAA GAG*/
-		else if(seq.compareTo(GAA) == 0 || seq.compareTo(GAG) == 0){
-			aminoAcidIndex = GLUTAMIC_ACID;
-		}
+		codons[28] = new Codon("GCT", 'A');
+		codons[29] = new Codon("GCC", 'A');
+		codons[30] = new Codon("GCA", 'A');
+		codons[31] = new Codon("GCG", 'A');
 		
-		/* Glycine GGA GGC GGG GGT*/
-		else if(seq.compareTo(GGA) == 0 || seq.compareTo(GGC) == 0 || seq.compareTo(GGG) == 0 || seq.compareTo(GGT) == 0){
-			aminoAcidIndex = GLYCINE;
-		}
+		// column 3
+		codons[32] = new Codon("TAT", 'Y');
+		codons[33] = new Codon("TAC", 'Y');
+		codons[34] = new Codon("TAA", 'X');
+		codons[35] = new Codon("TAG", 'X');
 		
-		/* Histidine CAC CAT*/
-		else if(seq.compareTo(CAC) == 0 || seq.compareTo(CAT) == 0){
-			aminoAcidIndex = HISTIDINE;
-		}
+		codons[36] = new Codon("CAT", 'H');
+		codons[37] = new Codon("CAC", 'H');
+		codons[38] = new Codon("CAA", 'Q');
+		codons[39] = new Codon("CAG", 'Q');
 		
-		/* Isoleucine  ATA ATC ATT*/
-		else if(seq.compareTo(ATA) == 0 || seq.compareTo(ATC) == 0 || seq.compareTo(ATT) == 0){
-			aminoAcidIndex = ISOLEUCINE;
-		}
+		codons[40] = new Codon("AAT", 'N');
+		codons[41] = new Codon("AAC", 'N');
+		codons[42] = new Codon("AAA", 'K');
+		codons[43] = new Codon("AAG", 'K');
 		
-		/* Leucine CTA CTC CTG CTT TTA TTG*/
-		else if(seq.compareTo(CTA) == 0 || seq.compareTo(CTC) == 0 || seq.compareTo(CTG) == 0 || seq.compareTo(CTT) == 0 
-				|| seq.compareTo(TTA) == 0 || seq.compareTo(TTG) == 0){
-			aminoAcidIndex = LEUCINE;
-		}
+		codons[44] = new Codon("GAU", 'D');
+		codons[45] = new Codon("GAC", 'D');
+		codons[46] = new Codon("GAA", 'E');
+		codons[47] = new Codon("GAG", 'E');
 		
-		/* Lysine AAA AAG*/
-		else if(seq.compareTo(AAA) == 0 || seq.compareTo(AAG) == 0){
-			aminoAcidIndex = LYSINE;
-		}
+		//column 4
+		codons[48] = new Codon("TGT", 'C');
+		codons[49] = new Codon("TGC", 'C');
+		codons[50] = new Codon("TGA", 'X');
+		codons[51] = new Codon("TGG", 'V');
 		
-		/* Methionine ATG*/
-		else if(seq.compareTo(ATG) == 0){
-			aminoAcidIndex = METHIONINE;
-		}
+		codons[52] = new Codon("CGT", 'R');
+		codons[53] = new Codon("CGC", 'R');
+		codons[54] = new Codon("CGA", 'R');
+		codons[55] = new Codon("CGG", 'R');
 		
-		/* Phenalyaline TTC TTG*/
-		else if(seq.compareTo(TTC) == 0 || seq.compareTo(TTG) == 0){
-			aminoAcidIndex = PHENYLALANINE;
-		}
+		codons[56] = new Codon("AGT", 'S');
+		codons[57] = new Codon("AGC", 'S');
+		codons[58] = new Codon("AGA", 'R');
+		codons[59] = new Codon("AGG", 'R');
 		
-		/* Proline  CCA CCC CCG CCT*/
-		else if(seq.compareTo(CCA) == 0 || seq.compareTo(CCC) == 0 || seq.compareTo(CCG) == 0 || seq.compareTo(CCT) == 0){
-			aminoAcidIndex = PROLINE;
-		}
-		
-		/* Serine AGC AGT TCA TCC TCG TCT*/
-		else if(seq.compareTo(AGC) == 0 || seq.compareTo(AGT) == 0 || seq.compareTo(TCA) == 0 || seq.compareTo(TCC) == 0 
-				|| seq.compareTo(TCG) == 0 || seq.compareTo(TCT) == 0){
-			aminoAcidIndex = SERINE;
-		}
-		
-		/* Threonine ACA ACC ACG ACT*/
-		else if(seq.compareTo(ACA) == 0 || seq.compareTo(ACC) == 0 || seq.compareTo(ACG) == 0 || seq.compareTo(ACT) == 0){
-			aminoAcidIndex = THREONINE;
-		}
-		
-		/* Tryptophan TGG*/
-		else if(seq.compareTo(TGG) == 0){
-			aminoAcidIndex = TRYPTOPHAN;
-		}
-		
-		/* Tyrosine TAC TAT*/
-		else if(seq.compareTo(TAC) == 0 || seq.compareTo(TAT) == 0){
-			aminoAcidIndex = TYROSINE;
-		}
-		
-		/* Valine GTA GTC GTG GTT*/
-		else if(seq.compareTo(GTA) == 0 || seq.compareTo(GTC) == 0 || seq.compareTo(GTG) == 0 || seq.compareTo(GTT) == 0){
-			aminoAcidIndex = VALINE;
-		}
-		
-		/* Stop Codon  TAA TAG TGA*/
-		else if(seq.compareTo(TAA) == 0 || seq.compareTo(TAG) == 0 || seq.compareTo(TGA) == 0){
-			aminoAcidIndex = STOP_CODON;
-		}
-		
-		return aminoAcidIndex;
+		codons[60] = new Codon("AAT", 'G');
+		codons[61] = new Codon("AAC", 'G');
+		codons[62] = new Codon("AAA", 'G');
+		codons[63] = new Codon("AAG", 'G');
 	}
 	
-	public OrgCodonTable createOrgFromFile(String fileName){
-		return null;
+	public String getCodonFromTable(int index){
+		return codons[index].sequence;
 	}
-	
-	
 }

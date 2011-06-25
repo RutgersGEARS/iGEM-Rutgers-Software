@@ -28,7 +28,7 @@ public class SeqModification {
 			currentCodon = sequence.substring(seqIndex, seqIndex + 3);
 			
 			// find what amino acid it is
-			currentAA = codonTable.aminoAcids.get(Data.findAminoAcidIndex(currentCodon));
+			currentAA = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(currentCodon));
 			
 			// get most frequent amino acid
 			optimalCodon = currentAA.getDesiredCodon(0).sequence;

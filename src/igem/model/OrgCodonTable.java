@@ -1,8 +1,9 @@
 package igem.model;
 
-import java.util.ArrayList;
+import igem.control.UtilityMethods;
 
-import igem.control.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Stores the data for an organisms codon table
@@ -118,6 +119,16 @@ public class OrgCodonTable{
 		
 		newAmino = new AminoAcid("Stop codon", "stop", 'X');
 		this.aminoAcids.add(newAmino);
+	}
+	
+	/**
+	 * Takes output from the function grab in HTMLGrabTest and puts that information into the OrgCodonTable
+	 * 
+	 * 
+	 * @param codonHashMap
+	 */
+	public void populateTableFromURL(HashMap<String, String> codonHashMap){
+		
 	}
 	
 	/**

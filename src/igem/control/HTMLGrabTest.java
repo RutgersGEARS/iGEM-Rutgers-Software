@@ -4,6 +4,10 @@ import java.net.*;
 import java.util.HashMap;
 import java.io.*;
 
+/**
+ * @author Greg Dimitriadasi
+ *
+ */
 public class HTMLGrabTest
 {
 	/*

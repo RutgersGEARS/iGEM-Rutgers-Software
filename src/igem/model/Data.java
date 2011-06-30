@@ -143,6 +143,10 @@ public class Data implements Serializable {
 		 * Initialize Codon table this should only happen once
 		 */
 		codons = new Codon[64];
+		
+		for(int i = 0; i < 64; i++){
+			codons[i] = new Codon("ZZZ", 'Z');
+		}
 		populateCodonArray();
 		
 		/*
@@ -334,6 +338,9 @@ public class Data implements Serializable {
 	 * Ugly method to populate the codon array
 	 */
 	public void populateCodonArray(){
+		
+		
+		
 		// column 1
 		codons[0] = new Codon("TTT", 'F');
 		codons[1] = new Codon("TTC", 'F');

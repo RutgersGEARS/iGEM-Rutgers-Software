@@ -44,6 +44,8 @@ public class MainMenu extends JFrame {
 	public MainMenu(){
 		super("MYS!S Menu");
 		
+		myss = new Data();
+		
 		make();
 		setLayout(gb);
 		layOut();

@@ -12,15 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 
 public class AddOrganismView extends JFrame{
+	JPanel codonPanel;
 	
-	JLabel codonTableLabel;
 	JLabel organismLabel;
-	JLabel[] codonLabels;
-	
-	JTextField[] codonTextFields;
 	
 	JComboBox orgComboBox;
 	
@@ -47,9 +44,8 @@ public class AddOrganismView extends JFrame{
 	public void make(){
 		ol = new OrganismListener();
 		
-		codonTableLabel = new JLabel("Codon Occurence Per 1000 Codons");
-		codonTableLabel.setFont(font);
-		
+		codonPanel = new CodonPanel();
+			
 		organismLabel = new JLabel("Organism");
 		organismLabel.setFont(font);
 		
@@ -75,15 +71,7 @@ public class AddOrganismView extends JFrame{
 		orgComboBox = new JComboBox(orgNames);
 		orgComboBox.setFont(font);
 		
-		for(int i = 0; i < 64; i++){
-			codonLabels[i] = new JLabel(MainMenu.myss.getCodonFromTable(i));
-			codonLabels[i].setFont(font);
-		}
-		
-		for(int i = 0; i < 64; i++){
-			codonTextFields[i] = new JTextField(15);
-			codonTextFields[i].setFont(font);
-		}
+
 	}
 	
 	public void layOut(){
@@ -92,10 +80,40 @@ public class AddOrganismView extends JFrame{
 		gc.gridx = 0;
 		gc.gridy = 0;
 		gc.ipadx = 8;
-		gc.gridwidth = GridBagConstraints.REMAINDER;
-		gb.setConstraints(codonTableLabel, gc);
-		add(codonTableLabel);
+		gb.setConstraints(organismLabel, gc);
+		add(organismLabel);
 		
+		gc.gridx = 0;
+		gc.gridy = 1;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gb.setConstraints(orgComboBox, gc);
+		add(orgComboBox);
+		
+		gc.gridx = 0;
+		gc.gridy = 2;
+		gc.ipady = 8;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gb.setConstraints(clearButton, gc);
+		add(clearButton);
+		
+		gc.gridx = 0;
+		gc.gridy = 3;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gb.setConstraints(cancelButton, gc);
+		add(cancelButton);
+		
+		gc.gridx = 0;
+		gc.gridy = 4;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gb.setConstraints(submitButton, gc);
+		add(submitButton);
+		
+		gc.gridx = 1;
+		gc.gridy = 0;
+		gc.gridwidth = GridBagConstraints.REMAINDER;
+		gc.gridheight = GridBagConstraints.REMAINDER;
+		gb.setConstraints(codonPanel, gc);
+		add(codonPanel);
 		
 	}
 	
@@ -103,7 +121,16 @@ public class AddOrganismView extends JFrame{
 	protected class OrganismListener implements ActionListener	{
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton)e.getSource();
-
+			
+			if(source == clearButton){
+				
+			}
+			else if(source == cancelButton){
+				
+			}
+			else if(source == submitButton){
+				
+			}
 		}		
 	}
 }

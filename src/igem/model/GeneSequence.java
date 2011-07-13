@@ -9,6 +9,8 @@ public class GeneSequence {
 	public ArrayList<Primer> primers;
 	public ArrayList<Integer> changes;
 	
+	public String antibioticResistance;
+	
 	/**
 	 * Constructor for a GeneSequence object
 	 * 
@@ -25,6 +27,16 @@ public class GeneSequence {
 	public GeneSequence(){
 		primers = new ArrayList<Primer>();
 		changes = new ArrayList<Integer>();
+	}
+	
+	public GeneSequence(String newSeq, String antibiotic){
+		unmodifiedSequence = newSeq;
+		modifiedSequence = null;
+		
+		primers = new ArrayList<Primer>();
+		changes = new ArrayList<Integer>();
+		
+		antibioticResistance = antibiotic;
 	}
 	
 	/**
@@ -80,5 +92,9 @@ public class GeneSequence {
 	 */
 	public int getNumberRoundsPCR(){
 		return primers.size();
+	}
+	
+	public String getAntibioticResistance(){
+		return antibioticResistance;
 	}
 }

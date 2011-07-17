@@ -11,6 +11,10 @@ public class GeneSequence {
 	
 	public String antibioticResistance;
 	
+	// TODO change this by either specifying what plasmid or backbone its on and addind the gene length to it
+	
+	public int plasmidLength;
+	
 	/**
 	 * Constructor for a GeneSequence object
 	 * 
@@ -29,7 +33,7 @@ public class GeneSequence {
 		changes = new ArrayList<Integer>();
 	}
 	
-	public GeneSequence(String newSeq, String antibiotic){
+	public GeneSequence(String newSeq, String antibiotic, int plasmidLength){
 		unmodifiedSequence = newSeq;
 		modifiedSequence = null;
 		
@@ -96,5 +100,9 @@ public class GeneSequence {
 	
 	public String getAntibioticResistance(){
 		return antibioticResistance;
+	}
+	
+	public int getTotalPlasmidBP(){
+		return this.plasmidLength + this.unmodifiedSequence.length();
 	}
 }

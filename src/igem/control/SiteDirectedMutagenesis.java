@@ -10,6 +10,7 @@ public class SiteDirectedMutagenesis {
 	ArrayList<String> containers;
 	ArrayList<String> steps;
 	
+	
 	Primer primer;
 	GeneSequence sequence;
 	
@@ -33,15 +34,15 @@ public class SiteDirectedMutagenesis {
 		String newFluid;
 		
 		// create new fluid for forward primer
-		newFluid = "Fluid forward_primer = new_fluid(\"Forward primer\", \"125ng\")";
+		newFluid = "Fluid forwardPrimer = new_fluid(\"Forward primer\", \"10uM\")";
 		this.materials.add(newFluid);
 		
 		// create new fluid for previous primer
-		newFluid = "Fluid reverse_primer = new_fluid(\"Reverse primer\", \"125ng\"";
+		newFluid = "Fluid reversePrimer = new_fluid(\"Reverse primer\", \"10uM\"";
 		this.materials.add(newFluid);
 		
 		// create new fluid for the template aka the mini-prepped DNA from a biobrick transformation
-		newFluid = "Fluid biobrick_part = new_fluid(\"dsDNA template\", \"5 - 50ng\"";
+		newFluid = "Fluid biobrickPart = new_fluid(\"dsDNA template\", \"5 - 50ng or a 10X dilution from a miniprep\"";
 		this.materials.add(newFluid);
 	}
 	
@@ -51,9 +52,72 @@ public class SiteDirectedMutagenesis {
 		String newStep;
 		
 		// declare materials needed
+		
+		// 5 µl of 10× reaction buffer
+		newFluid = "Fluid buffer = new_fluid(\"10x PCR Reaction Buffer\");";
+		this.materials.add(newFluid);
+		
+		// 1 µl of dNTP mix
+		newFluid = "Fluid dNTP = new_fluid(\"dNTP mix\");";
+		this.materials.add(newFluid);
+		
+
+		//1 µl of PfuTurbo DNA polymerase (2.5 U/µl)
+		newFluid = "Fluid polymerase = new_fluid(\"PfuTurbo DNA polymerase\");";
+		this.materials.add(newFluid);
+		
+		// distilled water
+		newFluid = "Fluid ddWater = new_fluid(\"Distilled Water\");";
+		this.materials.add(newFluid);
+		
 		newContainer = "Container pcr_reaction_tube = new_container(STERILE_PCR_TUBE);";
 		this.containers.add(newContainer);
-
+		
+		// all the set up for pcr
+		newStep = "first_step(\"PCR reaction mix\");";
+		this.steps.add(newStep);
+		
+		newStep = "Fluid fluid_array[4] = {biobrickPart, forwardPrimer, reversePrimer, buffer, dNTP, ddWater};";
+		this.steps.add(newStep);
+		
+		newStep = "char* tubes[1] = {\"PCR Reaction for Quick Change\"};";
+		this.steps.add(newStep);
+		
+		newStep = "Volume* volume[6] = {vol(1, UL), vol(1, UL), vol(1, UL), vol(5, UL), vol(1, UL), vol(XVAL, UL)};";
+		this.steps.add(newStep);
+		
+		newStep = "mixing_table(2, 7, fluid_array, tubes, volume, vol(50, UL), pcr_reaction_tube);";
+		this.steps.add(newStep);
+		
+		// add pfu Turbo
+		newStep = "next_step()";
+		this.steps.add(newStep);
+		
+		newStep = "measure_fluid(polymerase, vol(1, UL), pcr_reaction_tube);";
+		this.steps.add(newStep);
+		
+		// pcr steps
+		newStep = "next_step(\"PCR conditions\")";
+		this.steps.add(newStep);
+		
+		newStep = "pcr_init_denat(pcr_reaction_tube, 95, time(30, SECS));";
+		this.steps.add(newStep);
+		
+		newStep = "thermocycler(pcr_reaction_tube, 12, 95, time(30, SECS), 53, time(60, SECS), 68, time(" + this.determineTimeReplication() + " , SECS), NORMAL);";
+		this.steps.add(newStep);
+		
+		// incubate on ice for 2 minutes
+		newStep = "next_step(\"Store on ice\");";
+		this.steps.add(newStep);
+		
+		newStep = "incubate(pcr_reaction_tube, ON_ICE, time(2, MINS));";
+		this.steps.add(newStep);
+		
+		newStep = "comment(\"Check for amplification by running a 1% agarose gel or checking concentration with a spectrophotometer\");";
+		
+		
+		
+		
 	}
 	
 	private void digestion(){
@@ -164,12 +228,21 @@ public class SiteDirectedMutagenesis {
 		
 	}
 	
+	public int determineTimeReplication(){
+		double time;
+		time = this.sequence.getTotalPlasmidBP() / 1000;
+		time = time * 60;
+		return (int)time;
+	}
 	
+	public void printToFile(String fileName){
+		
+	}
 	
 	public static void main(String args[]){
 		int i;
 		
-		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt" , "Kanamycin");
+		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt" , "Kanamycin", 5000);
 		
 		Primer practicePrimer = new Primer("agctgcgctagcgctagcgctagctc", "agctgcgctagcgctagcgctagctc", 1);
 		
@@ -180,7 +253,7 @@ public class SiteDirectedMutagenesis {
 		System.out.println("void main()");
 		System.out.println("{");
 		
-		System.out.println("\t" + "start_protocol(\"Quik Change Sited Directed Mutagenesis");
+		System.out.println("\t" + "start_protocol(\"Quik Change Sited Directed Mutagenesis\");");
 		System.out.println("\n");
 		
 		System.out.println("\t" + "// Materials needed");
@@ -207,19 +280,5 @@ public class SiteDirectedMutagenesis {
 		
 		System.out.println("}");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

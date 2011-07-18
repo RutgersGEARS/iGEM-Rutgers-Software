@@ -143,15 +143,13 @@ public class Data implements Serializable {
 		 * Initialize Codon table this should only happen once
 		 */
 		codons = new Codon[64];
-		
-		for(int i = 0; i < 64; i++){
-			codons[i] = new Codon("ZZZ", 'Z');
-		}
 		populateCodonArray();
 		
 		/*
-		 * TODO Initialize Amino Acid table again this should only happen once
+		 * Initialize Amino Acid table again this should only happen once
 		 */
+		aminoAcids = new AminoAcid[21];
+		populateAminoAcidArray();
 		
 		/*
 		 *  Intialize all the standards
@@ -191,19 +189,19 @@ public class Data implements Serializable {
 		assemblyStandard23.addRestrictionSite(SapI, true);
 		
 		// set up assembly standard 25
-		assemblyStandard10.addRestrictionSite(EcoRI, false);
-		assemblyStandard10.addRestrictionSite(XbaI, false);
-		assemblyStandard10.addRestrictionSite(SpeI, false);
-		assemblyStandard10.addRestrictionSite(PstI, false);
-		assemblyStandard10.addRestrictionSite(NotI, false);
+		assemblyStandard25.addRestrictionSite(EcoRI, false);
+		assemblyStandard25.addRestrictionSite(XbaI, false);
+		assemblyStandard25.addRestrictionSite(SpeI, false);
+		assemblyStandard25.addRestrictionSite(PstI, false);
+		assemblyStandard25.addRestrictionSite(NotI, false);
 		assemblyStandard25.addRestrictionSite(AgeI, false);
 		assemblyStandard25.addRestrictionSite(NgoMIV, false);
 		
-		assemblyStandard10.addRestrictionSite(PvuI, true);
-		assemblyStandard10.addRestrictionSite(XhoI, true);
-		assemblyStandard10.addRestrictionSite(AvrII, true);
-		assemblyStandard10.addRestrictionSite(NheI, true);
-		assemblyStandard10.addRestrictionSite(SapI, true);
+		assemblyStandard25.addRestrictionSite(PvuI, true);
+		assemblyStandard25.addRestrictionSite(XhoI, true);
+		assemblyStandard25.addRestrictionSite(AvrII, true);
+		assemblyStandard25.addRestrictionSite(NheI, true);
+		assemblyStandard25.addRestrictionSite(SapI, true);
 		
 		// set up assembly standard 21
 		assemblyStandard21.addRestrictionSite(EcoRI, false);
@@ -287,36 +285,71 @@ public class Data implements Serializable {
 	/**
 	 * @param newOrganism
 	 */
-	public void addOrganism(OrgCodonTable newOrganism){
+	public boolean addOrganism(OrgCodonTable newOrganism){
+
+		// search if the organism exists already
+		for(int i = 0; i < this.organisms.size(); i++){
+			if(this.organisms.get(i).getOrganismName().compareTo(newOrganism.getOrganismName()) == 0){
+				return false;
+			}
+		}
 		
+		// if function doesn't return then add new organism
+		this.organisms.add(newOrganism);
+		return true;	
 	}
 	
 	/**
 	 * @param orgName
 	 */
-	public void removeOrganism(String orgName){
+	public boolean removeOrganism(String orgName){
+		// search see if organism exists
+		for(int i = 0; i < this.organisms.size(); i++){
+			if(this.organisms.get(i).getOrganismName().compareTo(orgName) == 0){
+				this.organisms.remove(i);
+				return true;
+			}
+		}
 		
+		return false;
 	}
 	
 	/**
 	 * @param standard
 	 */
-	public void addStandard(Standard standard){
+	public boolean addStandard(Standard standard){
+		// search see if standard already exists
+		for(int i = 0; i < this.standards.size(); i++){
+			if(this.standards.get(i).getName().compareTo(standard.getName()) == 0){
+				return false;
+			}
+		}
 		
+		// standard was not added yet
+		this.standards.add(standard);
+		return  true;
 	}
 	
 	/**
 	 * @param standardName
 	 */
-	public void removeStandard(String standardName){
+	public boolean removeStandard(String standardName){
+		// search see if standard already exists
+		for(int i = 0; i < this.standards.size(); i++){
+			if(this.standards.get(i).getName().compareTo(standardName) == 0){
+				this.standards.remove(i);
+				return true;
+			}
+		}
 		
+		return false;
 	}
 	
 	public Vector<String> getOrganismNames(){
 		Vector<String> orgNames = new Vector<String>();
 		
 		for(int i = 0; i < this.organisms.size(); i++){
-			orgNames.add(this.organisms.get(i).organismName);
+			orgNames.add(this.organisms.get(i).getOrganismName());
 		}
 		
 		return orgNames;
@@ -326,7 +359,7 @@ public class Data implements Serializable {
 		Vector<String> standNames = new Vector<String>();
 		
 		for(int i = 0; i < this.standards.size(); i++){
-			standNames.add(this.standards.get(i).standardName);
+			standNames.add(this.standards.get(i).getName());
 		}
 		
 		return standNames;
@@ -338,8 +371,6 @@ public class Data implements Serializable {
 	 * Ugly method to populate the codon array
 	 */
 	public void populateCodonArray(){
-		
-		
 		
 		// column 1
 		codons[0] = new Codon("TTT", 'F');
@@ -424,6 +455,30 @@ public class Data implements Serializable {
 		codons[61] = new Codon("AAC", 'G');
 		codons[62] = new Codon("AAA", 'G');
 		codons[63] = new Codon("AAG", 'G');
+	}
+	
+	public void populateAminoAcidArray(){
+		aminoAcids[0] = new AminoAcid("Alanine", "Ala", 'A');
+		aminoAcids[1] = new AminoAcid("Arganine", "Arg", 'R');
+		aminoAcids[2] = new AminoAcid("Asparagine", "Asn", 'N');
+		aminoAcids[3] = new AminoAcid("Aspartic acid", "Asp", 'D');
+		aminoAcids[4] = new AminoAcid("Cysteine", "Cys", 'C');
+		aminoAcids[5] = new AminoAcid("Glutamic acid", "Gly", 'E');
+		aminoAcids[6] = new AminoAcid("Glutamine", "Gln", 'Q');
+		aminoAcids[7] = new AminoAcid("Glycine", "Gly", 'G');
+		aminoAcids[7] = new AminoAcid("Histidine", "His", 'H');
+		aminoAcids[8] = new AminoAcid("Isoleucine", "Ile", 'I');
+		aminoAcids[9] = new AminoAcid("Leucine", "Leu", 'L');
+		aminoAcids[10] = new AminoAcid("Lysine", "Lys", 'K');
+		aminoAcids[11] = new AminoAcid("Methionine", "Met", 'M');
+		aminoAcids[12] = new AminoAcid("Phenylalanine", "Phe", 'F');
+		aminoAcids[13] = new AminoAcid("Proline", "Pro", 'P');
+		aminoAcids[14] = new AminoAcid("Serine", "Ser", 'S');
+		aminoAcids[15] = new AminoAcid("Threonine", "Thr", 'T');
+		aminoAcids[16] = new AminoAcid("Tryptophan", "Thr", 'W');
+		aminoAcids[17] = new AminoAcid("Tyrosine", "Tyr", 'Y');
+		aminoAcids[18] = new AminoAcid("Valine", "Val", 'V');
+		aminoAcids[19] = new AminoAcid("Stop codon", "stop", 'X');
 	}
 	
 	public String getCodonFromTable(int index){

@@ -44,7 +44,7 @@ public class OrgCodonTable{
 	/**
 	 * Name of organism
 	 */
-	public String organismName;
+	private String organismName;
 	
 	/**
 	 * Creates an organism codon object from a string of codons and frequencies.
@@ -79,6 +79,9 @@ public class OrgCodonTable{
 		this.aminoAcids.add(newAmino);
 		
 		newAmino = new AminoAcid("Glutamine", "Gln", 'Q');
+		this.aminoAcids.add(newAmino);
+		
+		newAmino = new AminoAcid("Glycine", "Gly", 'G');
 		this.aminoAcids.add(newAmino);
 		
 		newAmino = new AminoAcid("Histidine", "His", 'H');
@@ -157,5 +160,9 @@ public class OrgCodonTable{
 		return orgCodonTableString;
 	}
 	
+	
+	public String getOrganismName(){
+		return this.organismName;
+	}
 
 }

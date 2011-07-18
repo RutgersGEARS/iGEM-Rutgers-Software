@@ -14,27 +14,27 @@ public class Primer {
 	/**
 	 * is the complement of the modified sequence in the reverse order
 	 */
-	String topSequence;
+	private String topSequence;
 	
 	/**
 	 * is exactly the same as the modified sequence in the same order
 	 */
-	String bottomSequence;
+	private String bottomSequence;
 	
 	/**
 	 * The number of mismatches in the primer sequence
 	 */
-	int numbMismatches;
+	private int numbMismatches;
 	
 	/**
 	 * The melting temperature of the primer, algorithim may change in the future
 	 */
-	double meltingTemperature;
+	private double meltingTemperature;
 	
 	/**
 	 * The gc content of the primer
 	 */
-	double gcContent;
+	private double gcContent;
 	
 	public Primer(String top, String bottom, int mismatches){
 		this.topSequence = top;
@@ -43,5 +43,37 @@ public class Primer {
 		this.gcContent = GeneSequence.getGCPercentage(this.topSequence);
 		this.meltingTemperature = PrimerDesign.findMeltingTemperature(top.length(), this.gcContent, this.numbMismatches);
 	}
+	
+	public String getTopSequence(){
+		return this.topSequence;
+	}
+	
+	public String getBottomSequence(){
+		return this.bottomSequence;
+	}
+	
+	public int getNumbMismatches(){
+		return this.numbMismatches;
+	}
+	
+	public double getMeltingTemperatures(){
+		return this.meltingTemperature;
+	}
+	
+	public double getGCContent(){
+		return this.gcContent;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

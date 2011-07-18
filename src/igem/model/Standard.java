@@ -33,7 +33,7 @@ public class Standard {
 	/**
 	 * Name of standard
 	 */
-	String standardName;
+	private String standardName;
 	
 	/**
 	 * Constructor for Standard class takes a prefix and suffix.  Restriction enzymes need to be added separately
@@ -57,6 +57,14 @@ public class Standard {
 			requiredRestrictionSites.add(newRestrict);
 		}
 		
+	}
+	
+	public void setName(String name){
+		this.standardName = name;
+	}
+	
+	public String getName(){
+		return this.standardName;
 	}
 	
 	

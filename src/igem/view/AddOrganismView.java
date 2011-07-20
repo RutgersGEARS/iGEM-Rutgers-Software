@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class AddOrganismView extends JFrame{
+	MainMenu mainMenu;
+	
 	JPanel codonPanel;
 	
 	JLabel organismLabel;
@@ -33,8 +35,10 @@ public class AddOrganismView extends JFrame{
 	GridBagLayout gb = new GridBagLayout();
 	GridBagConstraints gc = new GridBagConstraints();
 	
-	public AddOrganismView(){
+	public AddOrganismView(MainMenu menu){
 		super("Add Organsim");
+		
+		mainMenu = menu;
 		
 		make();
 		setLayout(gb);
@@ -70,6 +74,8 @@ public class AddOrganismView extends JFrame{
 		
 		orgComboBox = new JComboBox(orgNames);
 		orgComboBox.setFont(font);
+		
+		
 		
 
 	}
@@ -126,7 +132,7 @@ public class AddOrganismView extends JFrame{
 				
 			}
 			else if(source == cancelButton){
-				
+				mainMenu.closeAddOrganismView();
 			}
 			else if(source == submitButton){
 				

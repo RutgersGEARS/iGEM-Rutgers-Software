@@ -22,6 +22,9 @@ public class MainMenu extends JFrame {
 	
 	public static Data myss;
 	
+	AnalyzeSequenceView seqView;
+	AddOrganismView orgView;
+	
 	JLabel welcomeMessageLabel;
 	
 	JButton analyzeSequenceButton;
@@ -128,6 +131,37 @@ public class MainMenu extends JFrame {
 		add(settingsButton);
 	}
 	
+	public void openAnalyzeSequenceView(){
+		this.seqView = new AnalyzeSequenceView(this);
+		
+		this.seqView.pack();  // least possible size for your window
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		this.seqView.setLocation(d.width/2-this.seqView.getWidth()/2,
+					  d.height/2-this.seqView.getHeight()/2);
+		this.seqView.setResizable(true);
+		this.seqView.setVisible(true);
+	}
+	
+	public void closeAnalyzeSequenceView(){
+		this.seqView.setVisible(false);
+        this.seqView.dispose();
+	}
+	
+	public void openAddOrganismView(){
+		this.orgView = new AddOrganismView(this);
+		this.orgView.pack();  // least possible size for your window
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		this.orgView.setLocation(d.width/2-this.orgView.getWidth()/2,
+					  d.height/2-this.orgView.getHeight()/2);
+		this.orgView.setResizable(true);
+		this.orgView.setVisible(true);
+		
+	}
+	
+	public void closeAddOrganismView(){
+		this.orgView.setVisible(false);
+        this.orgView.dispose();
+	}
 	public static void main(String[] args){
 		
 		MainMenu main = new MainMenu();
@@ -161,41 +195,29 @@ public class MainMenu extends JFrame {
 			
 			// open the analyze sequence window
 			if(source == analyzeSequenceButton){			
-				final AnalyzeSequenceView seqView = new AnalyzeSequenceView();
+				openAnalyzeSequenceView();
 				
 				// set the close program operation
 				seqView.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
-						seqView.setVisible(false);
-				        seqView.dispose();
+						closeAnalyzeSequenceView();
 					}
 				});
 				
-				seqView.pack();  // least possible size for your window
-				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-				seqView.setLocation(d.width/2-seqView.getWidth()/2,
-							  d.height/2-seqView.getHeight()/2);
-				seqView.setResizable(true);
-				seqView.setVisible(true);
+
 			}
 			
 			else if(source == addOrganismButton){
-				final AddOrganismView orgView = new AddOrganismView();
+				openAddOrganismView();
 				
 				// set the close program operation
 				orgView.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
-						orgView.setVisible(false);
-				        orgView.dispose();
+						closeAddOrganismView();
 					}
 				});
 				
-				orgView.pack();  // least possible size for your window
-				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-				orgView.setLocation(d.width/2-orgView.getWidth()/2,
-							  d.height/2-orgView.getHeight()/2);
-				orgView.setResizable(true);
-				orgView.setVisible(true);
+
 			}
 			
 			else if(source == modifyOrganismButton){

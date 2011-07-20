@@ -9,6 +9,7 @@ public class GeneSequence {
 	public ArrayList<Primer> primers;
 	public ArrayList<Integer> changes;
 	
+	public Plasmid backbone;
 	public String antibioticResistance;
 	
 	// TODO change this by either specifying what plasmid or backbone its on and addind the gene length to it
@@ -33,14 +34,14 @@ public class GeneSequence {
 		changes = new ArrayList<Integer>();
 	}
 	
-	public GeneSequence(String newSeq, String antibiotic, int plasmidLength){
+	public GeneSequence(String newSeq, Plasmid plasmid){
 		unmodifiedSequence = newSeq;
 		modifiedSequence = null;
 		
 		primers = new ArrayList<Primer>();
 		changes = new ArrayList<Integer>();
 		
-		antibioticResistance = antibiotic;
+		backbone = plasmid;
 	}
 	
 	/**
@@ -99,10 +100,10 @@ public class GeneSequence {
 	}
 	
 	public String getAntibioticResistance(){
-		return antibioticResistance;
+		return this.backbone.getResistance();
 	}
 	
 	public int getTotalPlasmidBP(){
-		return this.plasmidLength + this.unmodifiedSequence.length();
+		return this.backbone.getLength() + this.unmodifiedSequence.length();
 	}
 }

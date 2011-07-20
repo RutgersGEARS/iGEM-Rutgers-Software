@@ -20,10 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class AnalyzeSequenceView extends JFrame{
-	
+	MainMenu mainMenu;
 	JLabel sequenceLabel;
 	JLabel organismLabel;
 	JLabel standardLabel;
+	JLabel plasmidLabel;
 	
 	JButton cancelButton;
 	JButton submitButton;
@@ -33,6 +34,7 @@ public class AnalyzeSequenceView extends JFrame{
 	
 	JComboBox organismComboBox;
 	JComboBox standardComboBox;
+	JComboBox plasmidComboBox;
 	
 	ButtonGroup inputTypeButtonGroup;
 	
@@ -50,9 +52,9 @@ public class AnalyzeSequenceView extends JFrame{
 	public static final Font fontBold = new Font("Courier", Font.BOLD, 24);
 	public static final Font font = new Font("Courier", Font.PLAIN, 14);
 	
-	public AnalyzeSequenceView(){
+	public AnalyzeSequenceView(MainMenu main){
 		super("Analyze Sequence");
-		
+		mainMenu = main;
 		make();
 		setLayout(gb);
 		layOut();
@@ -69,6 +71,9 @@ public class AnalyzeSequenceView extends JFrame{
 		
 		standardLabel = new JLabel("Standard");
 		standardLabel.setFont(font);
+		
+		plasmidLabel = new JLabel("Plasmid");
+		plasmidLabel.setFont(font);
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(sl);
@@ -92,7 +97,7 @@ public class AnalyzeSequenceView extends JFrame{
 		inputTypeButtonGroup.add(fileRadioButton);
 		
 		/*
-		 * SAF Temp until I hook this up with backend
+		 * TODO Temp until I hook this up with backend
 		 */
 		Vector<String> orgVector = new Vector<String>();
 		orgVector.add("E Coli");
@@ -102,18 +107,27 @@ public class AnalyzeSequenceView extends JFrame{
 		orgVector.add("Mammal");
 		orgVector.add("Human");
 		
-		Vector<String> standVector = new Vector<String>();
-		standVector.add("BioBrick Assembly Standard 10");
-		standVector.add("BioBrick Assembly Standard 21");
-		standVector.add("BioBrick Assembly Standard 23");
-		standVector.add("BioBrick Assembly Standard 25");
+		Vector<String> strandVector = new Vector<String>();
+		strandVector.add("BioBrick Assembly Standard 10");
+		strandVector.add("BioBrick Assembly Standard 21");
+		strandVector.add("BioBrick Assembly Standard 23");
+		strandVector.add("BioBrick Assembly Standard 25");
+		
+		Vector<String> plasmidVector = new Vector<String>();
+		plasmidVector.add("High Copy Plasmid");
+		plasmidVector.add("Medium Copy Plasmid");
+		plasmidVector.add("Low Copy Plasmid");
+		plasmidVector.add("Inducible Plasmid");
 		
 		// populate up combo boxes
 		organismComboBox = new JComboBox(orgVector);
 		organismComboBox.setFont(font);
 		
-		standardComboBox = new JComboBox(standVector);
+		standardComboBox = new JComboBox(strandVector);
 		standardComboBox.setFont(font);
+		
+		plasmidComboBox = new JComboBox(plasmidVector);
+		plasmidComboBox.setFont(font);
 	}
 	
 	public void layOut(){
@@ -163,15 +177,25 @@ public class AnalyzeSequenceView extends JFrame{
 		gb.setConstraints(standardComboBox, gc);
 		add(standardComboBox);
 		
-		gc.gridx = 2;
+		gc.gridx = 0;
 		gc.gridy = 4;
+		gb.setConstraints(plasmidLabel, gc);
+		add(plasmidLabel);
+		
+		gc.gridx = 1;
+		gc.gridy = 4;
+		gb.setConstraints(plasmidComboBox, gc);
+		add(plasmidComboBox);
+		
+		gc.gridx = 2;
+		gc.gridy = 5;
 		gc.ipady = 8;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gb.setConstraints(cancelButton, gc);
 		add(cancelButton);
 		
 		gc.gridx = 3;
-		gc.gridy = 4;
+		gc.gridy = 5;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gb.setConstraints(submitButton, gc);
 		add(submitButton);
@@ -192,6 +216,9 @@ public class AnalyzeSequenceView extends JFrame{
 			
 			if(source == cancelButton){
 				
+				// exit window
+				mainMenu.closeAnalyzeSequenceView();
+
 			}
 			else if(source == submitButton){
 				

@@ -123,6 +123,7 @@ public class Data implements Serializable {
 	Codon[]			codons;
 	ArrayList<OrgCodonTable>	organisms;
 	ArrayList<Standard>			standards;
+	ArrayList<Plasmid>			backbones;
 	
 	/**
 	 * Folder where the program's data is stored after session ends.

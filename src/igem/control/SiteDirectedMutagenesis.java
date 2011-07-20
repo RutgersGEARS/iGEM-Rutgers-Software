@@ -242,9 +242,11 @@ public class SiteDirectedMutagenesis {
 	public static void main(String args[]){
 		int i;
 		
-		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt" , "Kanamycin", 5000);
-		
 		Primer practicePrimer = new Primer("agctgcgctagcgctagcgctagctc", "agctgcgctagcgctagcgctagctc", 1);
+		
+		Plasmid practicePlasmid = new Plasmid("Kanamycin", 5000);
+		
+		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt", practicePlasmid);
 		
 		SiteDirectedMutagenesis practiceRun = new SiteDirectedMutagenesis(practicePrimer, practiceSequence);
 		

@@ -14,6 +14,10 @@ import java.util.Vector;
 public class Data implements Serializable {
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4969198835234364139L;
 	public static final String	TTT = "ttt";
 	public static final String	TTC = "ttc";
 	public static final String	TTA = "tta";
@@ -117,13 +121,14 @@ public class Data implements Serializable {
 	public static final RestrictionEnzyme BamHI = new RestrictionEnzyme("BamHI", "ggatcc");
 	
 	
-	private static final long serialVersionUID = -1052856132128737969L;
+
 	
 	AminoAcid[]		aminoAcids;
 	Codon[]			codons;
 	ArrayList<OrgCodonTable>	organisms;
 	ArrayList<Standard>			standards;
 	ArrayList<Plasmid>			backbones;
+	ArrayList<RestrictionEnzyme>	enzymes;
 	
 	/**
 	 * Folder where the program's data is stored after session ends.
@@ -139,76 +144,21 @@ public class Data implements Serializable {
 	 * Use this to generate all the data
 	 */
 	public Data(){
-		
-		/*
-		 * Initialize Codon table this should only happen once
-		 */
+
 		codons = new Codon[64];
-		populateCodonArray();
-		
-		/*
-		 * Initialize Amino Acid table again this should only happen once
-		 */
+
 		aminoAcids = new AminoAcid[21];
-		populateAminoAcidArray();
 		
-		/*
-		 *  Intialize all the standards
-		 *  TODO add a couple more standards
-		 */
 		standards = new ArrayList<Standard>();
 		
-		Standard assemblyStandard10 = new Standard("gaattcgcggccgcttctag", "tactagtagcggccgctgcag");
-		Standard assemblyStandard23 = new Standard("gaattcgcggccgcttcta", "actagtagcggccgctgcag");
-		Standard assemblyStandard25 = new Standard("gaattccgcggccgcttctagatggccggc", "accggttaatactagtagcggccgctgcag");
-		Standard assemblyStandard21 = new Standard("gaattcatgagatct", "ggatcctaactcgag");
+		enzymes = new ArrayList<RestrictionEnzyme>();
 		
-		// set up assembly standard 10
-		assemblyStandard10.addRestrictionSite(EcoRI, false);
-		assemblyStandard10.addRestrictionSite(XbaI, false);
-		assemblyStandard10.addRestrictionSite(SpeI, false);
-		assemblyStandard10.addRestrictionSite(PstI, false);
-		assemblyStandard10.addRestrictionSite(NotI, false);
+		backbones = new ArrayList<Plasmid>();
 		
-		assemblyStandard10.addRestrictionSite(PvuI, true);
-		assemblyStandard10.addRestrictionSite(XhoI, true);
-		assemblyStandard10.addRestrictionSite(AvrII, true);
-		assemblyStandard10.addRestrictionSite(NheI, true);
-		assemblyStandard10.addRestrictionSite(SapI, true);
+		organisms = new ArrayList<OrgCodonTable>();
 		
-		// set up assembly standard 23
-		assemblyStandard23.addRestrictionSite(EcoRI, false);
-		assemblyStandard23.addRestrictionSite(XbaI, false);
-		assemblyStandard23.addRestrictionSite(SpeI, false);
-		assemblyStandard23.addRestrictionSite(PstI, false);
-		assemblyStandard23.addRestrictionSite(NotI, false);
 		
-		assemblyStandard23.addRestrictionSite(PvuI, true);
-		assemblyStandard23.addRestrictionSite(XhoI, true);
-		assemblyStandard23.addRestrictionSite(AvrII, true);
-		assemblyStandard23.addRestrictionSite(NheI, true);
-		assemblyStandard23.addRestrictionSite(SapI, true);
 		
-		// set up assembly standard 25
-		assemblyStandard25.addRestrictionSite(EcoRI, false);
-		assemblyStandard25.addRestrictionSite(XbaI, false);
-		assemblyStandard25.addRestrictionSite(SpeI, false);
-		assemblyStandard25.addRestrictionSite(PstI, false);
-		assemblyStandard25.addRestrictionSite(NotI, false);
-		assemblyStandard25.addRestrictionSite(AgeI, false);
-		assemblyStandard25.addRestrictionSite(NgoMIV, false);
-		
-		assemblyStandard25.addRestrictionSite(PvuI, true);
-		assemblyStandard25.addRestrictionSite(XhoI, true);
-		assemblyStandard25.addRestrictionSite(AvrII, true);
-		assemblyStandard25.addRestrictionSite(NheI, true);
-		assemblyStandard25.addRestrictionSite(SapI, true);
-		
-		// set up assembly standard 21
-		assemblyStandard21.addRestrictionSite(EcoRI, false);
-		assemblyStandard21.addRestrictionSite(BglII, false);
-		assemblyStandard21.addRestrictionSite(BamHI, false);
-		assemblyStandard21.addRestrictionSite(XhoI, false);
 	}
 	
 	/**
@@ -482,7 +432,100 @@ public class Data implements Serializable {
 		aminoAcids[19] = new AminoAcid("Stop codon", "stop", 'X');
 	}
 	
+	public void populateRestrictionArray(){
+		enzymes.add(AgeI);
+		enzymes.add(EcoRI);
+		enzymes.add(NheI);
+		enzymes.add(SpeI);
+		enzymes.add(AvrII);
+		enzymes.add(BamHI);
+		enzymes.add(BglII);
+		enzymes.add(NgoMIV);
+		enzymes.add(NotI);
+		enzymes.add(PstI);
+		enzymes.add(PvuI);
+		enzymes.add(SapI);
+		enzymes.add(XbaI);
+		enzymes.add(XhoI);
+	}
+	
+	public void populateStandardArray(){
+		Standard assemblyStandard10 = new Standard("gaattcgcggccgcttctag", "tactagtagcggccgctgcag");
+		Standard assemblyStandard23 = new Standard("gaattcgcggccgcttcta", "actagtagcggccgctgcag");
+		Standard assemblyStandard25 = new Standard("gaattccgcggccgcttctagatggccggc", "accggttaatactagtagcggccgctgcag");
+		Standard assemblyStandard21 = new Standard("gaattcatgagatct", "ggatcctaactcgag");
+		
+		// set up assembly standard 10
+		assemblyStandard10.addRestrictionSite(EcoRI, false);
+		assemblyStandard10.addRestrictionSite(XbaI, false);
+		assemblyStandard10.addRestrictionSite(SpeI, false);
+		assemblyStandard10.addRestrictionSite(PstI, false);
+		assemblyStandard10.addRestrictionSite(NotI, false);
+		
+		assemblyStandard10.addRestrictionSite(PvuI, true);
+		assemblyStandard10.addRestrictionSite(XhoI, true);
+		assemblyStandard10.addRestrictionSite(AvrII, true);
+		assemblyStandard10.addRestrictionSite(NheI, true);
+		assemblyStandard10.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 23
+		assemblyStandard23.addRestrictionSite(EcoRI, false);
+		assemblyStandard23.addRestrictionSite(XbaI, false);
+		assemblyStandard23.addRestrictionSite(SpeI, false);
+		assemblyStandard23.addRestrictionSite(PstI, false);
+		assemblyStandard23.addRestrictionSite(NotI, false);
+		
+		assemblyStandard23.addRestrictionSite(PvuI, true);
+		assemblyStandard23.addRestrictionSite(XhoI, true);
+		assemblyStandard23.addRestrictionSite(AvrII, true);
+		assemblyStandard23.addRestrictionSite(NheI, true);
+		assemblyStandard23.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 25
+		assemblyStandard25.addRestrictionSite(EcoRI, false);
+		assemblyStandard25.addRestrictionSite(XbaI, false);
+		assemblyStandard25.addRestrictionSite(SpeI, false);
+		assemblyStandard25.addRestrictionSite(PstI, false);
+		assemblyStandard25.addRestrictionSite(NotI, false);
+		assemblyStandard25.addRestrictionSite(AgeI, false);
+		assemblyStandard25.addRestrictionSite(NgoMIV, false);
+		
+		assemblyStandard25.addRestrictionSite(PvuI, true);
+		assemblyStandard25.addRestrictionSite(XhoI, true);
+		assemblyStandard25.addRestrictionSite(AvrII, true);
+		assemblyStandard25.addRestrictionSite(NheI, true);
+		assemblyStandard25.addRestrictionSite(SapI, true);
+		
+		// set up assembly standard 21
+		assemblyStandard21.addRestrictionSite(EcoRI, false);
+		assemblyStandard21.addRestrictionSite(BglII, false);
+		assemblyStandard21.addRestrictionSite(BamHI, false);
+		assemblyStandard21.addRestrictionSite(XhoI, false);
+		
+		standards.add(assemblyStandard21);
+		standards.add(assemblyStandard25);
+		standards.add(assemblyStandard23);
+		standards.add(assemblyStandard10);
+	}
+	
+	public void populateData(){
+		populateCodonArray();
+		populateAminoAcidArray();
+		populateRestrictionArray();
+		populateStandardArray();
+	}
+	
+
+	
 	public String getCodonFromTable(int index){
 		return codons[index].sequence;
+	}
+	
+	public String getEnzyme(int index){
+		return enzymes.get(index).toString();
+	}
+	
+	public int getNumberOfEnzymes(){
+		return enzymes.size();
 	}
 }

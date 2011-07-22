@@ -1,7 +1,11 @@
 package igem.model;
 
-public class RestrictionEnzyme {
+import java.io.Serializable;
+
+public class RestrictionEnzyme implements Serializable{
 	
+	private static final long serialVersionUID = 1652632383432292573L;
+
 	/**
 	 * Recognition sequence in the 5' to 3' direction
 	 */
@@ -37,6 +41,10 @@ public class RestrictionEnzyme {
 	
 	public void setRecognitionSequence(String newReq){
 		this.recognitionSequence = newReq;
+	}
+	
+	public String toString(){
+		return this.name + " \"" + recognitionSequence + "\"";
 	}
 
 }

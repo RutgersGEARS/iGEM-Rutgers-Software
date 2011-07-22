@@ -48,7 +48,7 @@ public class AddOrganismView extends JFrame{
 	public void make(){
 		ol = new OrganismListener();
 		
-		codonPanel = new CodonPanel();
+		codonPanel = new CodonPanel(this.mainMenu);
 			
 		organismLabel = new JLabel("Organism");
 		organismLabel.setFont(font);

@@ -1,5 +1,6 @@
 package igem.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,10 @@ import java.util.ArrayList;
  * @author
  *
  */
-public class Standard {
+public class Standard implements Serializable {
 	
+	private static final long serialVersionUID = 1053453863360989892L;
+
 	/**
 	 * All the restriction enzymes the part must contain
 	 */

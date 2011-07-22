@@ -1,6 +1,10 @@
 package igem.model;
 
-public class Plasmid {
+import java.io.Serializable;
+
+public class Plasmid implements Serializable {
+	
+	private static final long serialVersionUID = -608398276320051554L;
 	
 	private String resistance;
 	private int length;

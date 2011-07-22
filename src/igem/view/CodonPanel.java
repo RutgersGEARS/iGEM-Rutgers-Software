@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CodonPanel extends JPanel{
-	
+	MainMenu mainMenu;
 	JLabel codonTableLabel;
 	
 	JLabel[] codonLabels;
@@ -22,7 +22,8 @@ public class CodonPanel extends JPanel{
 	GridBagLayout gb = new GridBagLayout();
 	GridBagConstraints gc = new GridBagConstraints();
 	
-	public CodonPanel(){	
+	public CodonPanel(MainMenu  main){
+		mainMenu = main;
 		make();
 		setLayout(gb);
 		layOut();
@@ -34,7 +35,7 @@ public class CodonPanel extends JPanel{
 		
 		codonLabels = new JLabel[64];
 		for(int i = 0; i < 64; i++){
-			codonLabels[i] = new JLabel(MainMenu.myss.getCodonFromTable(i));
+			codonLabels[i] = new JLabel(mainMenu.myss.getCodonFromTable(i));
 			//codonLabels[i] = new JLabel("kitty");
 			codonLabels[i].setFont(font);
 		}

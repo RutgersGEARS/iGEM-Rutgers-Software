@@ -2,6 +2,7 @@ package igem.model;
 
 import igem.control.UtilityMethods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,8 +10,10 @@ import java.util.HashMap;
  * Stores the data for an organisms codon table
  *
  */
-public class OrgCodonTable{
+public class OrgCodonTable implements Serializable{
 	
+	private static final long serialVersionUID = -105643282215313946L;
+
 	/**
 	 * Stores each amino acid in this order in the array list
 	 * 

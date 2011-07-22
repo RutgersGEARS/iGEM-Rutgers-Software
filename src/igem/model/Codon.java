@@ -1,12 +1,16 @@
 package igem.model;
 
+import java.io.Serializable;
+
 /**
  * Describes a codon
  * 
  * @author Stephanie Fairclough
  *
  */
-public class Codon {
+public class Codon implements Serializable{
+
+	private static final long serialVersionUID = 2621472126632279938L;
 	
 	public String sequence;
 	char aminoAcidSymbol;

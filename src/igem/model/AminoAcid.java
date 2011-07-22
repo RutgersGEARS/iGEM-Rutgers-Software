@@ -1,5 +1,6 @@
 package igem.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,11 @@ import java.util.ArrayList;
  * @author 
  *
  */
-public class AminoAcid {
+public class AminoAcid implements Serializable{
+
+	private static final long serialVersionUID = 7063915047765042222L;
+	
+
 	ArrayList<Codon> codons;
 	String name;
 	String abrvName;

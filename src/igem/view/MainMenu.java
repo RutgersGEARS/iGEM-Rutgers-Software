@@ -20,10 +20,11 @@ import javax.swing.JLabel;
 
 public class MainMenu extends JFrame {
 	
-	public static Data myss;
+	public Data myss;
 	
 	AnalyzeSequenceView seqView;
 	AddOrganismView orgView;
+	AddStandardView standView;
 	
 	JLabel welcomeMessageLabel;
 	
@@ -48,6 +49,16 @@ public class MainMenu extends JFrame {
 		super("MYS!S Menu");
 		
 		myss = new Data();
+		
+		myss = myss.loadData(myss);
+		
+		// if there is no data load it
+		if(myss == null){
+			System.out.println("Data did not load");
+			myss  = new Data();
+			myss.populateData();
+			myss.saveData(myss);
+		}
 		
 		make();
 		setLayout(gb);
@@ -162,10 +173,27 @@ public class MainMenu extends JFrame {
 		this.orgView.setVisible(false);
         this.orgView.dispose();
 	}
+	
+	public void openAddStandardView(){
+		this.standView = new AddStandardView(this);
+		this.standView.pack();  // least possible size for your window
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		this.standView.setLocation(d.width/2-this.standView.getWidth()/2,
+					  d.height/2-this.standView.getHeight()/2);
+		this.standView.setResizable(true);
+		this.standView.setVisible(true);
+		
+	}
+	
+	public void closeAddStandardView(){
+		this.standView.setVisible(false);
+        this.standView.dispose();
+	}
+	
 	public static void main(String[] args){
 		
 		MainMenu main = new MainMenu();
-		myss = new Data();
+
 		
 		// set the close program operation
 		main.addWindowListener(new WindowAdapter() {
@@ -223,7 +251,16 @@ public class MainMenu extends JFrame {
 			else if(source == modifyOrganismButton){
 				
 			}
+			
 			else if(source == addStandardButton){
+				openAddStandardView();
+				
+				// set the close program operation
+				standView.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						closeAddStandardView();
+					}
+				});
 				
 			}
 			else if(source == modifyStandardButton){

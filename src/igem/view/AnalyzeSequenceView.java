@@ -107,23 +107,21 @@ public class AnalyzeSequenceView extends JFrame{
 		orgVector.add("Mammal");
 		orgVector.add("Human");
 		
-		Vector<String> strandVector = new Vector<String>();
-		strandVector.add("BioBrick Assembly Standard 10");
-		strandVector.add("BioBrick Assembly Standard 21");
-		strandVector.add("BioBrick Assembly Standard 23");
-		strandVector.add("BioBrick Assembly Standard 25");
+		Vector<String> standardVector = new Vector<String>();
+		for(int i = 0; i < mainMenu.myss.standards.size(); i++){
+			standardVector.add(mainMenu.myss.standards.get(i).getName());
+		}
 		
 		Vector<String> plasmidVector = new Vector<String>();
-		plasmidVector.add("High Copy Plasmid");
-		plasmidVector.add("Medium Copy Plasmid");
-		plasmidVector.add("Low Copy Plasmid");
-		plasmidVector.add("Inducible Plasmid");
+		for(int i = 0; i < mainMenu.myss.backbones.size(); i++){
+			plasmidVector.add(mainMenu.myss.backbones.get(i).getPlasmidName());
+		}
 		
 		// populate up combo boxes
 		organismComboBox = new JComboBox(orgVector);
 		organismComboBox.setFont(font);
 		
-		standardComboBox = new JComboBox(strandVector);
+		standardComboBox = new JComboBox(standardVector);
 		standardComboBox.setFont(font);
 		
 		plasmidComboBox = new JComboBox(plasmidVector);

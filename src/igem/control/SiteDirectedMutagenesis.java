@@ -244,7 +244,8 @@ public class SiteDirectedMutagenesis {
 		
 		Primer practicePrimer = new Primer("agctgcgctagcgctagcgctagctc", "agctgcgctagcgctagcgctagctc", 1);
 		
-		Plasmid practicePlasmid = new Plasmid("Kanamycin", 5000);
+		Plasmid practicePlasmid = new Plasmid(5000, "Whatever");
+		practicePlasmid.addResistance("Kanamycin");
 		
 		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt", practicePlasmid);
 		

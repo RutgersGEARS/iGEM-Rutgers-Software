@@ -1,29 +1,46 @@
 package igem.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Plasmid implements Serializable {
+
+	private static final long serialVersionUID = 1560228994971879067L;
 	
-	private static final long serialVersionUID = -608398276320051554L;
-	
-	private String resistance;
+	private ArrayList<String> resistance;
+	private String plasmidName;
 	private int length;
 	
-	public Plasmid(String res, int l){
-		this.resistance = res;
+	public Plasmid(int l, String name){
+		this.plasmidName = name;
+		this.resistance = new ArrayList<String>();
 		this.length = l;
 	}
 	
-	public String getResistance(){
-		return this.resistance;
+	public String getAntibioticString(){
+		String antibiotics = "";
+		for(int i = 0; i < this.resistance.size(); i++){
+			if(i == 0){
+				antibiotics = antibiotics + this.resistance.get(i);
+			}
+			else{
+				antibiotics = antibiotics + " or " + this.resistance.get(i);
+			}
+		}
+		
+		return antibiotics;
 	}
 	
 	public int getLength(){
 		return this.length;
 	}
 	
-	public void setResistance(String res){
-		this.resistance = res;
+	public String getPlasmidName(){
+		return this.plasmidName;
+	}
+	
+	public void addResistance(String antibiotic){
+		this.resistance.add(antibiotic);
 	}
 	
 	public void setLength(int l){

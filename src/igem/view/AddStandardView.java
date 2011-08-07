@@ -32,6 +32,7 @@ public class AddStandardView extends JFrame {
 	
 	JButton cancelButton;
 	JButton submitButton;
+	JButton clearButton;
 	
 	ArrayList<JCheckBox> requiredEnzymes;
 	ArrayList<JCheckBox> optionalEnzymes;
@@ -88,6 +89,10 @@ public class AddStandardView extends JFrame {
 		submitButton = new JButton("Submit");
 		submitButton.setFont(font);
 		submitButton.addActionListener(sl);
+		
+		clearButton = new JButton("Clear");
+		clearButton.setFont(font);
+		clearButton.addActionListener(sl);
 		
 		requiredEnzymes = new ArrayList<JCheckBox>();
 		optionalEnzymes = new ArrayList<JCheckBox>();
@@ -199,14 +204,32 @@ public class AddStandardView extends JFrame {
 			}
 		}
 		
+		gc.gridx = 0;
+		gc.gridy = GridBagConstraints.RELATIVE;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.ipady = 8;
+		gb.setConstraints(submitButton, gc);
+		add(submitButton);
 		
+		gc.gridx = 1;
+		gb.setConstraints(cancelButton, gc);
+		add(cancelButton);
 		
 	}
 	
 	protected class StandardListener implements ActionListener	{
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton)e.getSource();
-
+			
+			if(source == submitButton){
+				
+			}
+			else if(source == cancelButton){
+				mainMenu.closeAddStandardView();
+			}
+			else if(source == clearButton){
+				
+			}
 
 		}		
 	}

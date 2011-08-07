@@ -100,7 +100,7 @@ public class GeneSequence {
 	}
 	
 	public String getAntibioticResistance(){
-		return this.backbone.getResistance();
+		return this.backbone.getAntibioticString();
 	}
 	
 	public int getTotalPlasmidBP(){

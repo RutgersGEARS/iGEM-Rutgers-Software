@@ -19,7 +19,7 @@ public class PrimerDesign {
 		int currentChangeIndex;
 		
 		boolean tooFar;
-		
+		System.out.println("Number of changes : " + changes.size());
 		// Go through each change and see if anything is close to it
 		for(int i = 0; i < changes.size(); i++){
 			
@@ -116,10 +116,7 @@ public class PrimerDesign {
 	 * Just used to test for now
 	 */
 	public static Primer designPrimer(GeneSequence seq, int[] indices){
-		
-		/*
-		 * Check if there are two many mismatches for GC content
-		 */
+
 		int firstIndex = indices[0];
 		int lastIndex = 0;
 		
@@ -260,13 +257,12 @@ public class PrimerDesign {
 	
 	public static void main(String[] args){
 		GeneSequence firstSequence = new GeneSequence();
-		int x = 3;
-		for(int i = 0; i < firstSequence.changes.size(); i++){
-			firstSequence.changes.add(x);
-			x =  x + x;
-		}
+
 		
 		linearPrimerDesignAlgo(firstSequence);
+		
+		
+		System.out.println("Got to the end of the primer design algorithim");
 		
 	}
 	

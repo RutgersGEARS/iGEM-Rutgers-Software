@@ -44,7 +44,8 @@ public class Standard implements Serializable {
 	 * @param prefix
 	 * @param suffix
 	 */
-	public Standard(String prefix, String suffix){
+	public Standard(String prefix, String suffix, String name){
+		this.standardName = name;
 		this.prefix = prefix;
 		this.suffix = suffix;
 		requiredRestrictionSites = new ArrayList<RestrictionEnzyme>();

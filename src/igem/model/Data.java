@@ -105,6 +105,11 @@ public class Data implements Serializable {
 	public static final int		VALINE			=	19;
 	public static final int		STOP_CODON		=	20;
 	
+	public static final String AMPICILLIN = "Ampicillin";
+	public static final String KANAMYCIN = "Kanamycin";
+	public static final String CHLORAMPHENICOL = "Chloramphenicol";
+	public static final String TETRACYCLINE = "Tetracycline";
+	
 	public static final RestrictionEnzyme EcoRI = new RestrictionEnzyme("EcoRI", "gaatc");
 	public static final RestrictionEnzyme XbaI = new RestrictionEnzyme("XbaI", "tctaga");
 	public static final RestrictionEnzyme SpeI = new RestrictionEnzyme("SpeI", "actagt");
@@ -126,8 +131,8 @@ public class Data implements Serializable {
 	AminoAcid[]		aminoAcids;
 	Codon[]			codons;
 	ArrayList<OrgCodonTable>	organisms;
-	ArrayList<Standard>			standards;
-	ArrayList<Plasmid>			backbones;
+	public ArrayList<Standard>			standards;
+	public ArrayList<Plasmid>			backbones;
 	ArrayList<RestrictionEnzyme>	enzymes;
 	
 	/**
@@ -450,10 +455,10 @@ public class Data implements Serializable {
 	}
 	
 	public void populateStandardArray(){
-		Standard assemblyStandard10 = new Standard("gaattcgcggccgcttctag", "tactagtagcggccgctgcag");
-		Standard assemblyStandard23 = new Standard("gaattcgcggccgcttcta", "actagtagcggccgctgcag");
-		Standard assemblyStandard25 = new Standard("gaattccgcggccgcttctagatggccggc", "accggttaatactagtagcggccgctgcag");
-		Standard assemblyStandard21 = new Standard("gaattcatgagatct", "ggatcctaactcgag");
+		Standard assemblyStandard10 = new Standard("gaattcgcggccgcttctag", "tactagtagcggccgctgcag", "Assembly Standard 10");
+		Standard assemblyStandard23 = new Standard("gaattcgcggccgcttcta", "actagtagcggccgctgcag", "Assembly Standard 23");
+		Standard assemblyStandard25 = new Standard("gaattccgcggccgcttctagatggccggc", "accggttaatactagtagcggccgctgcag", "Assembly Standard 25");
+		Standard assemblyStandard21 = new Standard("gaattcatgagatct", "ggatcctaactcgag", "Assembly Standard 21");
 		
 		// set up assembly standard 10
 		assemblyStandard10.addRestrictionSite(EcoRI, false);
@@ -508,11 +513,30 @@ public class Data implements Serializable {
 		standards.add(assemblyStandard10);
 	}
 	
+	public void populatePlasmidArray(){
+		Plasmid psb1a3 = new Plasmid(2155, "pSB1A3");
+		psb1a3.addResistance(AMPICILLIN);
+		backbones.add(psb1a3);
+		
+		Plasmid psb1c3 = new Plasmid(2070, "pSB1C3");
+		psb1c3.addResistance(CHLORAMPHENICOL);
+		backbones.add(psb1c3);
+		
+		Plasmid psb1k3 = new Plasmid(2204, "pSB1K3");
+		psb1k3.addResistance(KANAMYCIN);
+		backbones.add(psb1k3);
+		
+		Plasmid psb1t3 = new Plasmid(2463, "pSB1T3");
+		psb1t3.addResistance(TETRACYCLINE);
+		backbones.add(psb1t3);
+	}
+	
 	public void populateData(){
 		populateCodonArray();
 		populateAminoAcidArray();
 		populateRestrictionArray();
 		populateStandardArray();
+		populatePlasmidArray();
 	}
 	
 

@@ -80,8 +80,8 @@ public class UtilityMethods {
 			aminoAcidIndex = Data.METHIONINE;
 		}
 		
-		/* Phenalyaline TTC TTG*/
-		else if(seq.compareToIgnoreCase(Data.TTC) == 0 || seq.compareToIgnoreCase(Data.TTG) == 0){
+		/* Phenalyaline TTT TTC*/
+		else if(seq.compareToIgnoreCase(Data.TTT) == 0 || seq.compareToIgnoreCase(Data.TTC) == 0){
 			aminoAcidIndex = Data.PHENYLALANINE;
 		}
 		
@@ -119,6 +119,11 @@ public class UtilityMethods {
 		/* Stop Codon  TAA TAG TGA*/
 		else if(seq.compareToIgnoreCase(Data.TAA) == 0 || seq.compareToIgnoreCase(Data.TAG) == 0 || seq.compareToIgnoreCase(Data.TGA) == 0){
 			aminoAcidIndex = Data.STOP_CODON;
+		}
+		// TODO Catch all to find where error is
+		else{
+			aminoAcidIndex = Data.STOP_CODON;
+			System.out.println("SAF " + seq);
 		}
 		
 		return aminoAcidIndex;

@@ -123,11 +123,13 @@ public class AddOrganismView extends JFrame{
 		for(int i = 0; i < 64; i++){
 			tempSeq = this.codonPanel.getCodonString(i);
 			tempFreq = Double.parseDouble(codonPanel.getCodonFrequency(i));
-			
+
 			Codon tempCodon = new Codon(tempSeq, tempFreq);
 			newOrg.addCodon(tempCodon);
 		}
 		
+		// SAF test statement
+		System.out.println(newOrg.toString());
 		return newOrg;
 	}
 	
@@ -143,8 +145,14 @@ public class AddOrganismView extends JFrame{
 				mainMenu.closeAddOrganismView();
 			}
 			else if(source == submitButton){
+				
 				// TODO check if all fields are filled in also need to check whether it has been succesfully added or not and all fields everywhere else have been updated
-				mainMenu.myss.addOrganism(gatherData());
+				
+				if(mainMenu.myss.addOrganism(gatherData())){
+					// SAF  Test statement
+					System.out.println("Adding organism worked!!!!");
+					mainMenu.closeAddOrganismView();
+				}
 				
 			}
 		}		

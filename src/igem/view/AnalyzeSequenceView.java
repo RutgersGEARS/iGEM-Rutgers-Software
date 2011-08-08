@@ -1,5 +1,7 @@
 package igem.view;
 
+import igem.model.GeneSequence;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -197,7 +199,17 @@ public class AnalyzeSequenceView extends JFrame{
 	
 	
 	public boolean checkInput(){
+		
 		return true;
+	}
+	
+	public boolean testChangeCodons(){
+		return true;
+	}
+	
+	public GeneSequence createGeneSequence(){
+		
+		return null;
 	}
 	
 	/**
@@ -214,10 +226,14 @@ public class AnalyzeSequenceView extends JFrame{
 
 			}
 			else if(source == submitButton){
+				//ErrorMessage.giveErrorMessage("Please enter a genetic sequence");
+				
 				
 				// check to make sure all fields are filled in
+				// TODO get this working
 				if(checkInput() == true){
 					// continue
+					
 				}
 				else{
 					// give user an error message

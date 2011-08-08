@@ -69,7 +69,7 @@ public class AminoAcid implements Serializable{
 		// codons are already in array find appropriate spot
 		else{
 			for(int i = 0; i < this.codons.size(); i++){
-				if(this.codons.get(i).frequency < newCodon.frequency){
+				if(this.codons.get(i).frequency < newCodon.frequency && isAdded == false){
 					this.codons.add(i, newCodon);
 					isAdded = true;
 				}

@@ -387,7 +387,7 @@ public class Data implements Serializable {
 		codons[42] = new Codon("AAA", 'K');
 		codons[43] = new Codon("AAG", 'K');
 		
-		codons[44] = new Codon("GAU", 'D');
+		codons[44] = new Codon("GAT", 'D');
 		codons[45] = new Codon("GAC", 'D');
 		codons[46] = new Codon("GAA", 'E');
 		codons[47] = new Codon("GAG", 'E');
@@ -408,10 +408,10 @@ public class Data implements Serializable {
 		codons[58] = new Codon("AGA", 'R');
 		codons[59] = new Codon("AGG", 'R');
 		
-		codons[60] = new Codon("AAT", 'G');
-		codons[61] = new Codon("AAC", 'G');
-		codons[62] = new Codon("AAA", 'G');
-		codons[63] = new Codon("AAG", 'G');
+		codons[60] = new Codon("GGT", 'G');
+		codons[61] = new Codon("GGC", 'G');
+		codons[62] = new Codon("GGA", 'G');
+		codons[63] = new Codon("GGG", 'G');
 	}
 	
 	public void populateAminoAcidArray(){

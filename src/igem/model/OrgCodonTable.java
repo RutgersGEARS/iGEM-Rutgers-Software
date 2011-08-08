@@ -78,10 +78,10 @@ public class OrgCodonTable implements Serializable{
 		newAmino = new AminoAcid("Cysteine", "Cys", 'C');
 		this.aminoAcids.add(newAmino);
 		
-		newAmino = new AminoAcid("Glutamic acid", "Gly", 'E');
+		newAmino = new AminoAcid("Glutamine", "Gln", 'Q');
 		this.aminoAcids.add(newAmino);
 		
-		newAmino = new AminoAcid("Glutamine", "Gln", 'Q');
+		newAmino = new AminoAcid("Glutamic acid", "Glu", 'E');
 		this.aminoAcids.add(newAmino);
 		
 		newAmino = new AminoAcid("Glycine", "Gly", 'G');

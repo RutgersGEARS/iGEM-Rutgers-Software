@@ -120,7 +120,7 @@ public class Data implements Serializable {
 	public static final RestrictionEnzyme AvrII = new RestrictionEnzyme("AvrII", "cctagg");
 	public static final RestrictionEnzyme NheI = new RestrictionEnzyme("NheI", "gctagc");
 	public static final RestrictionEnzyme SapI = new RestrictionEnzyme("SapI", "gctcttc");
-	public static final RestrictionEnzyme AgeI = new RestrictionEnzyme("AgeI", "tbd"); //TODO look up when I have Internet
+	public static final RestrictionEnzyme AgeI = new RestrictionEnzyme("AgeI", "accggt");
 	public static final RestrictionEnzyme NgoMIV = new RestrictionEnzyme("NgoMIV", "gccggc");
 	public static final RestrictionEnzyme BglII = new RestrictionEnzyme("BglII", "agatct");
 	public static final RestrictionEnzyme BamHI = new RestrictionEnzyme("BamHI", "ggatcc");
@@ -161,8 +161,6 @@ public class Data implements Serializable {
 		backbones = new ArrayList<Plasmid>();
 		
 		organisms = new ArrayList<OrgCodonTable>();
-		
-		
 		
 	}
 	
@@ -252,6 +250,9 @@ public class Data implements Serializable {
 		
 		// if function doesn't return then add new organism
 		this.organisms.add(newOrganism);
+		
+		// save data
+		saveData(this);
 		return true;	
 	}
 	

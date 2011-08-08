@@ -13,20 +13,20 @@ public class PrimerDesign {
 	 */
 	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq){
 		int[] primerIndices = new int[4];
-		ArrayList<Integer> changes = seq.changes;
+		ArrayList<Integer> internalChanges = seq.changes;
 		int primerDesignCount;
 		int pivotChange;
 		int currentChangeIndex;
 		
 		boolean tooFar;
-		System.out.println("Number of changes : " + changes.size());
+		System.out.println("Number of changes : " + internalChanges.size());
 		// Go through each change and see if anything is close to it
-		for(int i = 0; i < changes.size(); i++){
+		for(int i = 0; i < internalChanges.size(); i++){
 			
 			/*
 			 * If the change has not already been incorporated into a primer
 			 */
-			if(changes.get(i) != -1){
+			if(internalChanges.get(i) != -1){
 				
 				/* initialize array for primer design to -1 at each entry*/
 				for(int j = 0; j < 4; j++){
@@ -34,7 +34,7 @@ public class PrimerDesign {
 				}
 				
 				tooFar = false;
-				pivotChange = changes.get(i);
+				pivotChange = internalChanges.get(i);
 				
 				primerDesignCount = 0;
 				primerIndices[primerDesignCount] = pivotChange;
@@ -44,17 +44,17 @@ public class PrimerDesign {
 				/*
 				 * Not at last change check for things that are close
 				 */
-				if(i < changes.size() - 1){
+				if(i < internalChanges.size() - 1){
 					currentChangeIndex = i + 1;
 					
 					/*
 					 * find all changes up to 4 that are closer than 25 bp
 					 * and make sure you don't get an ArrayOutOfBounds exception
 					 */
-					while(tooFar == false && currentChangeIndex < changes.size()){
-						if(changes.get(currentChangeIndex) - pivotChange <= 25 && primerDesignCount < 3){
+					while(tooFar == false && currentChangeIndex < internalChanges.size()){
+						if(internalChanges.get(currentChangeIndex) - pivotChange <= 25 && primerDesignCount < 3){
 								primerDesignCount++;
-								primerIndices[primerDesignCount] = changes.get(currentChangeIndex);
+								primerIndices[primerDesignCount] = internalChanges.get(currentChangeIndex);
 								
 								currentChangeIndex++;
 
@@ -74,7 +74,10 @@ public class PrimerDesign {
 					
 					for(int verifyIndex = primerDesignCount; verifyIndex >= 0; verifyIndex--){
 						/* call the primer design method  with the indices that need to be changed */
-						tempPrimer = designPrimer(seq, primerIndices);
+						//tempPrimer = designPrimer(seq, primerIndices);
+						
+						//TODO test this and print out indices then put in line above and comment this one out
+						tempPrimer = fakeDesignPrimer(primerIndices, primerDesignCount + 1);
 						
 						/* success */
 						if(tempPrimer != null){
@@ -82,9 +85,9 @@ public class PrimerDesign {
 							/* add primer to input sequence */
 							seq.addPrimer(tempPrimer);
 							
-							/* clear out changes that went into primer !!! maybe off by 1 !!!!*/
+							/* clear out changes that went into primer*/
 							for(int clearIndex = i; clearIndex < i + verifyIndex + 1; clearIndex ++){
-								changes.set(clearIndex, -1);
+								internalChanges.set(clearIndex, -1);
 							}
 							
 							break;
@@ -94,7 +97,6 @@ public class PrimerDesign {
 						else{
 							/* even a single change index doesn't work */
 							if(verifyIndex == 0){
-								/* TODO update field in gene sequence */
 								
 								/* don't have to worry about clearing last change from changes array because 
 								 * they'll just stay in good way to let user know which ones aren't changed
@@ -109,6 +111,23 @@ public class PrimerDesign {
 			
 			
 		}
+		seq.changes = internalChanges;
+		/*
+		 * TODO for testing purposes only print out all the information about the indices of the designed primer
+		 */
+		
+		// prints the list of primers with their change indices
+		for(int i = 0; i < seq.primers.size(); i++){
+			System.out.println(seq.primers.get(i).getTopSequence());
+		}
+		
+		// prints the final changes unable to be made
+		String remainingChanges = "";
+		for(int i = 0; i < seq.changes.size(); i++){
+			remainingChanges += seq.changes.get(i);
+			remainingChanges += " ";
+		}
+		System.out.println(remainingChanges);
 		
 		return seq;
 	}
@@ -148,6 +167,16 @@ public class PrimerDesign {
 		
 		begPrimer = firstIndex - 10;
 		endPrimer = lastIndex + 10;
+		
+		// goes off the beginning of the sequence
+		if(begPrimer < 0){
+			
+		}
+		
+		// goes off the end of the sequence
+		if(endPrimer >= seq.unmodifiedSequence.length()){
+			
+		}
 		
 		success = false;
 		
@@ -253,6 +282,16 @@ public class PrimerDesign {
 		double meltingTemperature;
 		meltingTemperature = 81.5 + (0.41 * (gcContent)) - (675 / primerLength) - (numbMismatches / primerLength);
 		return meltingTemperature;
+	}
+	
+	public static Primer fakeDesignPrimer(int[] indices, int numbMismatch){
+		String indexString = "Indexes of mismatches in primer are ";
+		for(int i = 0; i < numbMismatch; i++){
+			indexString += indices[i];
+			indexString += " ";
+		}
+		Primer fakePrimer = new Primer(indexString, numbMismatch);
+		return fakePrimer;
 	}
 	
 	public static void main(String[] args){

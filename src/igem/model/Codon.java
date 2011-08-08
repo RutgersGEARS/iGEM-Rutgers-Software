@@ -29,6 +29,11 @@ public class Codon implements Serializable{
 		this.frequency = -1;
 	}
 	
+	public Codon(String sequence, double frequency){
+		this.sequence = sequence;
+		this.frequency = frequency;
+	}
+	
 	/**
 	 * Constructor for a Codon object that does not require frequency
 	 * 
@@ -42,6 +47,9 @@ public class Codon implements Serializable{
 		this.frequency = frequency;
 	}
 	
+	public void setAminoAcidSymbol(char aaSymbol){
+		this.aminoAcidSymbol = aaSymbol;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

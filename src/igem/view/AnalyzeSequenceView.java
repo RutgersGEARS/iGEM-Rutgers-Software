@@ -100,12 +100,7 @@ public class AnalyzeSequenceView extends JFrame{
 		 * TODO Temp until I hook this up with backend
 		 */
 		Vector<String> orgVector = new Vector<String>();
-		orgVector.add("E Coli");
-		orgVector.add("Yeast");
-		orgVector.add("Insect");
-		orgVector.add("Reptile");
-		orgVector.add("Mammal");
-		orgVector.add("Human");
+		orgVector = mainMenu.myss.getOrganismNames();
 		
 		Vector<String> standardVector = new Vector<String>();
 		for(int i = 0; i < mainMenu.myss.standards.size(); i++){

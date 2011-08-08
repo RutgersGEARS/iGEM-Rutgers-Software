@@ -75,5 +75,13 @@ public class CodonPanel extends JPanel{
 			}
 		}
 	}
+	
+	public String getCodonFrequency(int index){
+		return this.codonTextFields[index].getText();
+	}
+	
+	public String getCodonString(int index){
+		return this.codonLabels[index].getText();
+	}
 
 }

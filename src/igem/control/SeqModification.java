@@ -50,8 +50,48 @@ public class SeqModification {
 	 * @return
 	 */
 	public static String standardCheck(String sequence, OrgCodonTable codonTable, Standard format){
+		int indexRestrictSite;
+		int offset;
+		String codonToBeModified;
+		String optimalCodon;
 		
-		return null;
+		AminoAcid aminoAcid;
+		
+		// TODO only handles required restriction sites need to figure out how to work this with settings
+		for(int i = 0; i < format.getNumbRestrictionEnzymes(); i++){
+			indexRestrictSite = sequence.indexOf(format.getRestrictionString(i));
+			while(indexRestrictSite != -1){
+				//find start of codon
+				
+				// codon begins at index
+				if(indexRestrictSite % 3 == 0){
+					codonToBeModified = sequence.substring(indexRestrictSite, indexRestrictSite + 3);
+					offset = 0;
+				}
+				else if(indexRestrictSite % 3 == 1){
+					codonToBeModified = sequence.substring(indexRestrictSite + 2, indexRestrictSite + 5);
+					offset = 2;
+				}
+				else{
+					codonToBeModified = sequence.substring(indexRestrictSite + 1, indexRestrictSite + 4);
+					offset = 1;
+				}
+				
+				// change codon to the next best one for the amino acid
+				aminoAcid = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(codonToBeModified));
+				
+				// assuming everything is most optimal get second most optimal
+				optimalCodon = aminoAcid.getDesiredCodon(1).sequence;
+				
+				// take the first part of the sequence concat with new codon then concat with the rest of the sequence
+				sequence = sequence.substring(0, indexRestrictSite + offset) + optimalCodon + sequence.substring(indexRestrictSite + (3 + offset));
+				
+				// find next restriction sequence if it exists
+				indexRestrictSite = sequence.indexOf(format.getRestrictionString(i));
+			}
+			
+		}
+		return sequence;
 		
 	}
 

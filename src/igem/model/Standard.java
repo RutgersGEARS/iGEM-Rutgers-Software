@@ -63,6 +63,14 @@ public class Standard implements Serializable {
 		
 	}
 	
+	public String getRestrictionString(int index){
+		return this.requiredRestrictionSites.get(index).getRecognitionSequence();
+	}
+	
+	public int getNumbRestrictionEnzymes(){
+		return this.requiredRestrictionSites.size();
+	}
+	
 	public void setName(String name){
 		this.standardName = name;
 	}

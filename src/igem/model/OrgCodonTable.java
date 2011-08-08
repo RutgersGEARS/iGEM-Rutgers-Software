@@ -144,7 +144,15 @@ public class OrgCodonTable implements Serializable{
 	 */
 	public void addCodon(Codon newCodon){
 		int aminoAcidIndex;
+		char aminoAcidSymbol;
+		
 		aminoAcidIndex = UtilityMethods.findAminoAcidIndex(newCodon.sequence);
+		aminoAcidSymbol = this.aminoAcids.get(aminoAcidIndex).symbol;
+		
+		// set symbol
+		newCodon.setAminoAcidSymbol(aminoAcidSymbol);
+		
+		// add codon
 		this.aminoAcids.get(aminoAcidIndex).insertCodon(newCodon);
 	}
 	

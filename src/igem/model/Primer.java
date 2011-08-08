@@ -43,6 +43,11 @@ public class Primer {
 		this.gcContent = GeneSequence.getGCPercentage(this.topSequence);
 		this.meltingTemperature = PrimerDesign.findMeltingTemperature(top.length(), this.gcContent, this.numbMismatches);
 	}
+	// USED FOR TESTING PURPOSES ONLY!!!!!
+	public Primer(String indexString, int mismatches){
+		this.topSequence = indexString;
+		this.numbMismatches = mismatches;
+	}
 	
 	public String getTopSequence(){
 		return this.topSequence;

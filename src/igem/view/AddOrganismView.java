@@ -1,27 +1,28 @@
 package igem.view;
 
+import igem.model.Codon;
+import igem.model.OrgCodonTable;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class AddOrganismView extends JFrame{
 	MainMenu mainMenu;
 	
-	JPanel codonPanel;
+	CodonPanel codonPanel;
 	
 	JLabel organismLabel;
 	
-	JComboBox orgComboBox;
+	JTextField orgTextField;
 	
 	JButton clearButton;
 	JButton cancelButton;
@@ -50,7 +51,7 @@ public class AddOrganismView extends JFrame{
 		
 		codonPanel = new CodonPanel(this.mainMenu);
 			
-		organismLabel = new JLabel("Organism");
+		organismLabel = new JLabel("Organism Name");
 		organismLabel.setFont(font);
 		
 		clearButton = new JButton("Clear");
@@ -65,19 +66,9 @@ public class AddOrganismView extends JFrame{
 		cancelButton.setFont(font);
 		cancelButton.addActionListener(ol);
 		
-		// TODO hook up to back end this is just temporary
-		Vector<String> orgNames = new Vector<String>();
-		orgNames.add("Unicorn");
-		orgNames.add("E Coli");
-		orgNames.add("Mouse");
-		orgNames.add("Walrus");
+		orgTextField = new JTextField(35);
+		orgTextField.setFont(font);
 		
-		orgComboBox = new JComboBox(orgNames);
-		orgComboBox.setFont(font);
-		
-		
-		
-
 	}
 	
 	public void layOut(){
@@ -92,8 +83,8 @@ public class AddOrganismView extends JFrame{
 		gc.gridx = 0;
 		gc.gridy = 1;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		gb.setConstraints(orgComboBox, gc);
-		add(orgComboBox);
+		gb.setConstraints(orgTextField, gc);
+		add(orgTextField);
 		
 		gc.gridx = 0;
 		gc.gridy = 2;
@@ -123,6 +114,23 @@ public class AddOrganismView extends JFrame{
 		
 	}
 	
+	public OrgCodonTable gatherData(){
+		String tempSeq;
+		Double tempFreq;
+		String organismName = this.orgTextField.getText();
+		OrgCodonTable newOrg = new OrgCodonTable(organismName);
+		
+		for(int i = 0; i < 64; i++){
+			tempSeq = this.codonPanel.getCodonString(i);
+			tempFreq = Double.parseDouble(codonPanel.getCodonFrequency(i));
+			
+			Codon tempCodon = new Codon(tempSeq, tempFreq);
+			newOrg.addCodon(tempCodon);
+		}
+		
+		return newOrg;
+	}
+	
 	
 	protected class OrganismListener implements ActionListener	{
 		public void actionPerformed(ActionEvent e) {
@@ -135,6 +143,8 @@ public class AddOrganismView extends JFrame{
 				mainMenu.closeAddOrganismView();
 			}
 			else if(source == submitButton){
+				// TODO check if all fields are filled in also need to check whether it has been succesfully added or not and all fields everywhere else have been updated
+				mainMenu.myss.addOrganism(gatherData());
 				
 			}
 		}		

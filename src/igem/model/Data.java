@@ -553,4 +553,8 @@ public class Data implements Serializable {
 	public int getNumberOfEnzymes(){
 		return enzymes.size();
 	}
+	
+	public OrgCodonTable getOrganism(int index){
+		return organisms.get(index);
+	}
 }

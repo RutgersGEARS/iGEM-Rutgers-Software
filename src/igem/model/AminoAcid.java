@@ -48,7 +48,7 @@ public class AminoAcid implements Serializable{
 		
 		// valid index go get that codon
 		else{
-			return this.codons.get(rank - 1);
+			return this.codons.get(rank);
 		}
 	}
 	

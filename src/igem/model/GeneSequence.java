@@ -106,4 +106,8 @@ public class GeneSequence {
 	public int getTotalPlasmidBP(){
 		return this.backbone.getLength() + this.unmodifiedSequence.length();
 	}
+	
+	public void setModifiedSequence(String modSeq){
+		this.modifiedSequence = modSeq;
+	}
 }

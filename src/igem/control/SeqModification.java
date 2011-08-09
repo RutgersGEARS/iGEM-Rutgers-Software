@@ -36,6 +36,8 @@ public class SeqModification {
 			// add it to the modified sequence
 			modifiedSequence += optimalCodon;	
 		}
+		
+		modifiedSequence = modifiedSequence.toLowerCase();
 		return modifiedSequence;
 		
 	}

@@ -39,7 +39,7 @@ public class PrimerDesign {
 				primerDesignCount = 0;
 				primerIndices[primerDesignCount] = pivotChange;
 				
-				System.out.println("SAF Mutation at : " + pivotChange);
+				//System.out.println("SAF Mutation at : " + pivotChange);
 				
 				/*
 				 * Not at last change check for things that are close
@@ -58,7 +58,7 @@ public class PrimerDesign {
 								
 								currentChangeIndex++;
 
-								System.out.println("SAF Mutation in same primer : " + primerIndices[primerDesignCount]);
+								//System.out.println("SAF Mutation in same primer : " + primerIndices[primerDesignCount]);
 						}
 						else{
 							tooFar = true;
@@ -112,10 +112,10 @@ public class PrimerDesign {
 			
 		}
 		seq.changes = internalChanges;
+		
 		/*
 		 * TODO for testing purposes only print out all the information about the indices of the designed primer
 		 */
-		
 		// prints the list of primers with their change indices
 		for(int i = 0; i < seq.primers.size(); i++){
 			System.out.println(seq.primers.get(i).getTopSequence());

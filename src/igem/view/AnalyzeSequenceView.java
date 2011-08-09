@@ -1,6 +1,9 @@
 package igem.view;
 
+import igem.control.PrimerDesign;
+import igem.control.SeqModification;
 import igem.model.GeneSequence;
+import igem.model.OrgCodonTable;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -204,13 +207,45 @@ public class AnalyzeSequenceView extends JFrame{
 	}
 	
 	public boolean testChangeCodons(){
+
+		
+		// get both the organism and the unmodified sequece from the users input
+		OrgCodonTable organism = mainMenu.myss.getOrganism(this.organismComboBox.getSelectedIndex());
+		String unmodifiedSequence = this.sequenceArea.getText();
+		
+		String modifiedSequence;
+		String changesString = "";
+		
+		// GeneSequence object
+		GeneSequence sequence = new GeneSequence(unmodifiedSequence);
+		
+		// call the function that replaces codons
+		modifiedSequence = SeqModification.seqOptimizationAlgorithimSimple(unmodifiedSequence, organism);
+		
+		// find the changes that are made
+		sequence.setModifiedSequence(modifiedSequence);
+		sequence.findChanges();
+		
+		sequence = PrimerDesign.linearPrimerDesignAlgo(sequence);
+		
+		// print out the unmodified sequence
+		System.out.println("UNMODIFIED SEQUENCE : " + unmodifiedSequence);
+		
+		// print out the modified sequence
+		System.out.println("MODIFIED SEQUENCE : " + modifiedSequence);
+		
+		// print out the changes array
+		for(int i = 0; i < sequence.changes.size(); i++){
+			changesString += sequence.changes.get(i);
+			changesString += " : ";
+		}
+		
+		System.out.println(changesString);
+		
+		
 		return true;
 	}
 	
-	public GeneSequence createGeneSequence(){
-		
-		return null;
-	}
 	
 	/**
 	 * Handles all events on the main menu buttons
@@ -228,6 +263,7 @@ public class AnalyzeSequenceView extends JFrame{
 			else if(source == submitButton){
 				//ErrorMessage.giveErrorMessage("Please enter a genetic sequence");
 				
+				testChangeCodons();
 				
 				// check to make sure all fields are filled in
 				// TODO get this working

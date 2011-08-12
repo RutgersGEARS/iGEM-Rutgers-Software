@@ -79,6 +79,14 @@ public class Standard implements Serializable {
 		return this.standardName;
 	}
 	
+	public String getPrefix(){
+		return this.prefix;
+	}
+	
+	public String getSuffix(){
+		return this.suffix;
+	}
+	
 	
 	
 	

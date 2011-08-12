@@ -51,7 +51,7 @@ public class GeneSequence {
 		
 		if(unmodifiedSequence != null && modifiedSequence != null){
 			
-			for(int i = 0; i < unmodifiedSequence.length(); i++){
+			for(int i = 0; (i < unmodifiedSequence.length() && i < modifiedSequence.length()); i++){
 				if(unmodifiedSequence.charAt(i) != modifiedSequence.charAt(i)){
 					this.changes.add(i);
 				}
@@ -67,13 +67,14 @@ public class GeneSequence {
 	 * @param sequence
 	 * @return a number ranging from 0 to 100
 	 */
-	public static double getGCPercentage(String sequence){
-		int length = sequence.length();
-		int gcContent = 0;
+	public static double getGCPercentage(String primer){
+		int length = primer.length();
+		double gcContent = 0;
+		
 		double gcPercent;
-		for(int i = 0; i < sequence.length(); i++){
-			if(sequence.charAt(i) == 'g' || sequence.charAt(i) == 'G' || 
-					sequence.charAt(i) == 'c' || sequence.charAt(i) == 'C'){
+		
+		for(int i = 0; i < primer.length(); i++){
+			if(primer.charAt(i) == 'g' ||  primer.charAt(i) == 'c'){
 				gcContent++;
 			}
 		}

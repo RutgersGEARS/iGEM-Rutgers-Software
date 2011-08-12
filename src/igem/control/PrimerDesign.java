@@ -2,6 +2,7 @@ package igem.control;
 
 import igem.model.GeneSequence;
 import igem.model.Primer;
+import igem.model.Standard;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class PrimerDesign {
 	 * @param seq
 	 * @return
 	 */
-	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq){
+	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq, Standard format){
 		int[] primerIndices = new int[4];
 		ArrayList<Integer> internalChanges = seq.changes;
 		int primerDesignCount;
@@ -74,10 +75,10 @@ public class PrimerDesign {
 					
 					for(int verifyIndex = primerDesignCount; verifyIndex >= 0; verifyIndex--){
 						/* call the primer design method  with the indices that need to be changed */
-						//tempPrimer = designPrimer(seq, primerIndices);
+						tempPrimer = designPrimer(seq, primerIndices, format);
 						
 						//TODO test this and print out indices then put in line above and comment this one out
-						tempPrimer = fakeDesignPrimer(primerIndices, primerDesignCount + 1);
+						//tempPrimer = fakeDesignPrimer(primerIndices, primerDesignCount + 1, format);
 						
 						/* success */
 						if(tempPrimer != null){
@@ -97,7 +98,7 @@ public class PrimerDesign {
 						else{
 							/* even a single change index doesn't work */
 							if(verifyIndex == 0){
-								
+								System.out.println("Unable to design primer for change " + primerIndices[verifyIndex]);
 								/* don't have to worry about clearing last change from changes array because 
 								 * they'll just stay in good way to let user know which ones aren't changed
 								 */
@@ -117,15 +118,18 @@ public class PrimerDesign {
 		 * TODO for testing purposes only print out all the information about the indices of the designed primer
 		 */
 		// prints the list of primers with their change indices
-		for(int i = 0; i < seq.primers.size(); i++){
-			System.out.println(seq.primers.get(i).getTopSequence());
-		}
+		//for(int i = 0; i < seq.primers.size(); i++){
+			//System.out.println(seq.primers.get(i).getTopSequence());
+		//}
 		
 		// prints the final changes unable to be made
-		String remainingChanges = "";
+		String remainingChanges = "REMAINING CHANGES ";
 		for(int i = 0; i < seq.changes.size(); i++){
-			remainingChanges += seq.changes.get(i);
-			remainingChanges += " ";
+			if(seq.changes.get(i) != -1){
+				remainingChanges += seq.changes.get(i);
+				remainingChanges += " ";
+			}
+
 		}
 		System.out.println(remainingChanges);
 		
@@ -134,15 +138,25 @@ public class PrimerDesign {
 	/*
 	 * Just used to test for now
 	 */
-	public static Primer designPrimer(GeneSequence seq, int[] indices){
+	public static Primer designPrimer(GeneSequence seq, int[] indices, Standard format){
+		
 
-		int firstIndex = indices[0];
+		
+		String seqPrefix = format.getPrefix();
+		String seqSuffix = format.getSuffix();
+		
+		String fullSequence = seqPrefix + seq.modifiedSequence + seqSuffix;
+		
+		// TODO remove after testing
+		String indexString = "Indexes of mismatches in primer are ";
+		
+		int firstIndex;
 		int lastIndex = 0;
 		
 		int begPrimer;
 		int endPrimer;
 		
-		int numberMismatches = 1;
+		int numberMismatches = 0;
 		int primerLength;
 		
 		double gcContentPrimer;
@@ -150,55 +164,72 @@ public class PrimerDesign {
 		
 		boolean success;
 		
-		// find last viable index
+		// set first index of primer
+		firstIndex = indices[0] + seqPrefix.length();
+		
+		// find last viable index & adjust for prefix being there
 		for(int i = 0; i < indices.length ; i++){
 			if(indices[i] != -1){
-				lastIndex = indices[i]; 
+				lastIndex = indices[i] + seqPrefix.length();
 				numberMismatches++;
+				
+				// TODO remove after testing
+				indexString += indices[i];
+				indexString += " ";
 			}
 		}
 		
-		/* 
-		 * Only 1 mismatch
-		 * Primer length 30 to 40
-		 * Try to make primer as small as possible
-		 */
-		// TODO handle primer going off one of the ends depending on standard
+		// TODO remove after testing
+		System.out.println(indexString);
 		
 		begPrimer = firstIndex - 10;
 		endPrimer = lastIndex + 10;
 		
-		// goes off the beginning of the sequence
 		if(begPrimer < 0){
-			
+			begPrimer = 0;
 		}
-		
-		// goes off the end of the sequence
-		if(endPrimer >= seq.unmodifiedSequence.length()){
-			
+		if(endPrimer >= fullSequence.length()){
+			endPrimer = fullSequence.length() - 1;
 		}
+
 		
+		/* 
+		 * Primer length less than 47
+		 * Try to make primer as small as possible
+		 */
 		success = false;
-		
-		// may be repeating code might want to place in method
 		for(primerLength = endPrimer - begPrimer + 1 ; primerLength < 46 ; primerLength += 2){
 			
 			// primer has not been able to be successfully designed yet
 			if(success == false){
+				
+				
 				// Find gc content of substring of genetic sequence
-				gcContentPrimer = GeneSequence.getGCPercentage(seq.modifiedSequence.substring(begPrimer, endPrimer + 1));
-					
+				gcContentPrimer = GeneSequence.getGCPercentage(fullSequence.substring(begPrimer, endPrimer + 1));
+
 				// Find Tm of the primer
 				meltingTemperature = findMeltingTemperature(endPrimer - begPrimer + 1, gcContentPrimer, numberMismatches);
-					
+				
 				// Primers an ok length
 				if((meltingTemperature > 78) && (primerLength > 25)){
+					System.out.println("\tMelting Temperature " + meltingTemperature);
 					success = true;
 				}
 				// Primer needs to be longer
 				else{
 					begPrimer --;
 					endPrimer ++;
+					
+					if(begPrimer < 0){
+						begPrimer = 0;
+						// compensate at the end
+						endPrimer++;
+					}
+					if(endPrimer >= fullSequence.length()){
+						endPrimer = fullSequence.length() - 1;
+						// compensate at the beginning
+						begPrimer++;
+					}
 				}
 			}	
 		}
@@ -211,62 +242,63 @@ public class PrimerDesign {
 		// can design primer
 		else{
 			// Use helper method to figure out sequence given indices and return new primer
-			return transcribePrimerSequences(seq, begPrimer, endPrimer, numberMismatches);	
+			
+			
+			return transcribePrimerSequences(fullSequence.substring(begPrimer, endPrimer + 1), numberMismatches);	
 		}
 	}
 	
-	public static Primer transcribePrimerSequences(GeneSequence seq, int begIndex, int endIndex, int numbMismatches){
+	public static Primer transcribePrimerSequences(String primerSequence, int numbMismatches){
 		Primer newPrimer;
 		String bottomSeq;
-		String topSeq;
-		char[] nucleotides;
+		String topSeq = "";
+		//char[] nucleotides;
 		char currentNuc;
 		int index;
-		int counter;
+		//int counter;
 		
 		// bottom primer
-		bottomSeq = seq.modifiedSequence.substring(begIndex, endIndex + 1);
+		bottomSeq = primerSequence;
 		
 		// top primer
-		counter = 0;
-		nucleotides = new char[endIndex - begIndex + 1];
-		for(index = endIndex; endIndex >= begIndex; index--){
-			currentNuc = seq.modifiedSequence.charAt(index);
+		//counter = 0;
+		//nucleotides = new char[primerSequence.length()];
+		for(index = primerSequence.length() - 1; index >= 0; index--){
+			currentNuc = primerSequence.charAt(index);
+			
+			if(currentNuc == 'c'){
+				topSeq += "g";
+			}
+			else if(currentNuc == 'g'){
+				topSeq += "c";
+			}
+			else if(currentNuc == 't'){
+				topSeq += "a";
+			}
+			else if(currentNuc == 'a'){
+				topSeq += "t";
+			}
 			
 			// get complement of nucleotide
-			switch(currentNuc){
+			/*switch(currentNuc){
 			case 'c' :
-				currentNuc = 'g';
-			case 'C' :
 				currentNuc = 'g';
 			case 'g' :
 				currentNuc = 'c';
-			case 'G' :
-				currentNuc = 'c';
 			case 'a' :
 				currentNuc = 't';
-			case 'A' :
-				currentNuc = 't';
 			case 't' :
-				currentNuc = 'a';
-			case 'T' :
-				currentNuc = 'a';
+				currentNuc = 'a';*/
 				
-			// TODO figure this out later should be no error checking for nucleotides
-			default :
-				currentNuc = 'g';
-			}
-			// set correct nucleotide
-			nucleotides[counter] = seq.modifiedSequence.charAt(index);
-			counter++;
+
 		}
-		
-		// set top sequence
-		topSeq = new String(nucleotides);
 		
 		// create new primer
 		newPrimer = new Primer(topSeq, bottomSeq, numbMismatches);
 		
+		// TODO remove after testing
+		System.out.println("\tTop Sequence : " + topSeq);
+		System.out.println("\tBottom Sequence : " + bottomSeq);
 		return newPrimer;
 	}
 	
@@ -284,25 +316,5 @@ public class PrimerDesign {
 		return meltingTemperature;
 	}
 	
-	public static Primer fakeDesignPrimer(int[] indices, int numbMismatch){
-		String indexString = "Indexes of mismatches in primer are ";
-		for(int i = 0; i < numbMismatch; i++){
-			indexString += indices[i];
-			indexString += " ";
-		}
-		Primer fakePrimer = new Primer(indexString, numbMismatch);
-		return fakePrimer;
-	}
-	
-	public static void main(String[] args){
-		GeneSequence firstSequence = new GeneSequence();
-
-		
-		linearPrimerDesignAlgo(firstSequence);
-		
-		
-		System.out.println("Got to the end of the primer design algorithim");
-		
-	}
 	
 }

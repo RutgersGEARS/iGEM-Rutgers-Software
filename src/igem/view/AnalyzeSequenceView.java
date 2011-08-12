@@ -4,6 +4,7 @@ import igem.control.PrimerDesign;
 import igem.control.SeqModification;
 import igem.model.GeneSequence;
 import igem.model.OrgCodonTable;
+import igem.model.Standard;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -207,10 +208,13 @@ public class AnalyzeSequenceView extends JFrame{
 	}
 	
 	public boolean testChangeCodons(){
-
-		
-		// get both the organism and the unmodified sequece from the users input
+		// get both the organism and the unmodified sequence from the users input
 		OrgCodonTable organism = mainMenu.myss.getOrganism(this.organismComboBox.getSelectedIndex());
+		
+		// get the standard
+		Standard standard = mainMenu.myss.getStandard(this.standardComboBox.getSelectedIndex());
+		
+		
 		String unmodifiedSequence = this.sequenceArea.getText();
 		
 		String modifiedSequence;
@@ -226,8 +230,6 @@ public class AnalyzeSequenceView extends JFrame{
 		sequence.setModifiedSequence(modifiedSequence);
 		sequence.findChanges();
 		
-		sequence = PrimerDesign.linearPrimerDesignAlgo(sequence);
-		
 		// print out the unmodified sequence
 		System.out.println("UNMODIFIED SEQUENCE : " + unmodifiedSequence);
 		
@@ -242,6 +244,8 @@ public class AnalyzeSequenceView extends JFrame{
 		
 		System.out.println(changesString);
 		
+		// design the primers
+		sequence = PrimerDesign.linearPrimerDesignAlgo(sequence, standard);
 		
 		return true;
 	}

@@ -557,4 +557,9 @@ public class Data implements Serializable {
 	public OrgCodonTable getOrganism(int index){
 		return organisms.get(index);
 	}
+	
+	public Standard getStandard(int index){
+		return standards.get(index);
+	}
+	
 }

@@ -24,17 +24,31 @@ public class SeqModification {
 		AminoAcid currentAA;
 		
 		for(int seqIndex = 0; seqIndex < sequence.length(); seqIndex += 3){
-			// get the next codon
-			currentCodon = sequence.substring(seqIndex, seqIndex + 3);
 			
-			// find what amino acid it is
-			currentAA = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(currentCodon));
 			
-			// get most frequent amino acid
-			optimalCodon = currentAA.getDesiredCodon(0).sequence;
+			if(seqIndex + 3 <= sequence.length()){
+				// get the next codon
+				currentCodon = sequence.substring(seqIndex, seqIndex + 3);
+				
+				// find what amino acid it is
+				currentAA = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(currentCodon));
+				
+				// get most frequent amino acid
+				optimalCodon = currentAA.getDesiredCodon(0).sequence;
+				
+				if(optimalCodon.length() != 3){
+					System.out.println("MOTHER FUCKING WARNING YOU HAVE ENTERED A CODON THAT IS NOT 3 BP");
+				}
+				
+				// add it to the modified sequence
+				modifiedSequence += optimalCodon;
+			}
+			else{
+				modifiedSequence += sequence.substring(seqIndex, sequence.length() - 1);
+				System.out.println("Sequence is not a multiple of 3");
+			}
 			
-			// add it to the modified sequence
-			modifiedSequence += optimalCodon;	
+				
 		}
 		
 		modifiedSequence = modifiedSequence.toLowerCase();

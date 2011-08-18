@@ -1,7 +1,13 @@
 package igem.control;
 
-import igem.model.*;
+import igem.model.Data;
+import igem.model.GeneSequence;
+import igem.model.Primer;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SiteDirectedMutagenesis {
@@ -9,7 +15,6 @@ public class SiteDirectedMutagenesis {
 	ArrayList<String> materials;
 	ArrayList<String> containers;
 	ArrayList<String> steps;
-	
 	
 	Primer primer;
 	GeneSequence sequence;
@@ -23,26 +28,28 @@ public class SiteDirectedMutagenesis {
 		steps = new ArrayList<String>();
 	}
 	
-	public void run(){
+	public void run(String fileName){
 		plasmidPrep();
 		tempCycle();
 		digestion();
 		transformation();
+		
+		printToFile(fileName);
 	}
 	
 	private void plasmidPrep(){
 		String newFluid;
 		
 		// create new fluid for forward primer
-		newFluid = "Fluid forwardPrimer = new_fluid(\"Forward primer\", \"10uM\")";
+		newFluid = "Fluid forwardPrimer = new_fluid(\"Forward primer\", \"10uM\");";
 		this.materials.add(newFluid);
 		
 		// create new fluid for previous primer
-		newFluid = "Fluid reversePrimer = new_fluid(\"Reverse primer\", \"10uM\"";
+		newFluid = "Fluid reversePrimer = new_fluid(\"Reverse primer\", \"10uM\");";
 		this.materials.add(newFluid);
 		
 		// create new fluid for the template aka the mini-prepped DNA from a biobrick transformation
-		newFluid = "Fluid biobrickPart = new_fluid(\"dsDNA template\", \"5 - 50ng or a 10X dilution from a miniprep\"";
+		newFluid = "Fluid biobrickPart = new_fluid(\"dsDNA template\", \"5 - 50ng or a 10X dilution from a miniprep\");";
 		this.materials.add(newFluid);
 	}
 	
@@ -77,7 +84,7 @@ public class SiteDirectedMutagenesis {
 		newStep = "first_step(\"PCR reaction mix\");";
 		this.steps.add(newStep);
 		
-		newStep = "Fluid fluid_array[4] = {biobrickPart, forwardPrimer, reversePrimer, buffer, dNTP, ddWater};";
+		newStep = "Fluid fluid_array[6] = {biobrickPart, forwardPrimer, reversePrimer, buffer, dNTP, ddWater};";
 		this.steps.add(newStep);
 		
 		newStep = "char* tubes[1] = {\"PCR Reaction for Quick Change\"};";
@@ -122,7 +129,6 @@ public class SiteDirectedMutagenesis {
 	
 	private void digestion(){
 		String newFluid;
-		String newContainer;
 		String newStep;
 		
 		// declare materials needed
@@ -131,8 +137,6 @@ public class SiteDirectedMutagenesis {
 		newFluid = "Fluid dpnI = new_fluid(\"DpnI restriction enzyme\", vol(1, UL));";
 		this.materials.add(newFluid);
 		
-		
-
 		// next step
 		newStep = "next_step(\"Digestion of methylated DNA by dpnI\");";
 		this.steps.add(newStep);
@@ -164,7 +168,7 @@ public class SiteDirectedMutagenesis {
 		String newStep;
 		
 		// chemically competent cells
-		newFluid = "Fluid competent_cells = new_fluid(\"Chemically competent cells\", VOL(50, UL));";
+		newFluid = "Fluid competent_cells = new_fluid(\"Chemically competent cells\", vol(50, UL));";
 		this.materials.add(newFluid);
 		
 		newFluid = "Plate plate = new_container(\"Plate made with " + this.sequence.getAntibioticResistance() + " antibiotic\");";
@@ -177,17 +181,17 @@ public class SiteDirectedMutagenesis {
 		
 		
 		// thaw competent cells on ice
-		newStep = "next_step(\"Thaw comp cells\")";
+		newStep = "next_step(\"Thaw comp cells\");";
 		this.steps.add(newStep);
 		
-		newStep = "store_until(comp_cell_tube, ON_ICE, THAW_ICE)";
+		newStep = "store_until(comp_cell_tube, ON_ICE, THAW_ICE);";
 		this.steps.add(newStep);
 		
 		// transfer DNA to competent cells
 		newStep = "next_step(\"Transfer dpnI DNA to competent cells\");";
 		this.steps.add(newStep);
 		
-		newStep = "measure_fluid(pcr_reaction_tube, VOL(1, UL), comp_cell_tube);";
+		newStep = "measure_fluid(pcr_reaction_tube, vol(1, UL), comp_cell_tube);";
 		this.steps.add(newStep);
 		
 		newStep = "tap(comp_cell_tube);";
@@ -223,7 +227,7 @@ public class SiteDirectedMutagenesis {
 		this.steps.add(newStep);
 		
 		// end the protocol
-		newStep = "end_protocol()";
+		newStep = "end_protocol();";
 		this.steps.add(newStep);
 		
 	}
@@ -236,52 +240,46 @@ public class SiteDirectedMutagenesis {
 	}
 	
 	public void printToFile(String fileName){
+		String protocolString = "";
 		
-	}
-	
-	public static void main(String args[]){
-		int i;
+		protocolString += "\n" + "#include \"biocoder.h\"";
+		protocolString += "\n" + "void main()";
+		protocolString += "\n" + "{";
 		
-		Primer practicePrimer = new Primer("agctgcgctagcgctagcgctagctc", "agctgcgctagcgctagcgctagctc", 1);
+		protocolString += "\n" + "\t" + "start_protocol(\"Quik Change Site Directed Mutagenesis\");" + "\n";
 		
-		Plasmid practicePlasmid = new Plasmid(5000, "Whatever");
-		practicePlasmid.addResistance("Kanamycin");
+		protocolString += "\n" + "\t" + "// Materials needed";
 		
-		GeneSequence practiceSequence = new GeneSequence("agatcgatgcagggactcgaaccgtgtgacgt", practicePlasmid);
-		
-		SiteDirectedMutagenesis practiceRun = new SiteDirectedMutagenesis(practicePrimer, practiceSequence);
-		
-		practiceRun.run();
-		System.out.println("#include \"biocoder.h\"");
-		System.out.println("void main()");
-		System.out.println("{");
-		
-		System.out.println("\t" + "start_protocol(\"Quik Change Sited Directed Mutagenesis\");");
-		System.out.println("\n");
-		
-		System.out.println("\t" + "// Materials needed");
-		for(i = 0; i < practiceRun.materials.size(); i++){
-			System.out.println("\t" + practiceRun.materials.get(i));
+		for(int i = 0; i < this.materials.size(); i++){
+			protocolString += "\n" + "\t" + this.materials.get(i);
 		}
 		
-		System.out.println("\n");
-		System.out.println("\t" + "// Containers needed");
+		protocolString += "\n" + "\n" + "\t" + "// Containers needed";
 		
-		for(i = 0; i < practiceRun.containers.size(); i++){
-			System.out.println("\t" + practiceRun.containers.get(i));
+		for(int i = 0; i < this.containers.size(); i++){
+			protocolString += "\n" + "\t" + this.containers.get(i);
 		}
 		
-		System.out.println("\n");
-		System.out.println("\t" + "// Steps needed to complete protocol");
+		protocolString += "\n\n" + "\t" + "// Steps needed to complete protocol";
+
 		
-		for(i = 0; i < practiceRun.steps.size(); i++){
-			if(practiceRun.steps.get(i).startsWith("next_step") == true && i != 0){
-				System.out.println("\n");
+		for(int i = 0; i < this.steps.size(); i++){
+			if(this.steps.get(i).startsWith("next_step") == true && i != 0){
+				protocolString += "\n";
 			}
-			System.out.println("\t" + practiceRun.steps.get(i));
+			protocolString += "\n" + "\t" + this.steps.get(i);
 		}
 		
-		System.out.println("}");
+		protocolString += "}";
+		
+		
+		try {
+		    BufferedWriter out = new BufferedWriter(new FileWriter(Data.protocolDirectory + File.separatorChar + fileName));
+		    out.write(protocolString);
+		    out.close();
+		} catch (IOException e) {
+			System.out.println("Something went wrong while trying to save " + fileName);
+		}
 	}
 	
 }

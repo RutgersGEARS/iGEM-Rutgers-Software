@@ -20,7 +20,7 @@ public class PrimerDesign {
 		int currentChangeIndex;
 		
 		boolean tooFar;
-		System.out.println("Number of changes : " + internalChanges.size());
+
 		// Go through each change and see if anything is close to it
 		for(int i = 0; i < internalChanges.size(); i++){
 			

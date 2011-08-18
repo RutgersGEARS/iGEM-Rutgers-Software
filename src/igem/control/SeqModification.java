@@ -75,38 +75,50 @@ public class SeqModification {
 		
 		// TODO only handles required restriction sites need to figure out how to work this with settings
 		for(int i = 0; i < format.getNumbRestrictionEnzymes(); i++){
-			indexRestrictSite = sequence.indexOf(format.getRestrictionString(i));
-			while(indexRestrictSite != -1){
-				//find start of codon
-				
-				// codon begins at index
-				if(indexRestrictSite % 3 == 0){
-					codonToBeModified = sequence.substring(indexRestrictSite, indexRestrictSite + 3);
-					offset = 0;
-				}
-				else if(indexRestrictSite % 3 == 1){
-					codonToBeModified = sequence.substring(indexRestrictSite + 2, indexRestrictSite + 5);
-					offset = 2;
-				}
-				else{
-					codonToBeModified = sequence.substring(indexRestrictSite + 1, indexRestrictSite + 4);
-					offset = 1;
-				}
-				
-				// change codon to the next best one for the amino acid
-				aminoAcid = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(codonToBeModified));
-				
-				// assuming everything is most optimal get second most optimal
-				optimalCodon = aminoAcid.getDesiredCodon(1).sequence;
-				
-				// take the first part of the sequence concat with new codon then concat with the rest of the sequence
-				sequence = sequence.substring(0, indexRestrictSite + offset) + optimalCodon + sequence.substring(indexRestrictSite + (3 + offset));
-				
-				// find next restriction sequence if it exists
-				indexRestrictSite = sequence.indexOf(format.getRestrictionString(i));
-			}
 			
+			//indexRestrictSite = sequence.indexOf(format.getRestrictionString(i));
+			
+			int restrictSize = format.getRestrictionString(i).length();
+			System.out.println("Restriction Site : " + format.getRestrictionString(i) + " Restriction length : " + restrictSize);
+			/*while(indexRestrictSite != -1){
+				
+			}*/
+			
+			for(int j = 0; j < (sequence.length() - restrictSize); j++){
+				
+				if(sequence.substring(j, j + restrictSize).compareToIgnoreCase(format.getRestrictionString(i)) == 0){
+					System.out.println("\tMatch at + " + j);
+					
+					//find start of codon
+					
+					// codon begins at index
+					if(j % 3 == 0){
+						codonToBeModified = sequence.substring(j, j + 3);
+						offset = 0;
+					}
+					else if(j % 3 == 1){
+						codonToBeModified = sequence.substring(j + 2, j + 5);
+						offset = 2;
+					}
+					else{
+						codonToBeModified = sequence.substring(j + 1, j + 4);
+						offset = 1;
+					}
+					
+					// change codon to the next best one for the amino acid
+					aminoAcid = codonTable.aminoAcids.get(UtilityMethods.findAminoAcidIndex(codonToBeModified));
+					
+					// assuming everything is most optimal get second most optimal
+					optimalCodon = aminoAcid.getDesiredCodon(1).sequence;
+					
+					// take the first part of the sequence concat with new codon then concat with the rest of the sequence
+					sequence = sequence.substring(0, j + offset) + optimalCodon + sequence.substring(j + (3 + offset));
+					
+				}
+			}
+					
 		}
+		sequence = sequence.toLowerCase();
 		return sequence;
 		
 	}

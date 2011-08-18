@@ -2,8 +2,10 @@ package igem.view;
 
 import igem.control.PrimerDesign;
 import igem.control.SeqModification;
+import igem.control.SiteDirectedMutagenesis;
 import igem.model.GeneSequence;
 import igem.model.OrgCodonTable;
+import igem.model.Plasmid;
 import igem.model.Standard;
 
 import java.awt.Color;
@@ -214,28 +216,30 @@ public class AnalyzeSequenceView extends JFrame{
 		// get the standard
 		Standard standard = mainMenu.myss.getStandard(this.standardComboBox.getSelectedIndex());
 		
+		Plasmid backbone = mainMenu.myss.getBackbone(this.plasmidComboBox.getSelectedIndex());
 		
 		String unmodifiedSequence = this.sequenceArea.getText();
 		
 		String modifiedSequence;
-		String changesString = "";
+		
 		
 		// GeneSequence object
-		GeneSequence sequence = new GeneSequence(unmodifiedSequence);
+		GeneSequence sequence = new GeneSequence(unmodifiedSequence, backbone);
 		
 		// call the function that replaces codons
-		modifiedSequence = SeqModification.seqOptimizationAlgorithimSimple(unmodifiedSequence, organism);
+		/*modifiedSequence = SeqModification.seqOptimizationAlgorithimSimple(unmodifiedSequence, organism);
 		
 		// find the changes that are made
 		sequence.setModifiedSequence(modifiedSequence);
 		sequence.findChanges();
 		
 		// print out the unmodified sequence
-		System.out.println("UNMODIFIED SEQUENCE : " + unmodifiedSequence);
+		System.out.println("\nUNMODIFIED SEQUENCE : " + unmodifiedSequence);
 		
 		// print out the modified sequence
 		System.out.println("MODIFIED SEQUENCE : " + modifiedSequence);
 		
+		String changesString = "CHANGES : ";
 		// print out the changes array
 		for(int i = 0; i < sequence.changes.size(); i++){
 			changesString += sequence.changes.get(i);
@@ -244,8 +248,41 @@ public class AnalyzeSequenceView extends JFrame{
 		
 		System.out.println(changesString);
 		
+		System.out.println("NUMBER OF CHANGES : " + sequence.changes.size());*/
+		
+		// Run through standard check
+		modifiedSequence = SeqModification.standardCheck(unmodifiedSequence, organism, standard);
+		sequence.setModifiedSequence(modifiedSequence);
+		sequence.findChanges();
+		
+		// print out the unmodified sequence
+		System.out.println("\nUNMODIFIED SEQUENCE AFTER STANDARD CHECK : " + unmodifiedSequence);
+		
+		// print out the modified sequence
+		System.out.println("MODIFIED SEQUENCE AFTER STANDARD CHECK : " + modifiedSequence);
+		
+		// print out the changes array
+		String changesString = "CHANGES AFTER MODIFICATION ";
+		for(int i = 0; i < sequence.changes.size(); i++){
+			changesString += sequence.changes.get(i);
+			changesString += " : ";
+		}
+		
+		
+		System.out.println(changesString);
+		
+		System.out.println("NUMBER OF CHANGES : " + sequence.changes.size());
+		
 		// design the primers
 		sequence = PrimerDesign.linearPrimerDesignAlgo(sequence, standard);
+		
+		String fName;
+		
+		for(int i = 0; i < sequence.primers.size(); i++){
+			fName = "BBa_K191003_" + i + ".cpp";
+			SiteDirectedMutagenesis newProtocol = new SiteDirectedMutagenesis(sequence.primers.get(i), sequence);
+			newProtocol.run(fName);
+		}
 		
 		return true;
 	}

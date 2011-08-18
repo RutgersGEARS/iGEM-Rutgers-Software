@@ -48,7 +48,7 @@ public class GeneSequence {
 	 * Populates the changes matrix with the indices of the differences between the modified and unmodified sequence
 	 */
 	public void findChanges(){
-		
+		changes = new ArrayList<Integer>();
 		if(unmodifiedSequence != null && modifiedSequence != null){
 			
 			for(int i = 0; (i < unmodifiedSequence.length() && i < modifiedSequence.length()); i++){
@@ -108,7 +108,13 @@ public class GeneSequence {
 		return this.backbone.getLength() + this.unmodifiedSequence.length();
 	}
 	
+	public Primer getPrimer(int index){
+		return this.primers.get(index);
+	}
+	
 	public void setModifiedSequence(String modSeq){
 		this.modifiedSequence = modSeq;
 	}
+	
+	
 }

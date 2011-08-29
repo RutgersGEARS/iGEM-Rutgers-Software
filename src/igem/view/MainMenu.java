@@ -104,6 +104,8 @@ public class MainMenu extends JFrame {
 		gb.setConstraints(welcomeMessageLabel, gc);
 		add(welcomeMessageLabel);
 		
+		
+		
 		gc.gridx = 0;
 		gc.gridy = 1;
 		gc.ipady = 16;
@@ -190,27 +192,7 @@ public class MainMenu extends JFrame {
         this.standView.dispose();
 	}
 	
-	public static void main(String[] args){
-		
-		MainMenu main = new MainMenu();
 
-		
-		// set the close program operation
-		main.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				// TODO make sure everything saves
-				
-				System.exit(0);
-			}
-		});
-		
-		main.pack();  // least possible size for your window
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		main.setLocation(d.width/2-main.getWidth()/2,
-					  d.height/2-main.getHeight()/2);
-		main.setResizable(true);
-		main.setVisible(true);
-	}
 	
 
 	/**

@@ -1,10 +1,14 @@
 package igem.view;
 
+import igem.model.Data;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,6 +24,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class MainFrame extends JFrame{
+	public Data myss;
+	
+	ManageFrame manageView;
+	
 	private JTextField textField;
 	
 	
@@ -40,6 +48,21 @@ public class MainFrame extends JFrame{
 		
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		mnMyss.add(mntmPreferences);
+		
+		JMenuItem mntmManageComponents = new JMenuItem("Manage Components");
+		mntmManageComponents.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openManageComponentsView();
+				
+				// set the close program operation
+				manageView.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						closeManageComponentsView();
+					}
+				});
+			}
+		});
+		mnMyss.add(mntmManageComponents);
 		
 		JSeparator separator_1 = new JSeparator();
 		mnMyss.add(separator_1);
@@ -70,24 +93,6 @@ public class MainFrame extends JFrame{
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As");
 		mnFile.add(mntmSaveAs);
-		
-		JMenu mnManage = new JMenu("Manage");
-		menuBar.add(mnManage);
-		
-		JMenuItem mntmOrganisms = new JMenuItem("Organisms");
-		mnManage.add(mntmOrganisms);
-		
-		JSeparator separator_5 = new JSeparator();
-		mnManage.add(separator_5);
-		
-		JMenuItem mntmStandards = new JMenuItem("Standards");
-		mnManage.add(mntmStandards);
-		
-		JSeparator separator_6 = new JSeparator();
-		mnManage.add(separator_6);
-		
-		JMenuItem mntmBackbones = new JMenuItem("Backbones");
-		mnManage.add(mntmBackbones);
 		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
@@ -173,19 +178,28 @@ public class MainFrame extends JFrame{
 		getContentPane().add(comboBox_2, gbc_comboBox_2);
 		
 		JButton btnGo = new JButton("Go!");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnGo = new GridBagConstraints();
 		gbc_btnGo.insets = new Insets(5, 5, 5, 5);
 		gbc_btnGo.gridx = 8;
 		gbc_btnGo.gridy = 0;
 		getContentPane().add(btnGo, gbc_btnGo);
 		
+		/*
+		 * Handles everything with the tabbed pane layout
+		 * 
+		 */
+		
 		// add the panels to the tabs
 		SeqAnalysisPanel sequencePanel = new SeqAnalysisPanel();
 		
 		// set to transparent so you don't have to worry about the background
 		sequencePanel.setOpaque(false);
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		// add sequnce analysis view
 		tabbedPane.addTab("Sequence", sequencePanel);
 		
@@ -197,13 +211,26 @@ public class MainFrame extends JFrame{
 		getContentPane().add(tabbedPane, gbc_tabbedPane);
 	}
 	
-
+	public void openManageComponentsView(){
+		this.manageView = new ManageFrame();
+		
+		this.manageView.pack();  // least possible size for your window
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		this.manageView.setLocation(d.width/2-this.manageView.getWidth()/2,
+					  d.height/2-this.manageView.getHeight()/2);
+		this.manageView.setResizable(true);
+		this.manageView.setVisible(true);
+	}
+	
+	public void closeManageComponentsView(){
+		this.manageView.setVisible(false);
+        this.manageView.dispose();
+	}
 	
 	public static void main(String[] args){
 
 		MainFrame mainMenu = new MainFrame();
 
-		
 		// set the close program operation
 		mainMenu.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

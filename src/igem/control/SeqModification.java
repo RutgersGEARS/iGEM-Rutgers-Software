@@ -66,7 +66,6 @@ public class SeqModification {
 	 * @return
 	 */
 	public static String standardCheck(String sequence, OrgCodonTable codonTable, Standard format){
-		int indexRestrictSite;
 		int offset;
 		String codonToBeModified;
 		String optimalCodon;

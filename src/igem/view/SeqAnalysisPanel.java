@@ -9,6 +9,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.JScrollPane;
 
 public class SeqAnalysisPanel extends JPanel{
 
@@ -25,7 +26,7 @@ public class SeqAnalysisPanel extends JPanel{
 			JLabel lblOriginalDnaSequence = new JLabel("Original DNA Sequence");
 			GridBagConstraints gbc_lblOriginalDnaSequence = new GridBagConstraints();
 			gbc_lblOriginalDnaSequence.anchor = GridBagConstraints.WEST;
-			gbc_lblOriginalDnaSequence.insets = new Insets(5, 5, 5, 5);
+			gbc_lblOriginalDnaSequence.insets = new Insets(0, 5, 5, 5);
 			gbc_lblOriginalDnaSequence.gridx = 0;
 			gbc_lblOriginalDnaSequence.gridy = 0;
 			add(lblOriginalDnaSequence, gbc_lblOriginalDnaSequence);
@@ -33,29 +34,35 @@ public class SeqAnalysisPanel extends JPanel{
 			JLabel lblPrimers = new JLabel("Primers");
 			GridBagConstraints gbc_lblPrimers = new GridBagConstraints();
 			gbc_lblPrimers.anchor = GridBagConstraints.WEST;
-			gbc_lblPrimers.insets = new Insets(5, 5, 5, 5);
+			gbc_lblPrimers.insets = new Insets(0, 5, 5, 0);
 			gbc_lblPrimers.gridx = 1;
 			gbc_lblPrimers.gridy = 0;
 			add(lblPrimers, gbc_lblPrimers);
 			
+			JScrollPane originalScrollPane = new JScrollPane();
+			GridBagConstraints gbc_originalScrollPane = new GridBagConstraints();
+			gbc_originalScrollPane.fill = GridBagConstraints.BOTH;
+			gbc_originalScrollPane.insets = new Insets(5, 5, 5, 5);
+			gbc_originalScrollPane.gridx = 0;
+			gbc_originalScrollPane.gridy = 1;
+			add(originalScrollPane, gbc_originalScrollPane);
+			
 			JEditorPane originalEditorPane = new JEditorPane();
+			originalScrollPane.setViewportView(originalEditorPane);
 			originalEditorPane.setText("Enter DNA sequence to be analyzed here");
-			GridBagConstraints gbc_originalEditorPane = new GridBagConstraints();
-			gbc_originalEditorPane.insets = new Insets(5, 5, 5, 5);
-			gbc_originalEditorPane.fill = GridBagConstraints.BOTH;
-			gbc_originalEditorPane.gridx = 0;
-			gbc_originalEditorPane.gridy = 1;
-			add(originalEditorPane, gbc_originalEditorPane);
+			
+			JScrollPane primerScrollPane = new JScrollPane();
+			GridBagConstraints gbc_primerScrollPane = new GridBagConstraints();
+			gbc_primerScrollPane.fill = GridBagConstraints.BOTH;
+			gbc_primerScrollPane.gridheight = 3;
+			gbc_primerScrollPane.insets = new Insets(5, 5, 5, 5);
+			gbc_primerScrollPane.gridx = 1;
+			gbc_primerScrollPane.gridy = 1;
+			add(primerScrollPane, gbc_primerScrollPane);
 			
 			JEditorPane primerEditorPane = new JEditorPane();
+			primerScrollPane.setViewportView(primerEditorPane);
 			primerEditorPane.setEditable(false);
-			GridBagConstraints gbc_primerEditorPane = new GridBagConstraints();
-			gbc_primerEditorPane.gridheight = 3;
-			gbc_primerEditorPane.insets = new Insets(5, 5, 5, 5);
-			gbc_primerEditorPane.fill = GridBagConstraints.BOTH;
-			gbc_primerEditorPane.gridx = 1;
-			gbc_primerEditorPane.gridy = 1;
-			add(primerEditorPane, gbc_primerEditorPane);
 			
 			JLabel lblModifiedDnaSequence = new JLabel("Modified DNA Sequence");
 			GridBagConstraints gbc_lblModifiedDnaSequence = new GridBagConstraints();
@@ -65,14 +72,17 @@ public class SeqAnalysisPanel extends JPanel{
 			gbc_lblModifiedDnaSequence.gridy = 2;
 			add(lblModifiedDnaSequence, gbc_lblModifiedDnaSequence);
 			
+			JScrollPane modifiedScrollPane = new JScrollPane();
+			GridBagConstraints gbc_modifiedScrollPane = new GridBagConstraints();
+			gbc_modifiedScrollPane.fill = GridBagConstraints.BOTH;
+			gbc_modifiedScrollPane.insets = new Insets(5, 5, 5, 5);
+			gbc_modifiedScrollPane.gridx = 0;
+			gbc_modifiedScrollPane.gridy = 3;
+			add(modifiedScrollPane, gbc_modifiedScrollPane);
+			
 			JEditorPane modifiedEditorPane = new JEditorPane();
+			modifiedScrollPane.setViewportView(modifiedEditorPane);
 			modifiedEditorPane.setEditable(false);
-			GridBagConstraints gbc_modifiedEditorPane = new GridBagConstraints();
-			gbc_modifiedEditorPane.insets = new Insets(5, 5, 5, 5);
-			gbc_modifiedEditorPane.fill = GridBagConstraints.BOTH;
-			gbc_modifiedEditorPane.gridx = 0;
-			gbc_modifiedEditorPane.gridy = 3;
-			add(modifiedEditorPane, gbc_modifiedEditorPane);
 			
 		}
 

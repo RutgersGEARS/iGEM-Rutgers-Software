@@ -195,13 +195,16 @@ public class MainFrame extends JFrame{
 		
 		// add the panels to the tabs
 		SeqAnalysisPanel sequencePanel = new SeqAnalysisPanel();
+		ProtocolPanel protocolPanel = new ProtocolPanel();
 		
 		// set to transparent so you don't have to worry about the background
 		sequencePanel.setOpaque(false);
+		protocolPanel.setOpaque(false);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		// add sequnce analysis view
 		tabbedPane.addTab("Sequence", sequencePanel);
+		tabbedPane.addTab("Protocol", protocolPanel);
 		
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.gridwidth = 9;

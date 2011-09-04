@@ -17,9 +17,9 @@ public class OrganismPanel extends JPanel{
 	
 	public OrganismPanel(){
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{75, 70, 50, 136, 214, 0, 40, 0};
-		gridBagLayout.rowHeights = new int[]{0, 38, 445, 62, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{75, 70, 91, 136, 214, 0, 40, 0};
+		gridBagLayout.rowHeights = new int[]{0, 38, 445, 60, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -42,6 +42,7 @@ public class OrganismPanel extends JPanel{
 		
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 2;
 		gbc_textField.insets = new Insets(5, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 4;

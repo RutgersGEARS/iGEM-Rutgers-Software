@@ -110,22 +110,37 @@ public class Data implements Serializable {
 	public static final String CHLORAMPHENICOL = "Chloramphenicol";
 	public static final String TETRACYCLINE = "Tetracycline";
 	
-	public static final RestrictionEnzyme EcoRI = new RestrictionEnzyme("EcoRI", "gaatc");
-	public static final RestrictionEnzyme XbaI = new RestrictionEnzyme("XbaI", "tctaga");
-	public static final RestrictionEnzyme SpeI = new RestrictionEnzyme("SpeI", "actagt");
-	public static final RestrictionEnzyme PstI = new RestrictionEnzyme("PstI", "ctgcag");
-	public static final RestrictionEnzyme NotI = new RestrictionEnzyme("NotI", "gcggccgc");
-	public static final RestrictionEnzyme PvuI = new RestrictionEnzyme("PvuI", "cagctg");
-	public static final RestrictionEnzyme XhoI = new RestrictionEnzyme("XhoI", "ctcgac");
-	public static final RestrictionEnzyme AvrII = new RestrictionEnzyme("AvrII", "cctagg");
-	public static final RestrictionEnzyme NheI = new RestrictionEnzyme("NheI", "gctagc");
-	public static final RestrictionEnzyme SapI = new RestrictionEnzyme("SapI", "gctcttc");
 	public static final RestrictionEnzyme AgeI = new RestrictionEnzyme("AgeI", "accggt");
-	public static final RestrictionEnzyme NgoMIV = new RestrictionEnzyme("NgoMIV", "gccggc");
-	public static final RestrictionEnzyme BglII = new RestrictionEnzyme("BglII", "agatct");
+	public static final RestrictionEnzyme AvrII = new RestrictionEnzyme("AvrII", "cctagg");
 	public static final RestrictionEnzyme BamHI = new RestrictionEnzyme("BamHI", "ggatcc");
+	public static final RestrictionEnzyme BglII = new RestrictionEnzyme("BglII", "agatct");
+	public static final RestrictionEnzyme EcoRI = new RestrictionEnzyme("EcoRI", "gaatc");
+	public static final RestrictionEnzyme NheI = new RestrictionEnzyme("NheI", "gctagc");
+	public static final RestrictionEnzyme NgoMIV = new RestrictionEnzyme("NgoMIV", "gccggc");
+	public static final RestrictionEnzyme NotI = new RestrictionEnzyme("NotI", "gcggccgc");
+	public static final RestrictionEnzyme PstI = new RestrictionEnzyme("PstI", "ctgcag");
+	public static final RestrictionEnzyme PvuI = new RestrictionEnzyme("PvuI", "cagctg");
+	public static final RestrictionEnzyme SapI = new RestrictionEnzyme("SapI", "gctcttc");
+	public static final RestrictionEnzyme SpeI = new RestrictionEnzyme("SpeI", "actagt");
+	public static final RestrictionEnzyme XbaI = new RestrictionEnzyme("XbaI", "tctaga");
+	public static final RestrictionEnzyme XhoI = new RestrictionEnzyme("XhoI", "ctcgac");
 	
-	
+	public static final RestrictionEnzyme BsaI = new RestrictionEnzyme("BsaI", "ggtctcn");
+	public static final RestrictionEnzyme DraIII = new RestrictionEnzyme("DraIII", "cacnnngtg");
+	public static final RestrictionEnzyme EagI = new RestrictionEnzyme("EagI", "cggccg");
+	public static final RestrictionEnzyme EcoRV = new RestrictionEnzyme("EcoRV", "gatatc");
+	public static final RestrictionEnzyme HindIII = new RestrictionEnzyme("HindIII", "aagctt");
+	public static final RestrictionEnzyme KpnI = new RestrictionEnzyme("KpnI", "ggtacc");
+	public static final RestrictionEnzyme MfeI = new RestrictionEnzyme("MfeI", "caattg");
+	public static final RestrictionEnzyme NcoI = new RestrictionEnzyme("NcoI", "ccatgg");
+	public static final RestrictionEnzyme PvuII = new RestrictionEnzyme("PvuII", "cagctg");
+	public static final RestrictionEnzyme SacI = new RestrictionEnzyme("SacI", "gagctc");
+	public static final RestrictionEnzyme SalI = new RestrictionEnzyme("SalI", "gtcgac");
+	public static final RestrictionEnzyme SbfI = new RestrictionEnzyme("SbfI", "cctgcagg");
+	public static final RestrictionEnzyme ScaI = new RestrictionEnzyme("ScaI", "agtact");
+	public static final RestrictionEnzyme SphI = new RestrictionEnzyme("SphI", "gcatgc");
+	public static final RestrictionEnzyme SspI = new RestrictionEnzyme("SspI", "aatatt");
+	public static final RestrictionEnzyme StyI = new RestrictionEnzyme("StyI", "gcwwgg");
 
 	
 	AminoAcid[]		aminoAcids;
@@ -445,19 +460,36 @@ public class Data implements Serializable {
 	
 	public void populateRestrictionArray(){
 		enzymes.add(AgeI);
-		enzymes.add(EcoRI);
-		enzymes.add(NheI);
-		enzymes.add(SpeI);
 		enzymes.add(AvrII);
 		enzymes.add(BamHI);
 		enzymes.add(BglII);
+		enzymes.add(BsaI);
+		enzymes.add(DraIII);
+		enzymes.add(EagI);
+		enzymes.add(EcoRI);
+		enzymes.add(EcoRV);
+		enzymes.add(HindIII);
+		enzymes.add(KpnI);
+		enzymes.add(MfeI);
+		enzymes.add(NcoI);
 		enzymes.add(NgoMIV);
+		enzymes.add(NheI);
 		enzymes.add(NotI);
 		enzymes.add(PstI);
 		enzymes.add(PvuI);
+		enzymes.add(PvuII);
+		enzymes.add(SacI);
+		enzymes.add(SalI);
 		enzymes.add(SapI);
+		enzymes.add(SbfI);
+		enzymes.add(ScaI);
+		enzymes.add(SpeI);
+		enzymes.add(SphI);
+		enzymes.add(SspI);
+		enzymes.add(StyI);
 		enzymes.add(XbaI);
 		enzymes.add(XhoI);
+		
 	}
 	
 	public void populateStandardArray(){

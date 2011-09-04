@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 
 public class ManageFrame extends JFrame{
 	OrganismPanel organismPanel = new OrganismPanel();
+	StandardPanel standardPanel = new StandardPanel();
 		
 	public ManageFrame(){
 		super("Manage Components");
@@ -22,10 +23,16 @@ public class ManageFrame extends JFrame{
 		// set to panels to transparent so you don't have to worry about the background
 		organismPanel.setOpaque(false);
 		organismPanel.setBorder(null);
+		
+		standardPanel.setOpaque(false);
+		standardPanel.setBorder(null);
+		
 		JTabbedPane manageTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		// add tabs to tabbed pane layout
 		manageTabbedPane.addTab("Organisms", organismPanel);
+		manageTabbedPane.addTab("Standards", standardPanel);
+		
 		
 		GridBagConstraints gbc_manageTabbedPane = new GridBagConstraints();
 		gbc_manageTabbedPane.fill = GridBagConstraints.BOTH;

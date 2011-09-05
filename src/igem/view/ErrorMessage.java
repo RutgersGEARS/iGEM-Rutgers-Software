@@ -24,7 +24,6 @@ public class ErrorMessage extends JLabel{
 			super("Error Message");
 			
 			JLabel label = new JLabel(e);
-			label.setFont(new Font("Courier", Font.PLAIN, 14));
 			JOptionPane.showMessageDialog(showLabelButton, label, "Label", 
 												JOptionPane.WARNING_MESSAGE);
 		}

@@ -1,32 +1,49 @@
 package igem.view;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import igem.model.Data;
+
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JList;
+import java.util.Vector;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.Color;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JScrollPane;
 
 
+@SuppressWarnings("serial")
 public class OrganismPanel extends JPanel{
-	private JTextField textField;
 	
-	public OrganismPanel(){
+	Data myss;
+	private Vector<String> orgVector = new Vector<String>();
+	
+	private JTextField textField;
+	private JButton addButton;
+	private JButton deleteButton;
+	private JButton saveButton;
+	private JButton cancelButton;
+	
+	public OrganismPanel(Data data){
+		// all the logic stuff
+		this.myss = data;
+		orgVector = myss.getOrganismNames();
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{75, 70, 91, 136, 214, 0, 40, 0};
+		gridBagLayout.columnWidths = new int[]{75, 70, 136, 214, 0, 40, 0};
 		gridBagLayout.rowHeights = new int[]{0, 38, 445, 60, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblCurrentOrganisms = new JLabel("Current Organisms");
 		GridBagConstraints gbc_lblCurrentOrganisms = new GridBagConstraints();
 		gbc_lblCurrentOrganisms.anchor = GridBagConstraints.WEST;
-		gbc_lblCurrentOrganisms.gridwidth = 3;
+		gbc_lblCurrentOrganisms.gridwidth = 2;
 		gbc_lblCurrentOrganisms.insets = new Insets(5, 5, 5, 5);
 		gbc_lblCurrentOrganisms.gridx = 0;
 		gbc_lblCurrentOrganisms.gridy = 0;
@@ -36,7 +53,7 @@ public class OrganismPanel extends JPanel{
 		GridBagConstraints gbc_lblOrganismName = new GridBagConstraints();
 		gbc_lblOrganismName.anchor = GridBagConstraints.WEST;
 		gbc_lblOrganismName.insets = new Insets(5, 20, 5, 5);
-		gbc_lblOrganismName.gridx = 3;
+		gbc_lblOrganismName.gridx = 2;
 		gbc_lblOrganismName.gridy = 0;
 		add(lblOrganismName, gbc_lblOrganismName);
 		
@@ -45,29 +62,32 @@ public class OrganismPanel extends JPanel{
 		gbc_textField.gridwidth = 2;
 		gbc_textField.insets = new Insets(5, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 4;
+		gbc_textField.gridx = 3;
 		gbc_textField.gridy = 0;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.insets = new Insets(0, 5, 5, 5);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		add(scrollPane, gbc_scrollPane);
+		
+		JList organismList = new JList();
+		scrollPane.setViewportView(organismList);
+		organismList.setBorder(null);
 		
 		JLabel lblCodonUsageTable = new JLabel("Codon Usage Table");
 		GridBagConstraints gbc_lblCodonUsageTable = new GridBagConstraints();
 		gbc_lblCodonUsageTable.anchor = GridBagConstraints.WEST;
 		gbc_lblCodonUsageTable.insets = new Insets(0, 20, 5, 5);
-		gbc_lblCodonUsageTable.gridx = 3;
+		gbc_lblCodonUsageTable.gridx = 2;
 		gbc_lblCodonUsageTable.gridy = 1;
 		add(lblCodonUsageTable, gbc_lblCodonUsageTable);
-		
-		JList list = new JList();
-		list.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.gridheight = 2;
-		gbc_list.gridwidth = 3;
-		gbc_list.insets = new Insets(5, 10, 5, 5);
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 0;
-		gbc_list.gridy = 1;
-		add(list, gbc_list);
 		
 		// set the panel to the codon panel
 		CodonTablePanel codonPanel = new CodonTablePanel();
@@ -77,36 +97,37 @@ public class OrganismPanel extends JPanel{
 		gbc_panel.gridwidth = 4;
 		gbc_panel.insets = new Insets(0, 20, 5, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 3;
+		gbc_panel.gridx = 2;
 		gbc_panel.gridy = 2;
 		add(codonPanel, gbc_panel);
 		
-		JButton button = new JButton("+");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.insets = new Insets(0, 0, 0, 5);
-		gbc_button.gridx = 0;
-		gbc_button.gridy = 3;
-		add(button, gbc_button);
+		addButton = new JButton("+");
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 0, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 3;
+		add(addButton, gbc_addButton);
 		
-		JButton button_1 = new JButton("-");
-		GridBagConstraints gbc_button_1 = new GridBagConstraints();
-		gbc_button_1.insets = new Insets(0, 0, 0, 5);
-		gbc_button_1.gridx = 1;
-		gbc_button_1.gridy = 3;
-		add(button_1, gbc_button_1);
+		deleteButton = new JButton("-");
+		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+		gbc_deleteButton.anchor = GridBagConstraints.WEST;
+		gbc_deleteButton.insets = new Insets(0, 0, 0, 5);
+		gbc_deleteButton.gridx = 1;
+		gbc_deleteButton.gridy = 3;
+		add(deleteButton, gbc_deleteButton);
 		
-		JButton btnSave = new JButton("Save");
-		GridBagConstraints gbc_btnSave = new GridBagConstraints();
-		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSave.gridx = 5;
-		gbc_btnSave.gridy = 3;
-		add(btnSave, gbc_btnSave);
+		saveButton = new JButton("Save");
+		GridBagConstraints gbc_saveButton = new GridBagConstraints();
+		gbc_saveButton.insets = new Insets(0, 0, 0, 5);
+		gbc_saveButton.gridx = 4;
+		gbc_saveButton.gridy = 3;
+		add(saveButton, gbc_saveButton);
 		
-		JButton btnCancel = new JButton("Cancel");
-		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-		gbc_btnCancel.gridx = 6;
-		gbc_btnCancel.gridy = 3;
-		add(btnCancel, gbc_btnCancel);
+		cancelButton = new JButton("Cancel");
+		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
+		gbc_cancelButton.gridx = 5;
+		gbc_cancelButton.gridy = 3;
+		add(cancelButton, gbc_cancelButton);
 		
 	}
 

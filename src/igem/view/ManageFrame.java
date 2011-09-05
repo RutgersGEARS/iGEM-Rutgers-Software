@@ -1,16 +1,23 @@
 package igem.view;
 
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JTabbedPane;
-import java.awt.GridBagConstraints;
+import igem.model.Data;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+
+@SuppressWarnings("serial")
 public class ManageFrame extends JFrame{
-	OrganismPanel organismPanel = new OrganismPanel();
-	StandardPanel standardPanel = new StandardPanel();
+	
+	Data myss;
+	OrganismPanel organismPanel;
+	StandardPanel standardPanel;
 		
-	public ManageFrame(){
+	public ManageFrame(Data data){
 		super("Manage Components");
+		this.myss = data;
 		setAlwaysOnTop(true);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -18,12 +25,15 @@ public class ManageFrame extends JFrame{
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
-		organismPanel.setBorder(null);
+		
+		
 		
 		// set to panels to transparent so you don't have to worry about the background
-		organismPanel.setOpaque(false);
+		organismPanel = new OrganismPanel(this.myss);
 		organismPanel.setBorder(null);
-		
+		organismPanel.setOpaque(false);
+
+		standardPanel = new StandardPanel(this.myss);
 		standardPanel.setOpaque(false);
 		standardPanel.setBorder(null);
 		

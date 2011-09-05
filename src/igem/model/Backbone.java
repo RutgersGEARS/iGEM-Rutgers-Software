@@ -3,7 +3,7 @@ package igem.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Plasmid implements Serializable {
+public class Backbone implements Serializable {
 
 	private static final long serialVersionUID = 1560228994971879067L;
 	
@@ -11,7 +11,7 @@ public class Plasmid implements Serializable {
 	private String plasmidName;
 	private int length;
 	
-	public Plasmid(int l, String name){
+	public Backbone(int l, String name){
 		this.plasmidName = name;
 		this.resistance = new ArrayList<String>();
 		this.length = l;

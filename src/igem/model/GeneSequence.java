@@ -9,7 +9,7 @@ public class GeneSequence {
 	public ArrayList<Primer> primers;
 	public ArrayList<Integer> changes;
 	
-	public Plasmid backbone;
+	public Backbone backbone;
 	public String antibioticResistance;
 	
 	// TODO change this by either specifying what plasmid or backbone its on and addind the gene length to it
@@ -34,7 +34,7 @@ public class GeneSequence {
 		changes = new ArrayList<Integer>();
 	}
 	
-	public GeneSequence(String newSeq, Plasmid plasmid){
+	public GeneSequence(String newSeq, Backbone plasmid){
 		unmodifiedSequence = newSeq;
 		modifiedSequence = null;
 		

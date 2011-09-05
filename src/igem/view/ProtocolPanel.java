@@ -11,6 +11,9 @@ import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 
 public class ProtocolPanel extends JPanel{
+	private JEditorPane protocolPane;
+	private JButton saveButton;
+	private JLabel protocolLabel;
 
 	
 	public ProtocolPanel(){
@@ -21,14 +24,14 @@ public class ProtocolPanel extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblProtocol = new JLabel("Protocol For Whatever");
-		GridBagConstraints gbc_lblProtocol = new GridBagConstraints();
-		gbc_lblProtocol.anchor = GridBagConstraints.WEST;
-		gbc_lblProtocol.gridwidth = 3;
-		gbc_lblProtocol.insets = new Insets(5, 15, 5, 0);
-		gbc_lblProtocol.gridx = 0;
-		gbc_lblProtocol.gridy = 0;
-		add(lblProtocol, gbc_lblProtocol);
+		protocolLabel = new JLabel("Protocol For Whatever");
+		GridBagConstraints gbc_protocolLabel = new GridBagConstraints();
+		gbc_protocolLabel.anchor = GridBagConstraints.WEST;
+		gbc_protocolLabel.gridwidth = 3;
+		gbc_protocolLabel.insets = new Insets(5, 15, 5, 0);
+		gbc_protocolLabel.gridx = 0;
+		gbc_protocolLabel.gridy = 0;
+		add(protocolLabel, gbc_protocolLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -40,21 +43,22 @@ public class ProtocolPanel extends JPanel{
 		gbc_scrollPane.gridy = 1;
 		add(scrollPane, gbc_scrollPane);
 		
-		JEditorPane editorPane = new JEditorPane();
-		scrollPane.setViewportView(editorPane);
+		protocolPane = new JEditorPane();
+		protocolPane.setEditable(false);
+		scrollPane.setViewportView(protocolPane);
 		
-		JButton btnSaveAs = new JButton("Save As");
-		GridBagConstraints gbc_btnSaveAs = new GridBagConstraints();
-		gbc_btnSaveAs.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSaveAs.gridx = 1;
-		gbc_btnSaveAs.gridy = 2;
-		add(btnSaveAs, gbc_btnSaveAs);
+		saveButton = new JButton("Save As");
+		GridBagConstraints gbc_saveButton = new GridBagConstraints();
+		gbc_saveButton.insets = new Insets(0, 0, 0, 5);
+		gbc_saveButton.gridx = 1;
+		gbc_saveButton.gridy = 2;
+		add(saveButton, gbc_saveButton);
 		
-		JButton btnPrint = new JButton("Print");
-		GridBagConstraints gbc_btnPrint = new GridBagConstraints();
-		gbc_btnPrint.gridx = 2;
-		gbc_btnPrint.gridy = 2;
-		add(btnPrint, gbc_btnPrint);
+		JButton printButton = new JButton("Print");
+		GridBagConstraints gbc_printButton = new GridBagConstraints();
+		gbc_printButton.gridx = 2;
+		gbc_printButton.gridy = 2;
+		add(printButton, gbc_printButton);
 		
 	}
 }

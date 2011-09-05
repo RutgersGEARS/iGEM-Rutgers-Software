@@ -147,7 +147,7 @@ public class Data implements Serializable {
 	Codon[]			codons;
 	ArrayList<OrgCodonTable>	organisms;
 	public ArrayList<Standard>			standards;
-	public ArrayList<Plasmid>			backbones;
+	public ArrayList<Backbone>			backbones;
 	ArrayList<RestrictionEnzyme>	enzymes;
 	
 	/**
@@ -178,7 +178,7 @@ public class Data implements Serializable {
 		
 		enzymes = new ArrayList<RestrictionEnzyme>();
 		
-		backbones = new ArrayList<Plasmid>();
+		backbones = new ArrayList<Backbone>();
 		
 		organisms = new ArrayList<OrgCodonTable>();
 		
@@ -552,19 +552,19 @@ public class Data implements Serializable {
 	}
 	
 	public void populatePlasmidArray(){
-		Plasmid psb1a3 = new Plasmid(2155, "pSB1A3");
+		Backbone psb1a3 = new Backbone(2155, "pSB1A3");
 		psb1a3.addResistance(AMPICILLIN);
 		backbones.add(psb1a3);
 		
-		Plasmid psb1c3 = new Plasmid(2070, "pSB1C3");
+		Backbone psb1c3 = new Backbone(2070, "pSB1C3");
 		psb1c3.addResistance(CHLORAMPHENICOL);
 		backbones.add(psb1c3);
 		
-		Plasmid psb1k3 = new Plasmid(2204, "pSB1K3");
+		Backbone psb1k3 = new Backbone(2204, "pSB1K3");
 		psb1k3.addResistance(KANAMYCIN);
 		backbones.add(psb1k3);
 		
-		Plasmid psb1t3 = new Plasmid(2463, "pSB1T3");
+		Backbone psb1t3 = new Backbone(2463, "pSB1T3");
 		psb1t3.addResistance(TETRACYCLINE);
 		backbones.add(psb1t3);
 	}
@@ -599,7 +599,7 @@ public class Data implements Serializable {
 		return standards.get(index);
 	}
 	
-	public Plasmid getBackbone(int index){
+	public Backbone getBackbone(int index){
 		return backbones.get(index);
 	}
 	

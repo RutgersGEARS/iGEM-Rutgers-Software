@@ -1,62 +1,22 @@
 package igem.view;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
+import igem.model.Data;
+
 import java.awt.GridBagConstraints;
-import javax.swing.JLabel;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+@SuppressWarnings("serial")
 public class CodonTablePanel extends JPanel{
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
-	private JTextField textField_13;
-	private JTextField textField_14;
-	private JTextField textField_15;
-	private JTextField textField_16;
-	private JTextField textField_17;
-	private JTextField textField_18;
-	private JTextField textField_19;
-	private JTextField textField_20;
-	private JTextField textField_21;
-	private JTextField textField_22;
-	private JTextField textField_23;
-	private JTextField textField_24;
-	private JTextField textField_25;
-	private JTextField textField_26;
-	private JTextField textField_27;
-	private JTextField textField_28;
-	private JTextField textField_29;
-	private JTextField textField_30;
-	private JTextField textField_31;
-	private JTextField textField_32;
-	private JTextField textField_33;
-	private JTextField textField_34;
-	private JTextField textField_35;
-	private JTextField textField_36;
-	private JTextField textField_37;
-	private JTextField textField_38;
-	private JTextField textField_39;
-	private JTextField textField_40;
-	private JTextField textField_41;
-	private JTextField textField_42;
-	private JTextField textField_43;
-	private JTextField textField_44;
-	private JTextField textField_45;
-	private JTextField textField_46;
-	private JTextField textField_47;
-	private JTextField textField_48;
+	
+	Data myss;
+	
+	private JTextField[] textFieldArray = new JTextField[64];
+	
 	private JLabel lblTgt;
 	private JLabel lblTgc;
 	private JLabel lblTga;
@@ -73,23 +33,11 @@ public class CodonTablePanel extends JPanel{
 	private JLabel lblGgc;
 	private JLabel lblGga;
 	private JLabel lblGgg;
-	private JTextField textField_49;
-	private JTextField textField_50;
-	private JTextField textField_51;
-	private JTextField textField_52;
-	private JTextField textField_53;
-	private JTextField textField_54;
-	private JTextField textField_55;
-	private JTextField textField_56;
-	private JTextField textField_57;
-	private JTextField textField_58;
-	private JTextField textField_59;
-	private JTextField textField_60;
-	private JTextField textField_61;
-	private JTextField textField_62;
-	private JTextField textField_63;
+
 	
-	public CodonTablePanel(){
+	public CodonTablePanel(Data data){
+		this.myss = data;
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 100, 0, 81, 0, 45, 0, 40, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -105,13 +53,14 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTtt.gridy = 0;
 		add(lblTtt, gbc_lblTtt);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		add(textField, gbc_textField);
-		textField.setColumns(7);
+		
+		textFieldArray[0] = new JTextField();
+		GridBagConstraints gbc_TTT_1_field = new GridBagConstraints();
+		gbc_TTT_1_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TTT_1_field.gridx = 1;
+		gbc_TTT_1_field.gridy = 0;
+		add(textFieldArray[0], gbc_TTT_1_field);
+		textFieldArray[0].setColumns(7);
 		
 		JLabel lblTct = new JLabel("TCT");
 		GridBagConstraints gbc_lblTct = new GridBagConstraints();
@@ -121,13 +70,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTct.gridy = 0;
 		add(lblTct, gbc_lblTct);
 		
-		textField_16 = new JTextField();
-		GridBagConstraints gbc_textField_16 = new GridBagConstraints();
-		gbc_textField_16.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_16.gridx = 3;
-		gbc_textField_16.gridy = 0;
-		add(textField_16, gbc_textField_16);
-		textField_16.setColumns(7);
+		textFieldArray[16] = new JTextField();
+		GridBagConstraints gbc_TCT_field = new GridBagConstraints();
+		gbc_TCT_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TCT_field.gridx = 3;
+		gbc_TCT_field.gridy = 0;
+		add(textFieldArray[16], gbc_TCT_field);
+		textFieldArray[16].setColumns(7);
 		
 		JLabel lblTat = new JLabel("TAT");
 		GridBagConstraints gbc_lblTat = new GridBagConstraints();
@@ -137,13 +86,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTat.gridy = 0;
 		add(lblTat, gbc_lblTat);
 		
-		textField_32 = new JTextField();
-		GridBagConstraints gbc_textField_32 = new GridBagConstraints();
-		gbc_textField_32.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_32.gridx = 5;
-		gbc_textField_32.gridy = 0;
-		add(textField_32, gbc_textField_32);
-		textField_32.setColumns(7);
+		textFieldArray[32] = new JTextField();
+		GridBagConstraints gbc_TAT_field = new GridBagConstraints();
+		gbc_TAT_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TAT_field.gridx = 5;
+		gbc_TAT_field.gridy = 0;
+		add(textFieldArray[32] , gbc_TAT_field);
+		textFieldArray[32].setColumns(7);
 		
 		lblTgt = new JLabel("TGT");
 		GridBagConstraints gbc_lblTgt = new GridBagConstraints();
@@ -153,13 +102,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTgt.gridy = 0;
 		add(lblTgt, gbc_lblTgt);
 		
-		textField_49 = new JTextField();
-		GridBagConstraints gbc_textField_49 = new GridBagConstraints();
-		gbc_textField_49.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_49.gridx = 7;
-		gbc_textField_49.gridy = 0;
-		add(textField_49, gbc_textField_49);
-		textField_49.setColumns(7);
+		textFieldArray[48] = new JTextField();
+		GridBagConstraints gbc_TGT_field = new GridBagConstraints();
+		gbc_TGT_field.insets = new Insets(0, 0, 5, 0);
+		gbc_TGT_field.gridx = 7;
+		gbc_TGT_field.gridy = 0;
+		add(textFieldArray[48], gbc_TGT_field);
+		textFieldArray[48].setColumns(7);
 		
 		JLabel lblTtc = new JLabel("TTC");
 		GridBagConstraints gbc_lblTtc = new GridBagConstraints();
@@ -169,13 +118,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTtc.gridy = 1;
 		add(lblTtc, gbc_lblTtc);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 1;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(7);
+		textFieldArray[1] = new JTextField();
+		GridBagConstraints gbc_TTC_2_field = new GridBagConstraints();
+		gbc_TTC_2_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TTC_2_field.gridx = 1;
+		gbc_TTC_2_field.gridy = 1;
+		add(textFieldArray[1], gbc_TTC_2_field);
+		textFieldArray[1].setColumns(7);
 		
 		JLabel lblTcc = new JLabel("TCC");
 		GridBagConstraints gbc_lblTcc = new GridBagConstraints();
@@ -185,13 +134,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTcc.gridy = 1;
 		add(lblTcc, gbc_lblTcc);
 		
-		textField_17 = new JTextField();
-		GridBagConstraints gbc_textField_17 = new GridBagConstraints();
-		gbc_textField_17.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_17.gridx = 3;
-		gbc_textField_17.gridy = 1;
-		add(textField_17, gbc_textField_17);
-		textField_17.setColumns(7);
+		textFieldArray[17] = new JTextField();
+		GridBagConstraints gbc_TCC_field = new GridBagConstraints();
+		gbc_TCC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TCC_field.gridx = 3;
+		gbc_TCC_field.gridy = 1;
+		add(textFieldArray[17], gbc_TCC_field);
+		textFieldArray[17].setColumns(7);
 		
 		JLabel lblTac = new JLabel("TAC");
 		GridBagConstraints gbc_lblTac = new GridBagConstraints();
@@ -201,13 +150,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTac.gridy = 1;
 		add(lblTac, gbc_lblTac);
 		
-		textField_33 = new JTextField();
-		GridBagConstraints gbc_textField_33 = new GridBagConstraints();
-		gbc_textField_33.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_33.gridx = 5;
-		gbc_textField_33.gridy = 1;
-		add(textField_33, gbc_textField_33);
-		textField_33.setColumns(7);
+		textFieldArray[33] = new JTextField();
+		GridBagConstraints gbc_TAC_field = new GridBagConstraints();
+		gbc_TAC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TAC_field.gridx = 5;
+		gbc_TAC_field.gridy = 1;
+		add(textFieldArray[33], gbc_TAC_field);
+		textFieldArray[33].setColumns(7);
 		
 		lblTgc = new JLabel("TGC");
 		GridBagConstraints gbc_lblTgc = new GridBagConstraints();
@@ -217,13 +166,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTgc.gridy = 1;
 		add(lblTgc, gbc_lblTgc);
 		
-		textField_50 = new JTextField();
-		GridBagConstraints gbc_textField_50 = new GridBagConstraints();
-		gbc_textField_50.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_50.gridx = 7;
-		gbc_textField_50.gridy = 1;
-		add(textField_50, gbc_textField_50);
-		textField_50.setColumns(7);
+		textFieldArray[49] = new JTextField();
+		GridBagConstraints gbc_TGC_field = new GridBagConstraints();
+		gbc_TGC_field.insets = new Insets(0, 0, 5, 0);
+		gbc_TGC_field.gridx = 7;
+		gbc_TGC_field.gridy = 1;
+		add(textFieldArray[49], gbc_TGC_field);
+		textFieldArray[49].setColumns(7);
 		
 		JLabel lblTta = new JLabel("TTA");
 		GridBagConstraints gbc_lblTta = new GridBagConstraints();
@@ -233,13 +182,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTta.gridy = 2;
 		add(lblTta, gbc_lblTta);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 2;
-		add(textField_2, gbc_textField_2);
-		textField_2.setColumns(7);
+		textFieldArray[2] = new JTextField();
+		GridBagConstraints gbc_TTA_3_field = new GridBagConstraints();
+		gbc_TTA_3_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TTA_3_field.gridx = 1;
+		gbc_TTA_3_field.gridy = 2;
+		add(textFieldArray[2], gbc_TTA_3_field);
+		textFieldArray[2].setColumns(7);
 		
 		JLabel lblTca = new JLabel("TCA");
 		GridBagConstraints gbc_lblTca = new GridBagConstraints();
@@ -249,13 +198,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTca.gridy = 2;
 		add(lblTca, gbc_lblTca);
 		
-		textField_18 = new JTextField();
-		GridBagConstraints gbc_textField_18 = new GridBagConstraints();
-		gbc_textField_18.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_18.gridx = 3;
-		gbc_textField_18.gridy = 2;
-		add(textField_18, gbc_textField_18);
-		textField_18.setColumns(7);
+		textFieldArray[18] = new JTextField();
+		GridBagConstraints gbc_TCA_field = new GridBagConstraints();
+		gbc_TCA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TCA_field.gridx = 3;
+		gbc_TCA_field.gridy = 2;
+		add(textFieldArray[18], gbc_TCA_field);
+		textFieldArray[18].setColumns(7);
 		
 		JLabel lblTaa = new JLabel("TAA");
 		GridBagConstraints gbc_lblTaa = new GridBagConstraints();
@@ -265,13 +214,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTaa.gridy = 2;
 		add(lblTaa, gbc_lblTaa);
 		
-		textField_34 = new JTextField();
-		GridBagConstraints gbc_textField_34 = new GridBagConstraints();
-		gbc_textField_34.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_34.gridx = 5;
-		gbc_textField_34.gridy = 2;
-		add(textField_34, gbc_textField_34);
-		textField_34.setColumns(7);
+		textFieldArray[34] = new JTextField();
+		GridBagConstraints gbc_TAA_field = new GridBagConstraints();
+		gbc_TAA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_TAA_field.gridx = 5;
+		gbc_TAA_field.gridy = 2;
+		add(textFieldArray[34], gbc_TAA_field);
+		textFieldArray[34].setColumns(7);
 		
 		lblTga = new JLabel("TGA");
 		GridBagConstraints gbc_lblTga = new GridBagConstraints();
@@ -281,13 +230,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTga.gridy = 2;
 		add(lblTga, gbc_lblTga);
 		
-		textField_51 = new JTextField();
-		GridBagConstraints gbc_textField_51 = new GridBagConstraints();
-		gbc_textField_51.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_51.gridx = 7;
-		gbc_textField_51.gridy = 2;
-		add(textField_51, gbc_textField_51);
-		textField_51.setColumns(7);
+		textFieldArray[50] = new JTextField();
+		GridBagConstraints gbc_TGA_field = new GridBagConstraints();
+		gbc_TGA_field.insets = new Insets(0, 0, 5, 0);
+		gbc_TGA_field.gridx = 7;
+		gbc_TGA_field.gridy = 2;
+		add(textFieldArray[50], gbc_TGA_field);
+		textFieldArray[50].setColumns(7);
 		
 		JLabel lblTtg = new JLabel("TTG");
 		GridBagConstraints gbc_lblTtg = new GridBagConstraints();
@@ -297,13 +246,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTtg.gridy = 3;
 		add(lblTtg, gbc_lblTtg);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 3;
-		add(textField_3, gbc_textField_3);
-		textField_3.setColumns(7);
+		textFieldArray[3] = new JTextField();
+		GridBagConstraints gbc_TTG_4_field = new GridBagConstraints();
+		gbc_TTG_4_field.insets = new Insets(0, 0, 10, 5);
+		gbc_TTG_4_field.gridx = 1;
+		gbc_TTG_4_field.gridy = 3;
+		add(textFieldArray[3], gbc_TTG_4_field);
+		textFieldArray[3].setColumns(7);
 		
 		JLabel lblTcg = new JLabel("TCG");
 		GridBagConstraints gbc_lblTcg = new GridBagConstraints();
@@ -313,13 +262,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTcg.gridy = 3;
 		add(lblTcg, gbc_lblTcg);
 		
-		textField_19 = new JTextField();
-		GridBagConstraints gbc_textField_19 = new GridBagConstraints();
-		gbc_textField_19.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_19.gridx = 3;
-		gbc_textField_19.gridy = 3;
-		add(textField_19, gbc_textField_19);
-		textField_19.setColumns(7);
+		textFieldArray[19] = new JTextField();
+		GridBagConstraints gbc_TCG_field = new GridBagConstraints();
+		gbc_TCG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_TCG_field.gridx = 3;
+		gbc_TCG_field.gridy = 3;
+		add(textFieldArray[19], gbc_TCG_field);
+		textFieldArray[19].setColumns(7);
 		
 		JLabel lblTag = new JLabel("TAG");
 		GridBagConstraints gbc_lblTag = new GridBagConstraints();
@@ -329,13 +278,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTag.gridy = 3;
 		add(lblTag, gbc_lblTag);
 		
-		textField_35 = new JTextField();
-		GridBagConstraints gbc_textField_35 = new GridBagConstraints();
-		gbc_textField_35.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_35.gridx = 5;
-		gbc_textField_35.gridy = 3;
-		add(textField_35, gbc_textField_35);
-		textField_35.setColumns(7);
+		textFieldArray[35] = new JTextField();
+		GridBagConstraints gbc_TAG_field = new GridBagConstraints();
+		gbc_TAG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_TAG_field.gridx = 5;
+		gbc_TAG_field.gridy = 3;
+		add(textFieldArray[35], gbc_TAG_field);
+		textFieldArray[35].setColumns(7);
 		
 		lblTgg = new JLabel("TGG");
 		GridBagConstraints gbc_lblTgg = new GridBagConstraints();
@@ -345,13 +294,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblTgg.gridy = 3;
 		add(lblTgg, gbc_lblTgg);
 		
-		textField_48 = new JTextField();
-		textField_48.setColumns(7);
-		GridBagConstraints gbc_textField_48 = new GridBagConstraints();
-		gbc_textField_48.insets = new Insets(0, 0, 10, 0);
-		gbc_textField_48.gridx = 7;
-		gbc_textField_48.gridy = 3;
-		add(textField_48, gbc_textField_48);
+		textFieldArray[51] = new JTextField();
+		textFieldArray[51].setColumns(7);
+		GridBagConstraints gbc_TGG_field = new GridBagConstraints();
+		gbc_TGG_field.insets = new Insets(0, 0, 10, 0);
+		gbc_TGG_field.gridx = 7;
+		gbc_TGG_field.gridy = 3;
+		add(textFieldArray[51], gbc_TGG_field);
 		
 		JLabel lblCtt = new JLabel("CTT");
 		GridBagConstraints gbc_lblCtt = new GridBagConstraints();
@@ -361,13 +310,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCtt.gridy = 4;
 		add(lblCtt, gbc_lblCtt);
 		
-		textField_4 = new JTextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 4;
-		add(textField_4, gbc_textField_4);
-		textField_4.setColumns(7);
+		textFieldArray[4] = new JTextField();
+		GridBagConstraints gbc_CTT_field = new GridBagConstraints();
+		gbc_CTT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_CTT_field.gridx = 1;
+		gbc_CTT_field.gridy = 4;
+		add(textFieldArray[4], gbc_CTT_field);
+		textFieldArray[4].setColumns(7);
 		
 		JLabel lblCct = new JLabel("CCT");
 		GridBagConstraints gbc_lblCct = new GridBagConstraints();
@@ -377,13 +326,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCct.gridy = 4;
 		add(lblCct, gbc_lblCct);
 		
-		textField_20 = new JTextField();
-		GridBagConstraints gbc_textField_20 = new GridBagConstraints();
-		gbc_textField_20.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_20.gridx = 3;
-		gbc_textField_20.gridy = 4;
-		add(textField_20, gbc_textField_20);
-		textField_20.setColumns(7);
+		textFieldArray[20] = new JTextField();
+		GridBagConstraints gbc_CCT_field = new GridBagConstraints();
+		gbc_CCT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_CCT_field.gridx = 3;
+		gbc_CCT_field.gridy = 4;
+		add(textFieldArray[20], gbc_CCT_field);
+		textFieldArray[20].setColumns(7);
 		
 		JLabel lblCat = new JLabel("CAT");
 		GridBagConstraints gbc_lblCat = new GridBagConstraints();
@@ -393,13 +342,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCat.gridy = 4;
 		add(lblCat, gbc_lblCat);
 		
-		textField_36 = new JTextField();
-		GridBagConstraints gbc_textField_36 = new GridBagConstraints();
-		gbc_textField_36.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_36.gridx = 5;
-		gbc_textField_36.gridy = 4;
-		add(textField_36, gbc_textField_36);
-		textField_36.setColumns(7);
+		textFieldArray[36] = new JTextField();
+		GridBagConstraints gbc_CAT_field = new GridBagConstraints();
+		gbc_CAT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_CAT_field.gridx = 5;
+		gbc_CAT_field.gridy = 4;
+		add(textFieldArray[36], gbc_CAT_field);
+		textFieldArray[36].setColumns(7);
 		
 		lblCgt = new JLabel("CGT");
 		GridBagConstraints gbc_lblCgt = new GridBagConstraints();
@@ -409,13 +358,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCgt.gridy = 4;
 		add(lblCgt, gbc_lblCgt);
 		
-		textField_52 = new JTextField();
-		GridBagConstraints gbc_textField_52 = new GridBagConstraints();
-		gbc_textField_52.insets = new Insets(10, 0, 5, 0);
-		gbc_textField_52.gridx = 7;
-		gbc_textField_52.gridy = 4;
-		add(textField_52, gbc_textField_52);
-		textField_52.setColumns(7);
+		textFieldArray[52] = new JTextField();
+		GridBagConstraints gbc_CGT_field = new GridBagConstraints();
+		gbc_CGT_field.insets = new Insets(10, 0, 5, 0);
+		gbc_CGT_field.gridx = 7;
+		gbc_CGT_field.gridy = 4;
+		add(textFieldArray[52], gbc_CGT_field);
+		textFieldArray[52].setColumns(7);
 		
 		JLabel lblCtc = new JLabel("CTC");
 		GridBagConstraints gbc_lblCtc = new GridBagConstraints();
@@ -425,13 +374,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCtc.gridy = 5;
 		add(lblCtc, gbc_lblCtc);
 		
-		textField_5 = new JTextField();
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_5.gridx = 1;
-		gbc_textField_5.gridy = 5;
-		add(textField_5, gbc_textField_5);
-		textField_5.setColumns(7);
+		textFieldArray[5] = new JTextField();
+		GridBagConstraints gbc_CTC_field = new GridBagConstraints();
+		gbc_CTC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CTC_field.gridx = 1;
+		gbc_CTC_field.gridy = 5;
+		add(textFieldArray[5], gbc_CTC_field);
+		textFieldArray[5].setColumns(7);
 		
 		JLabel lblCcc = new JLabel("CCC");
 		GridBagConstraints gbc_lblCcc = new GridBagConstraints();
@@ -441,13 +390,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCcc.gridy = 5;
 		add(lblCcc, gbc_lblCcc);
 		
-		textField_21 = new JTextField();
-		GridBagConstraints gbc_textField_21 = new GridBagConstraints();
-		gbc_textField_21.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_21.gridx = 3;
-		gbc_textField_21.gridy = 5;
-		add(textField_21, gbc_textField_21);
-		textField_21.setColumns(7);
+		textFieldArray[21] = new JTextField();
+		GridBagConstraints gbc_CCC_field = new GridBagConstraints();
+		gbc_CCC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CCC_field.gridx = 3;
+		gbc_CCC_field.gridy = 5;
+		add(textFieldArray[21], gbc_CCC_field);
+		textFieldArray[21].setColumns(7);
 		
 		JLabel lblCac = new JLabel("CAC");
 		GridBagConstraints gbc_lblCac = new GridBagConstraints();
@@ -457,13 +406,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCac.gridy = 5;
 		add(lblCac, gbc_lblCac);
 		
-		textField_37 = new JTextField();
-		GridBagConstraints gbc_textField_37 = new GridBagConstraints();
-		gbc_textField_37.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_37.gridx = 5;
-		gbc_textField_37.gridy = 5;
-		add(textField_37, gbc_textField_37);
-		textField_37.setColumns(7);
+		textFieldArray[37] = new JTextField();
+		GridBagConstraints gbc_CAC_field = new GridBagConstraints();
+		gbc_CAC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CAC_field.gridx = 5;
+		gbc_CAC_field.gridy = 5;
+		add(textFieldArray[37], gbc_CAC_field);
+		textFieldArray[37].setColumns(7);
 		
 		lblCgc = new JLabel("CGC");
 		GridBagConstraints gbc_lblCgc = new GridBagConstraints();
@@ -473,13 +422,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCgc.gridy = 5;
 		add(lblCgc, gbc_lblCgc);
 		
-		textField_53 = new JTextField();
-		GridBagConstraints gbc_textField_53 = new GridBagConstraints();
-		gbc_textField_53.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_53.gridx = 7;
-		gbc_textField_53.gridy = 5;
-		add(textField_53, gbc_textField_53);
-		textField_53.setColumns(7);
+		textFieldArray[53] = new JTextField();
+		GridBagConstraints gbc_CGC_field = new GridBagConstraints();
+		gbc_CGC_field.insets = new Insets(0, 0, 5, 0);
+		gbc_CGC_field.gridx = 7;
+		gbc_CGC_field.gridy = 5;
+		add(textFieldArray[53], gbc_CGC_field);
+		textFieldArray[53].setColumns(7);
 		
 		JLabel lblCta = new JLabel("CTA");
 		GridBagConstraints gbc_lblCta = new GridBagConstraints();
@@ -489,13 +438,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCta.gridy = 6;
 		add(lblCta, gbc_lblCta);
 		
-		textField_6 = new JTextField();
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_6.gridx = 1;
-		gbc_textField_6.gridy = 6;
-		add(textField_6, gbc_textField_6);
-		textField_6.setColumns(7);
+		textFieldArray[6] = new JTextField();
+		GridBagConstraints gbc_CTA_field = new GridBagConstraints();
+		gbc_CTA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CTA_field.gridx = 1;
+		gbc_CTA_field.gridy = 6;
+		add(textFieldArray[6], gbc_CTA_field);
+		textFieldArray[6].setColumns(7);
 		
 		JLabel lblCca = new JLabel("CCA");
 		GridBagConstraints gbc_lblCca = new GridBagConstraints();
@@ -505,13 +454,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCca.gridy = 6;
 		add(lblCca, gbc_lblCca);
 		
-		textField_22 = new JTextField();
-		GridBagConstraints gbc_textField_22 = new GridBagConstraints();
-		gbc_textField_22.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_22.gridx = 3;
-		gbc_textField_22.gridy = 6;
-		add(textField_22, gbc_textField_22);
-		textField_22.setColumns(7);
+		textFieldArray[22] = new JTextField();
+		GridBagConstraints gbc_CCA_field = new GridBagConstraints();
+		gbc_CCA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CCA_field.gridx = 3;
+		gbc_CCA_field.gridy = 6;
+		add(textFieldArray[22], gbc_CCA_field);
+		textFieldArray[22].setColumns(7);
 		
 		JLabel lblCaa = new JLabel("CAA");
 		GridBagConstraints gbc_lblCaa = new GridBagConstraints();
@@ -521,13 +470,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCaa.gridy = 6;
 		add(lblCaa, gbc_lblCaa);
 		
-		textField_38 = new JTextField();
-		GridBagConstraints gbc_textField_38 = new GridBagConstraints();
-		gbc_textField_38.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_38.gridx = 5;
-		gbc_textField_38.gridy = 6;
-		add(textField_38, gbc_textField_38);
-		textField_38.setColumns(7);
+		textFieldArray[38] = new JTextField();
+		GridBagConstraints gbc_CAA_field = new GridBagConstraints();
+		gbc_CAA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_CAA_field.gridx = 5;
+		gbc_CAA_field.gridy = 6;
+		add(textFieldArray[38], gbc_CAA_field);
+		textFieldArray[38].setColumns(7);
 		
 		lblCga = new JLabel("CGA");
 		GridBagConstraints gbc_lblCga = new GridBagConstraints();
@@ -537,13 +486,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCga.gridy = 6;
 		add(lblCga, gbc_lblCga);
 		
-		textField_54 = new JTextField();
-		GridBagConstraints gbc_textField_54 = new GridBagConstraints();
-		gbc_textField_54.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_54.gridx = 7;
-		gbc_textField_54.gridy = 6;
-		add(textField_54, gbc_textField_54);
-		textField_54.setColumns(7);
+		textFieldArray[54] = new JTextField();
+		GridBagConstraints gbc_CGA_field = new GridBagConstraints();
+		gbc_CGA_field.insets = new Insets(0, 0, 5, 0);
+		gbc_CGA_field.gridx = 7;
+		gbc_CGA_field.gridy = 6;
+		add(textFieldArray[54], gbc_CGA_field);
+		textFieldArray[54].setColumns(7);
 		
 		JLabel lblCtg = new JLabel("CTG");
 		GridBagConstraints gbc_lblCtg = new GridBagConstraints();
@@ -553,13 +502,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCtg.gridy = 7;
 		add(lblCtg, gbc_lblCtg);
 		
-		textField_7 = new JTextField();
-		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
-		gbc_textField_7.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_7.gridx = 1;
-		gbc_textField_7.gridy = 7;
-		add(textField_7, gbc_textField_7);
-		textField_7.setColumns(7);
+		textFieldArray[7] = new JTextField();
+		GridBagConstraints gbc_CTG_field = new GridBagConstraints();
+		gbc_CTG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_CTG_field.gridx = 1;
+		gbc_CTG_field.gridy = 7;
+		add(textFieldArray[7], gbc_CTG_field);
+		textFieldArray[7].setColumns(7);
 		
 		JLabel lblCcg = new JLabel("CCG");
 		GridBagConstraints gbc_lblCcg = new GridBagConstraints();
@@ -569,13 +518,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCcg.gridy = 7;
 		add(lblCcg, gbc_lblCcg);
 		
-		textField_23 = new JTextField();
-		GridBagConstraints gbc_textField_23 = new GridBagConstraints();
-		gbc_textField_23.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_23.gridx = 3;
-		gbc_textField_23.gridy = 7;
-		add(textField_23, gbc_textField_23);
-		textField_23.setColumns(7);
+		textFieldArray[23] = new JTextField();
+		GridBagConstraints gbc_CCG_field = new GridBagConstraints();
+		gbc_CCG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_CCG_field.gridx = 3;
+		gbc_CCG_field.gridy = 7;
+		add(textFieldArray[23], gbc_CCG_field);
+		textFieldArray[23].setColumns(7);
 		
 		JLabel lblCag = new JLabel("CAG");
 		GridBagConstraints gbc_lblCag = new GridBagConstraints();
@@ -585,13 +534,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCag.gridy = 7;
 		add(lblCag, gbc_lblCag);
 		
-		textField_39 = new JTextField();
-		GridBagConstraints gbc_textField_39 = new GridBagConstraints();
-		gbc_textField_39.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_39.gridx = 5;
-		gbc_textField_39.gridy = 7;
-		add(textField_39, gbc_textField_39);
-		textField_39.setColumns(7);
+		textFieldArray[39] = new JTextField();
+		GridBagConstraints gbc_CAG_field = new GridBagConstraints();
+		gbc_CAG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_CAG_field.gridx = 5;
+		gbc_CAG_field.gridy = 7;
+		add(textFieldArray[39], gbc_CAG_field);
+		textFieldArray[39].setColumns(7);
 		
 		lblCgg = new JLabel("CGG");
 		GridBagConstraints gbc_lblCgg = new GridBagConstraints();
@@ -601,13 +550,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblCgg.gridy = 7;
 		add(lblCgg, gbc_lblCgg);
 		
-		textField_55 = new JTextField();
-		GridBagConstraints gbc_textField_55 = new GridBagConstraints();
-		gbc_textField_55.insets = new Insets(0, 0, 10, 0);
-		gbc_textField_55.gridx = 7;
-		gbc_textField_55.gridy = 7;
-		add(textField_55, gbc_textField_55);
-		textField_55.setColumns(7);
+		textFieldArray[55] = new JTextField();
+		GridBagConstraints gbc_CGG_field = new GridBagConstraints();
+		gbc_CGG_field.insets = new Insets(0, 0, 10, 0);
+		gbc_CGG_field.gridx = 7;
+		gbc_CGG_field.gridy = 7;
+		add(textFieldArray[55], gbc_CGG_field);
+		textFieldArray[55].setColumns(7);
 		
 		JLabel lblAtt = new JLabel("ATT");
 		GridBagConstraints gbc_lblAtt = new GridBagConstraints();
@@ -617,13 +566,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAtt.gridy = 8;
 		add(lblAtt, gbc_lblAtt);
 		
-		textField_8 = new JTextField();
-		GridBagConstraints gbc_textField_8 = new GridBagConstraints();
-		gbc_textField_8.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_8.gridx = 1;
-		gbc_textField_8.gridy = 8;
-		add(textField_8, gbc_textField_8);
-		textField_8.setColumns(7);
+		textFieldArray[8] = new JTextField();
+		GridBagConstraints gbc_ATT_field = new GridBagConstraints();
+		gbc_ATT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_ATT_field.gridx = 1;
+		gbc_ATT_field.gridy = 8;
+		add(textFieldArray[8], gbc_ATT_field);
+		textFieldArray[8].setColumns(7);
 		
 		JLabel lblAct = new JLabel("ACT");
 		GridBagConstraints gbc_lblAct = new GridBagConstraints();
@@ -633,13 +582,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAct.gridy = 8;
 		add(lblAct, gbc_lblAct);
 		
-		textField_24 = new JTextField();
-		GridBagConstraints gbc_textField_24 = new GridBagConstraints();
-		gbc_textField_24.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_24.gridx = 3;
-		gbc_textField_24.gridy = 8;
-		add(textField_24, gbc_textField_24);
-		textField_24.setColumns(7);
+		textFieldArray[24] = new JTextField();
+		GridBagConstraints gbc_ACT_field = new GridBagConstraints();
+		gbc_ACT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_ACT_field.gridx = 3;
+		gbc_ACT_field.gridy = 8;
+		add(textFieldArray[24], gbc_ACT_field);
+		textFieldArray[24].setColumns(7);
 		
 		JLabel lblAat = new JLabel("AAT");
 		GridBagConstraints gbc_lblAat = new GridBagConstraints();
@@ -649,13 +598,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAat.gridy = 8;
 		add(lblAat, gbc_lblAat);
 		
-		textField_40 = new JTextField();
-		GridBagConstraints gbc_textField_40 = new GridBagConstraints();
-		gbc_textField_40.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_40.gridx = 5;
-		gbc_textField_40.gridy = 8;
-		add(textField_40, gbc_textField_40);
-		textField_40.setColumns(7);
+		textFieldArray[40] = new JTextField();
+		GridBagConstraints gbc_AAT_field = new GridBagConstraints();
+		gbc_AAT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_AAT_field.gridx = 5;
+		gbc_AAT_field.gridy = 8;
+		add(textFieldArray[40], gbc_AAT_field);
+		textFieldArray[40].setColumns(7);
 		
 		lblAgt = new JLabel("AGT");
 		GridBagConstraints gbc_lblAgt = new GridBagConstraints();
@@ -665,13 +614,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAgt.gridy = 8;
 		add(lblAgt, gbc_lblAgt);
 		
-		textField_56 = new JTextField();
-		GridBagConstraints gbc_textField_56 = new GridBagConstraints();
-		gbc_textField_56.insets = new Insets(10, 0, 5, 0);
-		gbc_textField_56.gridx = 7;
-		gbc_textField_56.gridy = 8;
-		add(textField_56, gbc_textField_56);
-		textField_56.setColumns(7);
+		textFieldArray[56] = new JTextField();
+		GridBagConstraints gbc_AGT_field = new GridBagConstraints();
+		gbc_AGT_field.insets = new Insets(10, 0, 5, 0);
+		gbc_AGT_field.gridx = 7;
+		gbc_AGT_field.gridy = 8;
+		add(textFieldArray[56], gbc_AGT_field);
+		textFieldArray[56].setColumns(7);
 		
 		JLabel lblAtc = new JLabel("ATC");
 		GridBagConstraints gbc_lblAtc = new GridBagConstraints();
@@ -681,13 +630,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAtc.gridy = 9;
 		add(lblAtc, gbc_lblAtc);
 		
-		textField_9 = new JTextField();
-		GridBagConstraints gbc_textField_9 = new GridBagConstraints();
-		gbc_textField_9.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_9.gridx = 1;
-		gbc_textField_9.gridy = 9;
-		add(textField_9, gbc_textField_9);
-		textField_9.setColumns(7);
+		textFieldArray[9] = new JTextField();
+		GridBagConstraints gbc_ATC_field = new GridBagConstraints();
+		gbc_ATC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_ATC_field.gridx = 1;
+		gbc_ATC_field.gridy = 9;
+		add(textFieldArray[9], gbc_ATC_field);
+		textFieldArray[9].setColumns(7);
 		
 		JLabel lblAcc = new JLabel("ACC");
 		GridBagConstraints gbc_lblAcc = new GridBagConstraints();
@@ -697,13 +646,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAcc.gridy = 9;
 		add(lblAcc, gbc_lblAcc);
 		
-		textField_25 = new JTextField();
-		GridBagConstraints gbc_textField_25 = new GridBagConstraints();
-		gbc_textField_25.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_25.gridx = 3;
-		gbc_textField_25.gridy = 9;
-		add(textField_25, gbc_textField_25);
-		textField_25.setColumns(7);
+		textFieldArray[25] = new JTextField();
+		GridBagConstraints gbc_ACC_field = new GridBagConstraints();
+		gbc_ACC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_ACC_field.gridx = 3;
+		gbc_ACC_field.gridy = 9;
+		add(textFieldArray[25], gbc_ACC_field);
+		textFieldArray[25].setColumns(7);
 		
 		JLabel lblAac = new JLabel("AAC");
 		GridBagConstraints gbc_lblAac = new GridBagConstraints();
@@ -713,13 +662,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAac.gridy = 9;
 		add(lblAac, gbc_lblAac);
 		
-		textField_41 = new JTextField();
-		GridBagConstraints gbc_textField_41 = new GridBagConstraints();
-		gbc_textField_41.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_41.gridx = 5;
-		gbc_textField_41.gridy = 9;
-		add(textField_41, gbc_textField_41);
-		textField_41.setColumns(7);
+		textFieldArray[41] = new JTextField();
+		GridBagConstraints gbc_AAC_field = new GridBagConstraints();
+		gbc_AAC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_AAC_field.gridx = 5;
+		gbc_AAC_field.gridy = 9;
+		add(textFieldArray[41], gbc_AAC_field);
+		textFieldArray[41].setColumns(7);
 		
 		lblAgc = new JLabel("AGC");
 		GridBagConstraints gbc_lblAgc = new GridBagConstraints();
@@ -729,13 +678,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAgc.gridy = 9;
 		add(lblAgc, gbc_lblAgc);
 		
-		textField_57 = new JTextField();
-		GridBagConstraints gbc_textField_57 = new GridBagConstraints();
-		gbc_textField_57.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_57.gridx = 7;
-		gbc_textField_57.gridy = 9;
-		add(textField_57, gbc_textField_57);
-		textField_57.setColumns(7);
+		textFieldArray[57] = new JTextField();
+		GridBagConstraints gbc_AGC_field = new GridBagConstraints();
+		gbc_AGC_field.insets = new Insets(0, 0, 5, 0);
+		gbc_AGC_field.gridx = 7;
+		gbc_AGC_field.gridy = 9;
+		add(textFieldArray[57], gbc_AGC_field);
+		textFieldArray[57].setColumns(7);
 		
 		JLabel lblAta = new JLabel("ATA");
 		GridBagConstraints gbc_lblAta = new GridBagConstraints();
@@ -745,13 +694,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAta.gridy = 10;
 		add(lblAta, gbc_lblAta);
 		
-		textField_10 = new JTextField();
-		GridBagConstraints gbc_textField_10 = new GridBagConstraints();
-		gbc_textField_10.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_10.gridx = 1;
-		gbc_textField_10.gridy = 10;
-		add(textField_10, gbc_textField_10);
-		textField_10.setColumns(7);
+		textFieldArray[10] = new JTextField();
+		GridBagConstraints gbc_ATA_field = new GridBagConstraints();
+		gbc_ATA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_ATA_field.gridx = 1;
+		gbc_ATA_field.gridy = 10;
+		add(textFieldArray[10], gbc_ATA_field);
+		textFieldArray[10].setColumns(7);
 		
 		JLabel lblAca = new JLabel("ACA");
 		GridBagConstraints gbc_lblAca = new GridBagConstraints();
@@ -761,13 +710,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAca.gridy = 10;
 		add(lblAca, gbc_lblAca);
 		
-		textField_26 = new JTextField();
-		GridBagConstraints gbc_textField_26 = new GridBagConstraints();
-		gbc_textField_26.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_26.gridx = 3;
-		gbc_textField_26.gridy = 10;
-		add(textField_26, gbc_textField_26);
-		textField_26.setColumns(7);
+		textFieldArray[26] = new JTextField();
+		GridBagConstraints gbc_ACA_field = new GridBagConstraints();
+		gbc_ACA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_ACA_field.gridx = 3;
+		gbc_ACA_field.gridy = 10;
+		add(textFieldArray[26], gbc_ACA_field);
+		textFieldArray[26].setColumns(7);
 		
 		JLabel lblAaa = new JLabel("AAA");
 		GridBagConstraints gbc_lblAaa = new GridBagConstraints();
@@ -777,13 +726,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAaa.gridy = 10;
 		add(lblAaa, gbc_lblAaa);
 		
-		textField_42 = new JTextField();
-		GridBagConstraints gbc_textField_42 = new GridBagConstraints();
-		gbc_textField_42.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_42.gridx = 5;
-		gbc_textField_42.gridy = 10;
-		add(textField_42, gbc_textField_42);
-		textField_42.setColumns(7);
+		textFieldArray[42] = new JTextField();
+		GridBagConstraints gbc_AAA_field = new GridBagConstraints();
+		gbc_AAA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_AAA_field.gridx = 5;
+		gbc_AAA_field.gridy = 10;
+		add(textFieldArray[42], gbc_AAA_field);
+		textFieldArray[42].setColumns(7);
 		
 		lblAga = new JLabel("AGA");
 		GridBagConstraints gbc_lblAga = new GridBagConstraints();
@@ -793,13 +742,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAga.gridy = 10;
 		add(lblAga, gbc_lblAga);
 		
-		textField_58 = new JTextField();
-		GridBagConstraints gbc_textField_58 = new GridBagConstraints();
-		gbc_textField_58.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_58.gridx = 7;
-		gbc_textField_58.gridy = 10;
-		add(textField_58, gbc_textField_58);
-		textField_58.setColumns(7);
+		textFieldArray[58] = new JTextField();
+		GridBagConstraints gbc_AGA_field = new GridBagConstraints();
+		gbc_AGA_field.insets = new Insets(0, 0, 5, 0);
+		gbc_AGA_field.gridx = 7;
+		gbc_AGA_field.gridy = 10;
+		add(textFieldArray[58], gbc_AGA_field);
+		textFieldArray[58].setColumns(7);
 		
 		JLabel lblAtg = new JLabel("ATG");
 		GridBagConstraints gbc_lblAtg = new GridBagConstraints();
@@ -809,13 +758,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAtg.gridy = 11;
 		add(lblAtg, gbc_lblAtg);
 		
-		textField_11 = new JTextField();
-		GridBagConstraints gbc_textField_11 = new GridBagConstraints();
-		gbc_textField_11.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_11.gridx = 1;
-		gbc_textField_11.gridy = 11;
-		add(textField_11, gbc_textField_11);
-		textField_11.setColumns(7);
+		textFieldArray[11] = new JTextField();
+		GridBagConstraints gbc_ATG_field = new GridBagConstraints();
+		gbc_ATG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_ATG_field.gridx = 1;
+		gbc_ATG_field.gridy = 11;
+		add(textFieldArray[11], gbc_ATG_field);
+		textFieldArray[11].setColumns(7);
 		
 		JLabel lblAcg = new JLabel("ACG");
 		GridBagConstraints gbc_lblAcg = new GridBagConstraints();
@@ -825,13 +774,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAcg.gridy = 11;
 		add(lblAcg, gbc_lblAcg);
 		
-		textField_27 = new JTextField();
-		GridBagConstraints gbc_textField_27 = new GridBagConstraints();
-		gbc_textField_27.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_27.gridx = 3;
-		gbc_textField_27.gridy = 11;
-		add(textField_27, gbc_textField_27);
-		textField_27.setColumns(7);
+		textFieldArray[27] = new JTextField();
+		GridBagConstraints gbc_ACG_field = new GridBagConstraints();
+		gbc_ACG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_ACG_field.gridx = 3;
+		gbc_ACG_field.gridy = 11;
+		add(textFieldArray[27], gbc_ACG_field);
+		textFieldArray[27].setColumns(7);
 		
 		JLabel lblAag = new JLabel("AAG");
 		GridBagConstraints gbc_lblAag = new GridBagConstraints();
@@ -841,13 +790,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAag.gridy = 11;
 		add(lblAag, gbc_lblAag);
 		
-		textField_43 = new JTextField();
-		GridBagConstraints gbc_textField_43 = new GridBagConstraints();
-		gbc_textField_43.insets = new Insets(0, 0, 10, 5);
-		gbc_textField_43.gridx = 5;
-		gbc_textField_43.gridy = 11;
-		add(textField_43, gbc_textField_43);
-		textField_43.setColumns(7);
+		textFieldArray[43] = new JTextField();
+		GridBagConstraints gbc_AAG_field = new GridBagConstraints();
+		gbc_AAG_field.insets = new Insets(0, 0, 10, 5);
+		gbc_AAG_field.gridx = 5;
+		gbc_AAG_field.gridy = 11;
+		add(textFieldArray[43], gbc_AAG_field);
+		textFieldArray[43].setColumns(7);
 		
 		lblAgg = new JLabel("AGG");
 		GridBagConstraints gbc_lblAgg = new GridBagConstraints();
@@ -857,13 +806,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblAgg.gridy = 11;
 		add(lblAgg, gbc_lblAgg);
 		
-		textField_59 = new JTextField();
-		GridBagConstraints gbc_textField_59 = new GridBagConstraints();
-		gbc_textField_59.insets = new Insets(0, 0, 10, 0);
-		gbc_textField_59.gridx = 7;
-		gbc_textField_59.gridy = 11;
-		add(textField_59, gbc_textField_59);
-		textField_59.setColumns(7);
+		textFieldArray[59] = new JTextField();
+		GridBagConstraints gbc_AGG_field = new GridBagConstraints();
+		gbc_AGG_field.insets = new Insets(0, 0, 10, 0);
+		gbc_AGG_field.gridx = 7;
+		gbc_AGG_field.gridy = 11;
+		add(textFieldArray[59], gbc_AGG_field);
+		textFieldArray[59].setColumns(7);
 		
 		JLabel lblGtt = new JLabel("GTT");
 		GridBagConstraints gbc_lblGtt = new GridBagConstraints();
@@ -873,13 +822,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGtt.gridy = 12;
 		add(lblGtt, gbc_lblGtt);
 		
-		textField_12 = new JTextField();
-		GridBagConstraints gbc_textField_12 = new GridBagConstraints();
-		gbc_textField_12.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_12.gridx = 1;
-		gbc_textField_12.gridy = 12;
-		add(textField_12, gbc_textField_12);
-		textField_12.setColumns(7);
+		textFieldArray[12] = new JTextField();
+		GridBagConstraints gbc_GTT_field = new GridBagConstraints();
+		gbc_GTT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_GTT_field.gridx = 1;
+		gbc_GTT_field.gridy = 12;
+		add(textFieldArray[12], gbc_GTT_field);
+		textFieldArray[12].setColumns(7);
 		
 		JLabel lblGct = new JLabel("GCT");
 		GridBagConstraints gbc_lblGct = new GridBagConstraints();
@@ -889,13 +838,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGct.gridy = 12;
 		add(lblGct, gbc_lblGct);
 		
-		textField_28 = new JTextField();
-		GridBagConstraints gbc_textField_28 = new GridBagConstraints();
-		gbc_textField_28.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_28.gridx = 3;
-		gbc_textField_28.gridy = 12;
-		add(textField_28, gbc_textField_28);
-		textField_28.setColumns(7);
+		textFieldArray[28] = new JTextField();
+		GridBagConstraints gbc_GCT_field = new GridBagConstraints();
+		gbc_GCT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_GCT_field.gridx = 3;
+		gbc_GCT_field.gridy = 12;
+		add(textFieldArray[28], gbc_GCT_field);
+		textFieldArray[28].setColumns(7);
 		
 		JLabel lblGat = new JLabel("GAT");
 		GridBagConstraints gbc_lblGat = new GridBagConstraints();
@@ -905,13 +854,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGat.gridy = 12;
 		add(lblGat, gbc_lblGat);
 		
-		textField_44 = new JTextField();
-		GridBagConstraints gbc_textField_44 = new GridBagConstraints();
-		gbc_textField_44.insets = new Insets(10, 0, 5, 5);
-		gbc_textField_44.gridx = 5;
-		gbc_textField_44.gridy = 12;
-		add(textField_44, gbc_textField_44);
-		textField_44.setColumns(7);
+		textFieldArray[44] = new JTextField();
+		GridBagConstraints gbc_GAT_field = new GridBagConstraints();
+		gbc_GAT_field.insets = new Insets(10, 0, 5, 5);
+		gbc_GAT_field.gridx = 5;
+		gbc_GAT_field.gridy = 12;
+		add(textFieldArray[44], gbc_GAT_field);
+		textFieldArray[44].setColumns(7);
 		
 		lblGgt = new JLabel("GGT");
 		GridBagConstraints gbc_lblGgt = new GridBagConstraints();
@@ -921,13 +870,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGgt.gridy = 12;
 		add(lblGgt, gbc_lblGgt);
 		
-		textField_60 = new JTextField();
-		GridBagConstraints gbc_textField_60 = new GridBagConstraints();
-		gbc_textField_60.insets = new Insets(10, 0, 5, 0);
-		gbc_textField_60.gridx = 7;
-		gbc_textField_60.gridy = 12;
-		add(textField_60, gbc_textField_60);
-		textField_60.setColumns(7);
+		textFieldArray[60] = new JTextField();
+		GridBagConstraints gbc_GGT_field = new GridBagConstraints();
+		gbc_GGT_field.insets = new Insets(10, 0, 5, 0);
+		gbc_GGT_field.gridx = 7;
+		gbc_GGT_field.gridy = 12;
+		add(textFieldArray[60], gbc_GGT_field);
+		textFieldArray[60].setColumns(7);
 		
 		JLabel lblGtc = new JLabel("GTC");
 		GridBagConstraints gbc_lblGtc = new GridBagConstraints();
@@ -937,13 +886,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGtc.gridy = 13;
 		add(lblGtc, gbc_lblGtc);
 		
-		textField_13 = new JTextField();
-		GridBagConstraints gbc_textField_13 = new GridBagConstraints();
-		gbc_textField_13.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_13.gridx = 1;
-		gbc_textField_13.gridy = 13;
-		add(textField_13, gbc_textField_13);
-		textField_13.setColumns(7);
+		textFieldArray[13] = new JTextField();
+		GridBagConstraints gbc_GTC_field = new GridBagConstraints();
+		gbc_GTC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GTC_field.gridx = 1;
+		gbc_GTC_field.gridy = 13;
+		add(textFieldArray[13], gbc_GTC_field);
+		textFieldArray[13].setColumns(7);
 		
 		JLabel lblGcc = new JLabel("GCC");
 		GridBagConstraints gbc_lblGcc = new GridBagConstraints();
@@ -953,13 +902,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGcc.gridy = 13;
 		add(lblGcc, gbc_lblGcc);
 		
-		textField_29 = new JTextField();
-		GridBagConstraints gbc_textField_29 = new GridBagConstraints();
-		gbc_textField_29.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_29.gridx = 3;
-		gbc_textField_29.gridy = 13;
-		add(textField_29, gbc_textField_29);
-		textField_29.setColumns(7);
+		textFieldArray[29] = new JTextField();
+		GridBagConstraints gbc_GCC_field = new GridBagConstraints();
+		gbc_GCC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GCC_field.gridx = 3;
+		gbc_GCC_field.gridy = 13;
+		add(textFieldArray[29], gbc_GCC_field);
+		textFieldArray[29].setColumns(7);
 		
 		JLabel lblGac = new JLabel("GAC");
 		GridBagConstraints gbc_lblGac = new GridBagConstraints();
@@ -969,13 +918,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGac.gridy = 13;
 		add(lblGac, gbc_lblGac);
 		
-		textField_45 = new JTextField();
-		GridBagConstraints gbc_textField_45 = new GridBagConstraints();
-		gbc_textField_45.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_45.gridx = 5;
-		gbc_textField_45.gridy = 13;
-		add(textField_45, gbc_textField_45);
-		textField_45.setColumns(7);
+		textFieldArray[45] = new JTextField();
+		GridBagConstraints gbc_GAC_field = new GridBagConstraints();
+		gbc_GAC_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GAC_field.gridx = 5;
+		gbc_GAC_field.gridy = 13;
+		add(textFieldArray[45], gbc_GAC_field);
+		textFieldArray[45].setColumns(7);
 		
 		lblGgc = new JLabel("GGC");
 		GridBagConstraints gbc_lblGgc = new GridBagConstraints();
@@ -985,13 +934,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGgc.gridy = 13;
 		add(lblGgc, gbc_lblGgc);
 		
-		textField_61 = new JTextField();
-		GridBagConstraints gbc_textField_61 = new GridBagConstraints();
-		gbc_textField_61.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_61.gridx = 7;
-		gbc_textField_61.gridy = 13;
-		add(textField_61, gbc_textField_61);
-		textField_61.setColumns(7);
+		textFieldArray[61] = new JTextField();
+		GridBagConstraints gbc_GGC_field = new GridBagConstraints();
+		gbc_GGC_field.insets = new Insets(0, 0, 5, 0);
+		gbc_GGC_field.gridx = 7;
+		gbc_GGC_field.gridy = 13;
+		add(textFieldArray[61], gbc_GGC_field);
+		textFieldArray[61].setColumns(7);
 		
 		JLabel lblGta = new JLabel("GTA");
 		GridBagConstraints gbc_lblGta = new GridBagConstraints();
@@ -1001,13 +950,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGta.gridy = 14;
 		add(lblGta, gbc_lblGta);
 		
-		textField_14 = new JTextField();
-		GridBagConstraints gbc_textField_14 = new GridBagConstraints();
-		gbc_textField_14.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_14.gridx = 1;
-		gbc_textField_14.gridy = 14;
-		add(textField_14, gbc_textField_14);
-		textField_14.setColumns(7);
+		textFieldArray[14] = new JTextField();
+		GridBagConstraints gbc_GTA_field = new GridBagConstraints();
+		gbc_GTA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GTA_field.gridx = 1;
+		gbc_GTA_field.gridy = 14;
+		add(textFieldArray[14], gbc_GTA_field);
+		textFieldArray[14].setColumns(7);
 		
 		JLabel lblGca = new JLabel("GCA");
 		GridBagConstraints gbc_lblGca = new GridBagConstraints();
@@ -1017,13 +966,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGca.gridy = 14;
 		add(lblGca, gbc_lblGca);
 		
-		textField_30 = new JTextField();
-		GridBagConstraints gbc_textField_30 = new GridBagConstraints();
-		gbc_textField_30.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_30.gridx = 3;
-		gbc_textField_30.gridy = 14;
-		add(textField_30, gbc_textField_30);
-		textField_30.setColumns(7);
+		textFieldArray[30] = new JTextField();
+		GridBagConstraints gbc_GCA_field = new GridBagConstraints();
+		gbc_GCA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GCA_field.gridx = 3;
+		gbc_GCA_field.gridy = 14;
+		add(textFieldArray[30], gbc_GCA_field);
+		textFieldArray[30].setColumns(7);
 		
 		JLabel lblGaa = new JLabel("GAA");
 		GridBagConstraints gbc_lblGaa = new GridBagConstraints();
@@ -1033,13 +982,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGaa.gridy = 14;
 		add(lblGaa, gbc_lblGaa);
 		
-		textField_46 = new JTextField();
-		GridBagConstraints gbc_textField_46 = new GridBagConstraints();
-		gbc_textField_46.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_46.gridx = 5;
-		gbc_textField_46.gridy = 14;
-		add(textField_46, gbc_textField_46);
-		textField_46.setColumns(7);
+		textFieldArray[46] = new JTextField();
+		GridBagConstraints gbc_GAA_field = new GridBagConstraints();
+		gbc_GAA_field.insets = new Insets(0, 0, 5, 5);
+		gbc_GAA_field.gridx = 5;
+		gbc_GAA_field.gridy = 14;
+		add(textFieldArray[46], gbc_GAA_field);
+		textFieldArray[46].setColumns(7);
 		
 		lblGga = new JLabel("GGA");
 		GridBagConstraints gbc_lblGga = new GridBagConstraints();
@@ -1049,13 +998,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGga.gridy = 14;
 		add(lblGga, gbc_lblGga);
 		
-		textField_62 = new JTextField();
-		GridBagConstraints gbc_textField_62 = new GridBagConstraints();
-		gbc_textField_62.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_62.gridx = 7;
-		gbc_textField_62.gridy = 14;
-		add(textField_62, gbc_textField_62);
-		textField_62.setColumns(7);
+		textFieldArray[62] = new JTextField();
+		GridBagConstraints gbc_GGA_field = new GridBagConstraints();
+		gbc_GGA_field.insets = new Insets(0, 0, 5, 0);
+		gbc_GGA_field.gridx = 7;
+		gbc_GGA_field.gridy = 14;
+		add(textFieldArray[62], gbc_GGA_field);
+		textFieldArray[62].setColumns(7);
 		
 		JLabel lblGtg = new JLabel("GTG");
 		GridBagConstraints gbc_lblGtg = new GridBagConstraints();
@@ -1065,13 +1014,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGtg.gridy = 15;
 		add(lblGtg, gbc_lblGtg);
 		
-		textField_15 = new JTextField();
-		GridBagConstraints gbc_textField_15 = new GridBagConstraints();
-		gbc_textField_15.insets = new Insets(0, 0, 0, 5);
-		gbc_textField_15.gridx = 1;
-		gbc_textField_15.gridy = 15;
-		add(textField_15, gbc_textField_15);
-		textField_15.setColumns(7);
+		textFieldArray[15] = new JTextField();
+		GridBagConstraints gbc_GTG_field = new GridBagConstraints();
+		gbc_GTG_field.insets = new Insets(0, 0, 0, 5);
+		gbc_GTG_field.gridx = 1;
+		gbc_GTG_field.gridy = 15;
+		add(textFieldArray[15], gbc_GTG_field);
+		textFieldArray[15].setColumns(7);
 		
 		JLabel lblGcg = new JLabel("GCG");
 		GridBagConstraints gbc_lblGcg = new GridBagConstraints();
@@ -1081,13 +1030,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGcg.gridy = 15;
 		add(lblGcg, gbc_lblGcg);
 		
-		textField_31 = new JTextField();
-		GridBagConstraints gbc_textField_31 = new GridBagConstraints();
-		gbc_textField_31.insets = new Insets(0, 0, 0, 5);
-		gbc_textField_31.gridx = 3;
-		gbc_textField_31.gridy = 15;
-		add(textField_31, gbc_textField_31);
-		textField_31.setColumns(7);
+		textFieldArray[31] = new JTextField();
+		GridBagConstraints gbc_GCG_field = new GridBagConstraints();
+		gbc_GCG_field.insets = new Insets(0, 0, 0, 5);
+		gbc_GCG_field.gridx = 3;
+		gbc_GCG_field.gridy = 15;
+		add(textFieldArray[31], gbc_GCG_field);
+		textFieldArray[31].setColumns(7);
 		
 		JLabel lblGag = new JLabel("GAG");
 		GridBagConstraints gbc_lblGag = new GridBagConstraints();
@@ -1097,13 +1046,13 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGag.gridy = 15;
 		add(lblGag, gbc_lblGag);
 		
-		textField_47 = new JTextField();
-		GridBagConstraints gbc_textField_47 = new GridBagConstraints();
-		gbc_textField_47.insets = new Insets(0, 0, 0, 5);
-		gbc_textField_47.gridx = 5;
-		gbc_textField_47.gridy = 15;
-		add(textField_47, gbc_textField_47);
-		textField_47.setColumns(7);
+		textFieldArray[47] = new JTextField();
+		GridBagConstraints gbc_GAG_field = new GridBagConstraints();
+		gbc_GAG_field.insets = new Insets(0, 0, 0, 5);
+		gbc_GAG_field.gridx = 5;
+		gbc_GAG_field.gridy = 15;
+		add(textFieldArray[47], gbc_GAG_field);
+		textFieldArray[47].setColumns(7);
 		
 		lblGgg = new JLabel("GGG");
 		GridBagConstraints gbc_lblGgg = new GridBagConstraints();
@@ -1113,13 +1062,17 @@ public class CodonTablePanel extends JPanel{
 		gbc_lblGgg.gridy = 15;
 		add(lblGgg, gbc_lblGgg);
 		
-		textField_63 = new JTextField();
-		GridBagConstraints gbc_textField_63 = new GridBagConstraints();
-		gbc_textField_63.gridx = 7;
-		gbc_textField_63.gridy = 15;
-		add(textField_63, gbc_textField_63);
-		textField_63.setColumns(7);
+		textFieldArray[63] = new JTextField();
+		GridBagConstraints gbc_GGG_field = new GridBagConstraints();
+		gbc_GGG_field.gridx = 7;
+		gbc_GGG_field.gridy = 15;
+		add(textFieldArray[63], gbc_GGG_field);
+		textFieldArray[63].setColumns(7);
 		
+		
+	}
+	
+	public void displayCodonPanel(){
 		
 	}
 

@@ -1,6 +1,7 @@
 package igem.view;
 
 import igem.model.Data;
+import igem.model.OrgCodonTable;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,18 +12,24 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 @SuppressWarnings("serial")
 public class OrganismPanel extends JPanel{
-	
 	Data myss;
+	CodonTablePanel codonPanel;
+	JList organismList;
+	
+	int selectedIndex;
+	
 	private Vector<String> orgVector = new Vector<String>();
 	
-	private JTextField textField;
+	private JTextField orgNameTextField;
 	private JButton addButton;
 	private JButton deleteButton;
 	private JButton saveButton;
@@ -57,15 +64,15 @@ public class OrganismPanel extends JPanel{
 		gbc_lblOrganismName.gridy = 0;
 		add(lblOrganismName, gbc_lblOrganismName);
 		
-		textField = new JTextField();
+		orgNameTextField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 2;
 		gbc_textField.insets = new Insets(5, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 3;
 		gbc_textField.gridy = 0;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		add(orgNameTextField, gbc_textField);
+		orgNameTextField.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -77,7 +84,21 @@ public class OrganismPanel extends JPanel{
 		gbc_scrollPane.gridy = 1;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList organismList = new JList();
+
+		organismList = new JList(orgVector);
+		organismList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		organismList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				selectedIndex = organismList.getSelectedIndex();
+				
+				// if something is chosen display it
+				if(selectedIndex != -1){
+					displayOrganism(selectedIndex);
+				}
+				
+				
+			}
+		});
 		scrollPane.setViewportView(organismList);
 		organismList.setBorder(null);
 		
@@ -90,7 +111,7 @@ public class OrganismPanel extends JPanel{
 		add(lblCodonUsageTable, gbc_lblCodonUsageTable);
 		
 		// set the panel to the codon panel
-		CodonTablePanel codonPanel = new CodonTablePanel();
+		codonPanel = new CodonTablePanel(this.myss);
 		codonPanel.setBorder(null);
 		codonPanel.setOpaque(false);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -129,6 +150,20 @@ public class OrganismPanel extends JPanel{
 		gbc_cancelButton.gridy = 3;
 		add(cancelButton, gbc_cancelButton);
 		
+	}
+	
+	public OrgCodonTable gatherData(){
+		return null;
+	}
+	
+	public void displayOrganism(int index){
+		OrgCodonTable currentOrg  = this.myss.getOrganism(index);
+		
+		this.orgNameTextField.setText(currentOrg.getOrganismName());
+		
+		
+		
+		this.paintAll(getGraphics());
 	}
 
 }

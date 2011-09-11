@@ -51,6 +51,10 @@ public class Codon implements Serializable{
 		this.aminoAcidSymbol = aaSymbol;
 	}
 	
+	public void setCodonFrequency(double freq){
+		this.frequency = freq;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

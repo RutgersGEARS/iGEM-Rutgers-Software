@@ -24,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame{
 	public Data myss;
 	

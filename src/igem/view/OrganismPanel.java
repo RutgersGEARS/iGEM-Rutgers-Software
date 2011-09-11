@@ -1,5 +1,6 @@
 package igem.view;
 
+import igem.model.Codon;
 import igem.model.Data;
 import igem.model.OrgCodonTable;
 
@@ -17,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 @SuppressWarnings("serial")
@@ -25,7 +28,11 @@ public class OrganismPanel extends JPanel{
 	CodonTablePanel codonPanel;
 	JList organismList;
 	
+	// 0 if nothing 1 if adding 2 if editing
+	int editState;
+	
 	int selectedIndex;
+	int editSelectedIndex;
 	
 	private Vector<String> orgVector = new Vector<String>();
 	
@@ -39,6 +46,8 @@ public class OrganismPanel extends JPanel{
 		// all the logic stuff
 		this.myss = data;
 		orgVector = myss.getOrganismNames();
+		
+		editState = 0;
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{75, 70, 136, 214, 0, 40, 0};
@@ -93,7 +102,18 @@ public class OrganismPanel extends JPanel{
 				
 				// if something is chosen display it
 				if(selectedIndex != -1){
-					displayOrganism(selectedIndex);
+					
+					if(editState == 0){
+						displayOrganism(selectedIndex);
+						editSelectedIndex = selectedIndex;
+						editState = 2;
+					}
+					else{
+						// show dialog box asking if you want to save changes to current organism being edited
+						
+						editState = 2;
+					}
+					
 				}
 				
 				
@@ -123,6 +143,11 @@ public class OrganismPanel extends JPanel{
 		add(codonPanel, gbc_panel);
 		
 		addButton = new JButton("+");
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				editState = 1;
+			}
+		});
 		GridBagConstraints gbc_addButton = new GridBagConstraints();
 		gbc_addButton.insets = new Insets(0, 0, 0, 5);
 		gbc_addButton.gridx = 0;
@@ -130,6 +155,14 @@ public class OrganismPanel extends JPanel{
 		add(addButton, gbc_addButton);
 		
 		deleteButton = new JButton("-");
+		deleteButton.addActionListener(new ActionListener() {
+			// delete organism
+			public void actionPerformed(ActionEvent e) {
+				// show dialog that requires user to confirm whether or not they want to delete the organism
+				
+				// delete organism
+			}
+		});
 		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
 		gbc_deleteButton.anchor = GridBagConstraints.WEST;
 		gbc_deleteButton.insets = new Insets(0, 0, 0, 5);
@@ -138,6 +171,39 @@ public class OrganismPanel extends JPanel{
 		add(deleteButton, gbc_deleteButton);
 		
 		saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OrgCodonTable newOrg;
+				newOrg = gatherData();
+				// adding new organism
+				if(editState == 1){
+					
+					
+					if(newOrg != null){
+						if(myss.addOrganism(newOrg)){
+							ErrorMessage.giveErrorMessage("Organism added successfully");
+						}
+						else{
+							ErrorMessage.giveErrorMessage("Unable to add organism");
+						}
+						clearFields();
+						editState = 0;
+					}
+				}
+				//editing existing organism
+				if(editState == 2){
+					if(newOrg != null){
+						myss.replaceOrganism(newOrg, editSelectedIndex);
+						ErrorMessage.giveErrorMessage("Organism modified successfully");
+						clearFields();
+						editState = 0;
+					}
+					
+				}
+
+				
+			}
+		});
 		GridBagConstraints gbc_saveButton = new GridBagConstraints();
 		gbc_saveButton.insets = new Insets(0, 0, 0, 5);
 		gbc_saveButton.gridx = 4;
@@ -145,6 +211,16 @@ public class OrganismPanel extends JPanel{
 		add(saveButton, gbc_saveButton);
 		
 		cancelButton = new JButton("Cancel");
+		
+		// cancel adding organism
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// set state
+				// clear all fields
+				
+				editState = 0;
+			}
+		});
 		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
 		gbc_cancelButton.gridx = 5;
 		gbc_cancelButton.gridy = 3;
@@ -152,15 +228,68 @@ public class OrganismPanel extends JPanel{
 		
 	}
 	
+	public boolean checkFields(){
+		boolean somethingMissing = true;
+		double tempFrequency;
+		if(this.orgNameTextField.getText().compareTo("") == 0){
+			somethingMissing = false;
+		}
+		
+		for(int i = 0; i < 64; i++){
+			if(this.codonPanel.textFieldArray[i].getText().compareTo("") == 0){
+				somethingMissing = false;
+			}
+			
+			try{
+				tempFrequency = Double.parseDouble(this.codonPanel.textFieldArray[i].getText());
+			}
+			catch(NumberFormatException e){
+				somethingMissing = false;
+			}
+		}
+		
+		return somethingMissing;
+	}
+	
+	public void clearFields(){
+		this.orgNameTextField.setText("");
+		
+		for(int i = 0; i < 64; i++){
+			this.codonPanel.textFieldArray[i].setText("");
+		}
+		
+		this.paintAll(getGraphics());
+	}
+	
 	public OrgCodonTable gatherData(){
-		return null;
+		if(checkFields() == false){
+			ErrorMessage.giveErrorMessage("Please make sure all fields are filled in properly.");
+			return null;
+		}
+		else{
+			Codon tempCodon;
+			OrgCodonTable newOrg = new OrgCodonTable(this.orgNameTextField.getText());
+			
+			for(int i = 0; i < 64; i++){
+				tempCodon = this.myss.getCodonFromTable(i);
+				tempCodon.setCodonFrequency(Double.parseDouble(this.codonPanel.textFieldArray[i].getText()));
+				newOrg.addCodon(tempCodon);
+			}
+			
+			return newOrg;
+		}
 	}
 	
 	public void displayOrganism(int index){
+
+		
 		OrgCodonTable currentOrg  = this.myss.getOrganism(index);
 		
 		this.orgNameTextField.setText(currentOrg.getOrganismName());
 		
+		for(int i = 0; i < 64; i++){
+			// TODO change data structure of codon table so that codon frequency data can be easily retrieved
+		}
 		
 		
 		this.paintAll(getGraphics());

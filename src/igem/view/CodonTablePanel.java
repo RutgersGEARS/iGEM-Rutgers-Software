@@ -15,7 +15,7 @@ public class CodonTablePanel extends JPanel{
 	
 	Data myss;
 	
-	private JTextField[] textFieldArray = new JTextField[64];
+	JTextField[] textFieldArray = new JTextField[64];
 	
 	private JLabel lblTgt;
 	private JLabel lblTgc;

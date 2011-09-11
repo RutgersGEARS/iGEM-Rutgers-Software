@@ -276,6 +276,11 @@ public class Data implements Serializable {
 		return true;	
 	}
 	
+	public void replaceOrganism(OrgCodonTable modifiedOrganism, int index){
+		this.organisms.set(index, modifiedOrganism);
+		return;
+	}
+	
 	/**
 	 * @param orgName
 	 */
@@ -579,9 +584,15 @@ public class Data implements Serializable {
 	
 
 	
-	public String getCodonFromTable(int index){
+	public String getCodonSeqFromTable(int index){
 		return codons[index].sequence;
 	}
+	
+	public Codon getCodonFromTable(int index){
+		return codons[index];
+	}
+	
+	
 	
 	public String getEnzyme(int index){
 		return enzymes.get(index).toString();

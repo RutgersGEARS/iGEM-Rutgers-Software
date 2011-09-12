@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
-	public Data myss;
+	public static Data myss;
 	
 	private int seqViewVisible;
 	
@@ -196,7 +196,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public void openManageComponentsView(){
-		this.manageView = new ManageFrame(this.myss);
+		this.manageView = new ManageFrame();
 		
 		this.manageView.pack();  // least possible size for your window
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -207,6 +207,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public void closeManageComponentsView(){
+		myss.saveData(myss);
 		this.manageView.setVisible(false);
         this.manageView.dispose();
 	}
@@ -351,6 +352,21 @@ public class MainFrame extends JFrame{
 	}
 	
 	public void closeSequenceAnalysis(){
+		
+	}
+	
+	public void refreshSequenceAnalysisComboBoxes(){
+		orgVector = myss.getOrganismNames();
+
+		
+		for(int i = 0; i < myss.standards.size(); i++){
+			standardVector.add(myss.standards.get(i).getName());
+		}
+
+		
+		for(int i = 0; i < myss.backbones.size(); i++){
+			plasmidVector.add(myss.backbones.get(i).getPlasmidName());
+		}
 		
 	}
 	

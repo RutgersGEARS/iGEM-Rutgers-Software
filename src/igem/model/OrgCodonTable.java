@@ -49,6 +49,8 @@ public class OrgCodonTable implements Serializable{
 	 */
 	private String organismName;
 	
+	public double[] codonFrequency;
+	
 	/**
 	 * Creates an organism codon object from a string of codons and frequencies.
 	 * No clue what format they should be in.
@@ -58,6 +60,9 @@ public class OrgCodonTable implements Serializable{
 	 */
 	public OrgCodonTable(String name){
 		this.organismName = name;
+		
+		this.codonFrequency = new double[64];
+		
 		this.aminoAcids = new ArrayList<AminoAcid>(21);
 		
 		AminoAcid newAmino;
@@ -125,6 +130,8 @@ public class OrgCodonTable implements Serializable{
 		
 		newAmino = new AminoAcid("Stop codon", "stop", 'X');
 		this.aminoAcids.add(newAmino);
+		
+
 	}
 	
 	/**
@@ -174,6 +181,14 @@ public class OrgCodonTable implements Serializable{
 	
 	public String getOrganismName(){
 		return this.organismName;
+	}
+	
+	public void setFrequencyValue(double freq, int index){
+		this.codonFrequency[index] = freq;
+	}
+	
+	public double getFrequencyValue(int index){
+		return this.codonFrequency[index];
 	}
 
 }

@@ -11,14 +11,13 @@ import javax.swing.JTabbedPane;
 @SuppressWarnings("serial")
 public class ManageFrame extends JFrame{
 	
-	Data myss;
+
 	OrganismPanel organismPanel;
 	StandardPanel standardPanel;
 		
-	public ManageFrame(Data data){
+	public ManageFrame(){
 		super("Manage Components");
-		this.myss = data;
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -29,11 +28,11 @@ public class ManageFrame extends JFrame{
 		
 		
 		// set to panels to transparent so you don't have to worry about the background
-		organismPanel = new OrganismPanel(this.myss);
+		organismPanel = new OrganismPanel();
 		organismPanel.setBorder(null);
 		organismPanel.setOpaque(false);
 
-		standardPanel = new StandardPanel(this.myss);
+		standardPanel = new StandardPanel(MainFrame.myss);
 		standardPanel.setOpaque(false);
 		standardPanel.setBorder(null);
 		

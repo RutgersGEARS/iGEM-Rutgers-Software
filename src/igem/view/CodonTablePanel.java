@@ -1,7 +1,5 @@
 package igem.view;
 
-import igem.model.Data;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,8 +10,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class CodonTablePanel extends JPanel{
-	
-	Data myss;
+
 	
 	JTextField[] textFieldArray = new JTextField[64];
 	
@@ -35,8 +32,7 @@ public class CodonTablePanel extends JPanel{
 	private JLabel lblGgg;
 
 	
-	public CodonTablePanel(Data data){
-		this.myss = data;
+	public CodonTablePanel(){
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 100, 0, 81, 0, 45, 0, 40, 0};
@@ -1071,9 +1067,6 @@ public class CodonTablePanel extends JPanel{
 		
 		
 	}
-	
-	public void displayCodonPanel(){
-		
-	}
+
 
 }

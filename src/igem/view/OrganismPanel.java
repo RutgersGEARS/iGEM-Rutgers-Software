@@ -24,11 +24,11 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class OrganismPanel extends JPanel{
-	Data myss;
+
 	CodonTablePanel codonPanel;
 	JList organismList;
 	
-	// 0 if nothing 1 if adding 2 if editing
+	// 0 if nothing 1 if adding 2 if editing, 3 if just started up
 	int editState;
 	
 	int selectedIndex;
@@ -42,10 +42,11 @@ public class OrganismPanel extends JPanel{
 	private JButton saveButton;
 	private JButton cancelButton;
 	
-	public OrganismPanel(Data data){
+	public OrganismPanel(){
 		// all the logic stuff
-		this.myss = data;
-		orgVector = myss.getOrganismNames();
+
+		
+		orgVector = MainFrame.myss.getOrganismNames();
 		
 		editState = 0;
 		
@@ -104,15 +105,19 @@ public class OrganismPanel extends JPanel{
 				if(selectedIndex != -1){
 					
 					if(editState == 0){
+						enableAllComponents();
 						displayOrganism(selectedIndex);
 						editSelectedIndex = selectedIndex;
 						editState = 2;
 					}
-					else{
+					else if(editState == 2){
 						// show dialog box asking if you want to save changes to current organism being edited
-						
-						editState = 2;
+						ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified.");
 					}
+					else{
+						ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism.");
+					}
+				
 					
 				}
 				
@@ -131,7 +136,7 @@ public class OrganismPanel extends JPanel{
 		add(lblCodonUsageTable, gbc_lblCodonUsageTable);
 		
 		// set the panel to the codon panel
-		codonPanel = new CodonTablePanel(this.myss);
+		codonPanel = new CodonTablePanel();
 		codonPanel.setBorder(null);
 		codonPanel.setOpaque(false);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -142,12 +147,30 @@ public class OrganismPanel extends JPanel{
 		gbc_panel.gridy = 2;
 		add(codonPanel, gbc_panel);
 		
+		
 		addButton = new JButton("+");
+		/*
+		 * Add organism
+		 */
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				editState = 1;
+				// nothing else is going on
+				if(editState == 0 ){
+					enableAllComponents();
+					editState = 1;
+				}
+				// somthing is notify user
+				else if(editState == 1){
+					ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism.");
+				}
+				else{
+					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified.");
+				}
+				
 			}
 		});
+		
+		
 		GridBagConstraints gbc_addButton = new GridBagConstraints();
 		gbc_addButton.insets = new Insets(0, 0, 0, 5);
 		gbc_addButton.gridx = 0;
@@ -155,6 +178,9 @@ public class OrganismPanel extends JPanel{
 		add(addButton, gbc_addButton);
 		
 		deleteButton = new JButton("-");
+		/*
+		 * Delete organism
+		 */
 		deleteButton.addActionListener(new ActionListener() {
 			// delete organism
 			public void actionPerformed(ActionEvent e) {
@@ -170,32 +196,39 @@ public class OrganismPanel extends JPanel{
 		gbc_deleteButton.gridy = 3;
 		add(deleteButton, gbc_deleteButton);
 		
+
 		saveButton = new JButton("Save");
+		/*
+		 * Save changes
+		 */
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				OrgCodonTable newOrg;
 				newOrg = gatherData();
 				// adding new organism
 				if(editState == 1){
-					
-					
 					if(newOrg != null){
-						if(myss.addOrganism(newOrg)){
+						if(MainFrame.myss.addOrganism(newOrg)){
 							ErrorMessage.giveErrorMessage("Organism added successfully");
 						}
 						else{
 							ErrorMessage.giveErrorMessage("Unable to add organism");
 						}
+						
 						clearFields();
+						updateList();
+						disableAllComponents();
 						editState = 0;
 					}
 				}
 				//editing existing organism
 				if(editState == 2){
 					if(newOrg != null){
-						myss.replaceOrganism(newOrg, editSelectedIndex);
+						MainFrame.myss.replaceOrganism(newOrg, editSelectedIndex);
 						ErrorMessage.giveErrorMessage("Organism modified successfully");
 						clearFields();
+						updateList();
+						disableAllComponents();
 						editState = 0;
 					}
 					
@@ -212,13 +245,19 @@ public class OrganismPanel extends JPanel{
 		
 		cancelButton = new JButton("Cancel");
 		
-		// cancel adding organism
+		/*
+		 *  cancel adding organism
+		 */
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// set state
-				// clear all fields
+				if(editState == 1 || editState == 2){
+					clearFields();
+					disableAllComponents();
+					organismList.setSelectedIndex(-1);
+					editState = 0;
+				}
 				
-				editState = 0;
 			}
 		});
 		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
@@ -226,11 +265,12 @@ public class OrganismPanel extends JPanel{
 		gbc_cancelButton.gridy = 3;
 		add(cancelButton, gbc_cancelButton);
 		
+		disableAllComponents();
+		
 	}
 	
 	public boolean checkFields(){
 		boolean somethingMissing = true;
-		double tempFrequency;
 		if(this.orgNameTextField.getText().compareTo("") == 0){
 			somethingMissing = false;
 		}
@@ -241,7 +281,7 @@ public class OrganismPanel extends JPanel{
 			}
 			
 			try{
-				tempFrequency = Double.parseDouble(this.codonPanel.textFieldArray[i].getText());
+				Double.parseDouble(this.codonPanel.textFieldArray[i].getText());
 			}
 			catch(NumberFormatException e){
 				somethingMissing = false;
@@ -261,29 +301,10 @@ public class OrganismPanel extends JPanel{
 		this.paintAll(getGraphics());
 	}
 	
-	public OrgCodonTable gatherData(){
-		if(checkFields() == false){
-			ErrorMessage.giveErrorMessage("Please make sure all fields are filled in properly.");
-			return null;
-		}
-		else{
-			Codon tempCodon;
-			OrgCodonTable newOrg = new OrgCodonTable(this.orgNameTextField.getText());
-			
-			for(int i = 0; i < 64; i++){
-				tempCodon = this.myss.getCodonFromTable(i);
-				tempCodon.setCodonFrequency(Double.parseDouble(this.codonPanel.textFieldArray[i].getText()));
-				newOrg.addCodon(tempCodon);
-			}
-			
-			return newOrg;
-		}
-	}
-	
 	public void displayOrganism(int index){
 
 		
-		OrgCodonTable currentOrg  = this.myss.getOrganism(index);
+		OrgCodonTable currentOrg  = MainFrame.myss.getOrganism(index);
 		
 		this.orgNameTextField.setText(currentOrg.getOrganismName());
 		
@@ -294,5 +315,60 @@ public class OrganismPanel extends JPanel{
 		
 		this.paintAll(getGraphics());
 	}
+	
+	public void updateList(){
+		orgVector = MainFrame.myss.getOrganismNames();
+		organismList.setListData(orgVector);
+		this.paintAll(getGraphics());
+	}
+	
+	public OrgCodonTable gatherData(){
+		if(checkFields() == false){
+			ErrorMessage.giveErrorMessage("Please make sure all fields are filled in properly.");
+			return null;
+		}
+		else{
+			Codon tempCodon;
+			OrgCodonTable newOrg = new OrgCodonTable(this.orgNameTextField.getText());
+			
+			for(int i = 0; i < 64; i++){
+				tempCodon = MainFrame.myss.getCodonFromTable(i);
+				tempCodon.setCodonFrequency(Double.parseDouble(this.codonPanel.textFieldArray[i].getText()));
+				newOrg.addCodon(tempCodon);
+			}
+			
+			return newOrg;
+		}
+	}
+	
+	public void enableAllComponents(){
+		this.orgNameTextField.setEnabled(true);
+		
+		for(int i = 0; i < 64; i++){
+			this.codonPanel.textFieldArray[i].setEnabled(true);
+		}
+		
+		this.saveButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
+		
+		this.paintAll(getGraphics());
+	}
+	
+	public void disableAllComponents(){
+		this.orgNameTextField.setEnabled(false);
+		
+		for(int i = 0; i < 64; i++){
+			this.codonPanel.textFieldArray[i].setEnabled(false);
+		}
+		
+		this.saveButton.setEnabled(false);
+		this.cancelButton.setEnabled(false);
+		
+		this.paintAll(getGraphics());
+		
+	}
+
+	
+
 
 }

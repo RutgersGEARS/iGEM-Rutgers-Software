@@ -278,6 +278,7 @@ public class Data implements Serializable {
 	
 	public void replaceOrganism(OrgCodonTable modifiedOrganism, int index){
 		this.organisms.set(index, modifiedOrganism);
+		saveData(this);
 		return;
 	}
 	

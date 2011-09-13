@@ -106,12 +106,19 @@ public class OrganismPanel extends JPanel{
 				
 				// if something is chosen display it
 				if(selectedIndex != -1){
-						enableAllComponents();
-						displayOrganism(selectedIndex);
-						editSelectedIndex = selectedIndex;
-						editState = 2;
-						System.out.println("Edit State : " + editState);
-
+							if(editState != 1){
+								enableAllComponents();
+								displayOrganism(selectedIndex);
+								
+								// save index so that when saving it the right organism can be changed
+								editSelectedIndex = selectedIndex;
+								editState = 2;
+								System.out.println("Edit State : " + editState);
+							}
+							else{
+								ErrorMessage.giveErrorMessage("Please either save or cancel adding an organism.");
+							}
+							
 				}
 				
 				
@@ -179,9 +186,25 @@ public class OrganismPanel extends JPanel{
 		deleteButton.addActionListener(new ActionListener() {
 			// delete organism
 			public void actionPerformed(ActionEvent e) {
+				// TODO allow this to be an actual choice
 				// show dialog that requires user to confirm whether or not they want to delete the organism
+				ErrorMessage.giveErrorMessage("Are you sure you want to delete this organism?");
+				
 				
 				// delete organism
+				int selectedIndex = organismList.getSelectedIndex();
+				
+				if(selectedIndex != -1){
+					MainFrame.myss.removeOrganism(selectedIndex);
+					
+					clearFields();
+					updateList();
+					disableAllComponents();
+					editState = 0;
+					ErrorMessage.giveErrorMessage("Organism deleted successfully");
+					
+				}
+				
 			}
 		});
 		GridBagConstraints gbc_deleteButton = new GridBagConstraints();

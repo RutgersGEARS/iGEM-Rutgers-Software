@@ -285,16 +285,12 @@ public class Data implements Serializable {
 	/**
 	 * @param orgName
 	 */
-	public boolean removeOrganism(String orgName){
+	public void removeOrganism(int index){
 		// search see if organism exists
-		for(int i = 0; i < this.organisms.size(); i++){
-			if(this.organisms.get(i).getOrganismName().compareTo(orgName) == 0){
-				this.organisms.remove(i);
-				return true;
-			}
-		}
+		this.organisms.remove(index);
+		saveData(this);
 		
-		return false;
+		return;
 	}
 	
 	/**

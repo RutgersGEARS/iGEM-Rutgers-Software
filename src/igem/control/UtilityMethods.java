@@ -2,6 +2,9 @@ package igem.control;
 
 import igem.model.Data;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UtilityMethods {
 	/**
 	 * Given a three character codon it determines the amino acid that corresponds.
@@ -127,5 +130,18 @@ public class UtilityMethods {
 		}
 		
 		return aminoAcidIndex;
+	}
+	
+	public static boolean checkNucleotideSequence(String sequence){
+		Pattern p = Pattern.compile("[^gtacGATC]");
+		Matcher m = p.matcher(sequence);
+		if(m.find())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 }

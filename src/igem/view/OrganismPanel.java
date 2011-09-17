@@ -106,7 +106,7 @@ public class OrganismPanel extends JPanel{
 						
 						// if something is chosen display it
 						if(selectedIndex != -1){
-									if(editState == 0){
+									if(editState == 0 || editState == 2){
 										enableAllComponents();
 										displayOrganism(selectedIndex);
 										
@@ -294,25 +294,25 @@ public class OrganismPanel extends JPanel{
 	}
 	
 	public boolean checkFields(){
-		boolean somethingMissing = true;
+		boolean allGood = true;
 		if(this.orgNameTextField.getText().compareTo("") == 0){
-			somethingMissing = false;
+			allGood = false;
 		}
 		
 		for(int i = 0; i < 64; i++){
 			if(this.codonPanel.textFieldArray[i].getText().compareTo("") == 0){
-				somethingMissing = false;
+				allGood = false;
 			}
 			
 			try{
 				Double.parseDouble(this.codonPanel.textFieldArray[i].getText());
 			}
 			catch(NumberFormatException e){
-				somethingMissing = false;
+				allGood = false;
 			}
 		}
 		
-		return somethingMissing;
+		return allGood;
 	}
 	
 	public void clearFields(){

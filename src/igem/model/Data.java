@@ -591,10 +591,10 @@ public class Data implements Serializable {
 		return codons[index];
 	}
 	
+
 	
-	
-	public String getEnzyme(int index){
-		return enzymes.get(index).toString();
+	public RestrictionEnzyme getEnzyme(int index){
+		return enzymes.get(index);
 	}
 	
 	public int getNumberOfEnzymes(){

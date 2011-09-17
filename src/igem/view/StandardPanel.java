@@ -1,5 +1,7 @@
 package igem.view;
 
+import igem.control.UtilityMethods;
+import igem.model.RestrictionEnzyme;
 import igem.model.Standard;
 
 import java.awt.GridBagConstraints;
@@ -36,6 +38,7 @@ public class StandardPanel extends JPanel{
 	private JButton deleteButton;
 	private JButton saveButton;
 	private JButton addButton;
+	private JButton cancelButton;
 	
 	public StandardPanel(){
 		
@@ -99,7 +102,7 @@ public class StandardPanel extends JPanel{
 					
 					// if something is chosen display it
 					if(selectedIndex != -1){
-								if(editState == 0){
+								if(editState == 0 || editState == 2){
 									enableAllComponents();
 									displayStandard(selectedIndex);
 									
@@ -284,7 +287,7 @@ public class StandardPanel extends JPanel{
 		gbc_saveButton.gridy = 5;
 		add(saveButton, gbc_saveButton);
 		
-		JButton cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// set state
@@ -316,27 +319,123 @@ public class StandardPanel extends JPanel{
 	}
 	
 	public Standard gatherData(){
-		return null;
+		if(checkFields() == false){
+			return null;
+		}
+		else{
+			String prefix = this.prefixTextField.getText();
+			String suffix = this.suffixTextField.getText();
+			String name = this.nameTextField.getText();
+			
+			Standard newStandard = new Standard(prefix, suffix, name);
+			RestrictionEnzyme enzyme;
+			
+			for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
+				if(this.enzymePanel.enzymeCheckBoxes[i].isSelected() == true){
+					enzyme = MainFrame.myss.getEnzyme(i);
+					newStandard.addRestrictionSite(enzyme, false);
+				}
+			}
+			
+			return newStandard;
+		}
 	}
 	
 	public boolean checkFields(){
-		return false;
+		boolean allGood = true;
+		boolean noEnzymes = true;
+		
+		String name = this.nameTextField.getText();
+		String prefix = this.prefixTextField.getText();
+		String suffix = this.suffixTextField.getText();
+		
+		// check name
+		if(name.compareTo("") == 0){
+			ErrorMessage.giveErrorMessage("Please enter a name for the standard.");
+			allGood = false;
+		}
+		
+		// check prefix
+		if(prefix.compareTo("") == 0){
+				ErrorMessage.giveErrorMessage("Please enter a prefix for the standard.");
+				allGood = false;
+		}
+		else{
+			if(UtilityMethods.checkNucleotideSequence(prefix) == false){
+				ErrorMessage.giveErrorMessage("Prefix does not have an appropriate nucleotide sequence.");
+				allGood = false;
+			}
+		}
+		
+		// check suffix
+		if(suffix.compareTo("") == 0){
+			ErrorMessage.giveErrorMessage("Please enter a suffix for the standard.");
+			allGood = false;
+		}
+		else{
+			if(UtilityMethods.checkNucleotideSequence(suffix) == false){
+				ErrorMessage.giveErrorMessage("Suffix does not have an appropriate nucleotide sequence.");
+				allGood = false;
+			}
+		}
+
+		// check if there are any enzymes selected
+		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
+			if(this.enzymePanel.enzymeCheckBoxes[i].isSelected() == true){
+				noEnzymes = false;
+			}
+		}
+		
+		// no enzymes selected
+		// TODO add a dialog box that gives you options
+		if(noEnzymes == true){
+			ErrorMessage.giveErrorMessage("No restriction sites were selected.");
+		}
+		
+		return allGood;
 	}
 	
 	public void updateList(){
-		
+		standardVector = MainFrame.myss.getStandardNames();
+		standardList.setListData(standardVector);
 	}
 	
 	public void clearFields(){
+		this.nameTextField.setText("");
+		this.prefixTextField.setText("");
+		this.suffixTextField.setText("");
+		
+		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
+			this.enzymePanel.enzymeCheckBoxes[i].setSelected(false);
+		}
 		
 	}
 	
 	public void enableAllComponents(){
+		this.nameTextField.setEnabled(true);
+		this.prefixTextField.setEditable(true);
+		this.suffixTextField.setEditable(true);
+		
+		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
+			this.enzymePanel.enzymeCheckBoxes[i].setEnabled(true);
+		}
+		
+		this.saveButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
 		
 	}
 	
 	public void disableAllComponents(){
+		this.nameTextField.setEnabled(false);
+		this.prefixTextField.setEditable(false);
+		this.suffixTextField.setEditable(false);
 		
+		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
+			this.enzymePanel.enzymeCheckBoxes[i].setEnabled(false);
+		}
+		
+		this.saveButton.setEnabled(false);
+		this.cancelButton.setEnabled(false);
 	}
 	
 

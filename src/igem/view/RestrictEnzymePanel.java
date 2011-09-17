@@ -15,7 +15,7 @@ public class RestrictEnzymePanel extends JPanel{
 	public RestrictEnzymePanel(){
 		
 		for(int i = 0; i < enzymeCheckBoxes.length; i++){
-			enzymeCheckBoxes[i] = new JCheckBox(MainFrame.myss.getEnzyme(i));
+			enzymeCheckBoxes[i] = new JCheckBox(MainFrame.myss.getEnzyme(i).getName());
 		}
 		setBorder(null);
 		GridBagLayout gridBagLayout = new GridBagLayout();

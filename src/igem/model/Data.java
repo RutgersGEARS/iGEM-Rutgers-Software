@@ -286,7 +286,6 @@ public class Data implements Serializable {
 	 * @param orgName
 	 */
 	public void removeOrganism(int index){
-		// search see if organism exists
 		this.organisms.remove(index);
 		saveData(this);
 		
@@ -306,22 +305,25 @@ public class Data implements Serializable {
 		
 		// standard was not added yet
 		this.standards.add(standard);
+		saveData(this);
 		return  true;
+	}
+	
+	public void replaceStandard(int index, Standard modifiedStandard){
+		this.standards.set(index, modifiedStandard);
+		saveData(this);
+		
+		return;
 	}
 	
 	/**
 	 * @param standardName
 	 */
-	public boolean removeStandard(String standardName){
-		// search see if standard already exists
-		for(int i = 0; i < this.standards.size(); i++){
-			if(this.standards.get(i).getName().compareTo(standardName) == 0){
-				this.standards.remove(i);
-				return true;
-			}
-		}
+	public void removeStandard(int index){
+		this.standards.remove(index);
+		saveData(this);
 		
-		return false;
+		return;
 	}
 	
 	public Vector<String> getOrganismNames(){

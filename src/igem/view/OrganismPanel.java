@@ -1,12 +1,13 @@
 package igem.view;
 
 import igem.model.Codon;
-import igem.model.Data;
 import igem.model.OrgCodonTable;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -18,8 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 
 @SuppressWarnings("serial")
@@ -100,26 +99,30 @@ public class OrganismPanel extends JPanel{
 		organismList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		organismList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				
-				selectedIndex = organismList.getSelectedIndex();
-				System.out.println("Activated list listener : " + selectedIndex);
-				
-				// if something is chosen display it
-				if(selectedIndex != -1){
-							if(editState != 1){
-								enableAllComponents();
-								displayOrganism(selectedIndex);
-								
-								// save index so that when saving it the right organism can be changed
-								editSelectedIndex = selectedIndex;
-								editState = 2;
-								System.out.println("Edit State : " + editState);
-							}
-							else{
-								ErrorMessage.giveErrorMessage("Please either save or cancel adding an organism.");
-							}
-							
-				}
+			      if (!e.getValueIsAdjusting()) {
+						
+						selectedIndex = organismList.getSelectedIndex();
+						System.out.println("Activated list listener : " + selectedIndex);
+						
+						// if something is chosen display it
+						if(selectedIndex != -1){
+									if(editState == 0){
+										enableAllComponents();
+										displayOrganism(selectedIndex);
+										
+										// save index so that when saving it the right organism can be changed
+										editSelectedIndex = selectedIndex;
+										editState = 2;
+										System.out.println("Edit State : " + editState);
+									}
+									else if(editState == 1){
+										ErrorMessage.giveErrorMessage("Please either save or cancel adding an organism.");
+									}
+									
+						}
+			      }
+
+
 				
 				
 			}
@@ -153,7 +156,7 @@ public class OrganismPanel extends JPanel{
 		 * Add organism
 		 */
 		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 
 				// somthing is notify user
 				if(editState == 2){

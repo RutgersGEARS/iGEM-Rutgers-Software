@@ -32,7 +32,7 @@ public class ManageFrame extends JFrame{
 		organismPanel.setBorder(null);
 		organismPanel.setOpaque(false);
 
-		standardPanel = new StandardPanel(MainFrame.myss);
+		standardPanel = new StandardPanel();
 		standardPanel.setOpaque(false);
 		standardPanel.setBorder(null);
 		

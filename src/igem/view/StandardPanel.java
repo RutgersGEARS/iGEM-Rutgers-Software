@@ -1,27 +1,50 @@
 package igem.view;
 
-import igem.model.Data;
+import igem.model.Standard;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class StandardPanel extends JPanel{
-	Data myss;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	
-	public StandardPanel(Data data){
-		this.myss = data;
+	RestrictEnzymePanel enzymePanel;
+	JList standardList;
+	
+	Vector<String> standardVector = new Vector<String>();
+	
+	int selectedIndex;
+	int editIndex;
+	int editState;
+	
+	private JTextField nameTextField;
+	private JTextField prefixTextField;
+	private JTextField suffixTextField;
+	private JButton deleteButton;
+	private JButton saveButton;
+	private JButton addButton;
+	
+	public StandardPanel(){
+		
+		editIndex = 0;
+		
+		for(int i = 0; i < MainFrame.myss.standards.size(); i++){
+			standardVector.add(MainFrame.myss.standards.get(i).getName());
+		}
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 115, 0, 96, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 357, 60, 0};
@@ -46,15 +69,15 @@ public class StandardPanel extends JPanel{
 		gbc_lblStandardName.gridy = 0;
 		add(lblStandardName, gbc_lblStandardName);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 0;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		nameTextField = new JTextField();
+		GridBagConstraints gbc_nameTextField = new GridBagConstraints();
+		gbc_nameTextField.gridwidth = 3;
+		gbc_nameTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameTextField.gridx = 3;
+		gbc_nameTextField.gridy = 0;
+		add(nameTextField, gbc_nameTextField);
+		nameTextField.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -66,7 +89,33 @@ public class StandardPanel extends JPanel{
 		gbc_scrollPane.gridy = 1;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList standardList = new JList();
+		standardList = new JList(standardVector);
+		standardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		standardList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					selectedIndex = standardList.getSelectedIndex();
+					//System.out.println("Activated list listener : " + selectedIndex);
+					
+					// if something is chosen display it
+					if(selectedIndex != -1){
+								if(editState == 0){
+									enableAllComponents();
+									displayStandard(selectedIndex);
+									
+									// save index so that when saving it the right organism can be changed
+									editIndex = selectedIndex;
+									editState = 2;
+									//System.out.println("Edit State : " + editState);
+								}
+								else if(editState == 1){
+									ErrorMessage.giveErrorMessage("Please either save or cancel adding a new standard.");
+								}
+								
+					}
+				}
+			}
+		});
 		scrollPane.setViewportView(standardList);
 		standardList.setBorder(null);
 		
@@ -78,15 +127,15 @@ public class StandardPanel extends JPanel{
 		gbc_lblPrefix.gridy = 1;
 		add(lblPrefix, gbc_lblPrefix);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 3;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 3;
-		gbc_textField_1.gridy = 1;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		prefixTextField = new JTextField();
+		GridBagConstraints gbc_prefixTextField = new GridBagConstraints();
+		gbc_prefixTextField.gridwidth = 3;
+		gbc_prefixTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_prefixTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_prefixTextField.gridx = 3;
+		gbc_prefixTextField.gridy = 1;
+		add(prefixTextField, gbc_prefixTextField);
+		prefixTextField.setColumns(10);
 		
 		JLabel lblSuffix = new JLabel("Suffix");
 		GridBagConstraints gbc_lblSuffix = new GridBagConstraints();
@@ -96,15 +145,15 @@ public class StandardPanel extends JPanel{
 		gbc_lblSuffix.gridy = 2;
 		add(lblSuffix, gbc_lblSuffix);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 3;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 3;
-		gbc_textField_2.gridy = 2;
-		add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		suffixTextField = new JTextField();
+		GridBagConstraints gbc_suffixTextField = new GridBagConstraints();
+		gbc_suffixTextField.gridwidth = 3;
+		gbc_suffixTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_suffixTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_suffixTextField.gridx = 3;
+		gbc_suffixTextField.gridy = 2;
+		add(suffixTextField, gbc_suffixTextField);
+		suffixTextField.setColumns(10);
 		
 		JLabel lblRestrictionSites = new JLabel("Restriction Sites");
 		GridBagConstraints gbc_lblRestrictionSites = new GridBagConstraints();
@@ -114,7 +163,7 @@ public class StandardPanel extends JPanel{
 		gbc_lblRestrictionSites.gridy = 3;
 		add(lblRestrictionSites, gbc_lblRestrictionSites);
 		
-		RestrictEnzymePanel enzymePanel = new RestrictEnzymePanel();
+		enzymePanel = new RestrictEnzymePanel();
 		enzymePanel.setBorder(null);
 		enzymePanel.setOpaque(false);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -125,34 +174,170 @@ public class StandardPanel extends JPanel{
 		gbc_panel.gridy = 4;
 		add(enzymePanel, gbc_panel);
 		
-		JButton button = new JButton("+");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.insets = new Insets(0, 0, 0, 5);
-		gbc_button.gridx = 0;
-		gbc_button.gridy = 5;
-		add(button, gbc_button);
+		/*
+		 * Add standard
+		 * 
+		 */
+		addButton = new JButton("+");
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// somthing is notify user
+				if(editState == 2){
+					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the standard being modified");
+				}
+				else if(editState == 1){
+					ErrorMessage.giveErrorMessage("Please either save or cancel adding new standard.");
+				}
+				// nothing else is going on
+				else{
+					enableAllComponents();
+					editState = 1;
+					System.out.println("Edit State : " + editState);
+				}
+			}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 0, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 5;
+		add(addButton, gbc_addButton);
 		
-		JButton button_1 = new JButton("-");
-		GridBagConstraints gbc_button_1 = new GridBagConstraints();
-		gbc_button_1.anchor = GridBagConstraints.WEST;
-		gbc_button_1.insets = new Insets(0, 0, 0, 5);
-		gbc_button_1.gridx = 1;
-		gbc_button_1.gridy = 5;
-		add(button_1, gbc_button_1);
+		/*
+		 * Delete a standard
+		 * 
+		 */
+		deleteButton = new JButton("-");
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO allow this to be an actual choice
+				// show dialog that requires user to confirm whether or not they want to delete the organism
+				ErrorMessage.giveErrorMessage("Are you sure you want to delete this standard?");
+				
+				
+				// delete organism
+				int selectedIndex = standardList.getSelectedIndex();
+				
+				if(selectedIndex != -1){
+					MainFrame.myss.removeStandard(selectedIndex);
+					clearFields();
+					updateList();
+					disableAllComponents();
+					editState = 0;
+					ErrorMessage.giveErrorMessage("Standard deleted successfully");
+					
+				}
+			}
+		});
+		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+		gbc_deleteButton.anchor = GridBagConstraints.WEST;
+		gbc_deleteButton.insets = new Insets(0, 0, 0, 5);
+		gbc_deleteButton.gridx = 1;
+		gbc_deleteButton.gridy = 5;
+		add(deleteButton, gbc_deleteButton);
 		
-		JButton btnSave = new JButton("Save");
-		GridBagConstraints gbc_btnSave = new GridBagConstraints();
-		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSave.gridx = 4;
-		gbc_btnSave.gridy = 5;
-		add(btnSave, gbc_btnSave);
+		saveButton = new JButton("Save");
+		/*
+		 * Save changes
+		 * 
+		 */
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Standard newStandard;
+				newStandard = gatherData();
+				// adding new organism
+				if(editState == 1){
+					if(newStandard != null){
+						if(MainFrame.myss.addStandard(newStandard)){
+							ErrorMessage.giveErrorMessage("Standard added successfully.");
+						}
+						else{
+							ErrorMessage.giveErrorMessage("Unable to add standard.");
+						}
+						
+						clearFields();
+						updateList();
+						disableAllComponents();
+						editState = 0;
+						// TODO delete test statement
+						System.out.println("Edit State : " + editState);
+					}
+				}
+				//editing existing organism
+				if(editState == 2){
+					if(newStandard != null){
+						MainFrame.myss.replaceStandard(editIndex, newStandard);
+						ErrorMessage.giveErrorMessage("Standard modified successfully");
+						clearFields();
+						updateList();
+						disableAllComponents();
+						editState = 0;
+						// TODO remove test statement
+						System.out.println("Edit State : " + editState);
+					}
+					
+				}
+			}
+		});
+		GridBagConstraints gbc_saveButton = new GridBagConstraints();
+		gbc_saveButton.insets = new Insets(0, 0, 0, 5);
+		gbc_saveButton.gridx = 4;
+		gbc_saveButton.gridy = 5;
+		add(saveButton, gbc_saveButton);
 		
-		JButton btnCancel = new JButton("Cancel");
-		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-		gbc_btnCancel.gridx = 5;
-		gbc_btnCancel.gridy = 5;
-		add(btnCancel, gbc_btnCancel);
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// set state
+				if(editState == 1 || editState == 2){
+					clearFields();
+					disableAllComponents();
+					standardList.setSelectedIndex(-1);
+					editState = 0;
+					// TODO remove test statement
+					System.out.println("Edit State : " + editState);
+				}
+			}
+		});
+		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
+		gbc_cancelButton.gridx = 5;
+		gbc_cancelButton.gridy = 5;
+		add(cancelButton, gbc_cancelButton);
 		
 	}
+	
+	public void displayStandard(int index){
+		Standard tempStandard = MainFrame.myss.getStandard(index);
+		
+		this.nameTextField.setText(tempStandard.getName());
+		this.prefixTextField.setText(tempStandard.getPrefix());
+		this.suffixTextField.setText(tempStandard.getSuffix());
+		
+		
+	}
+	
+	public Standard gatherData(){
+		return null;
+	}
+	
+	public boolean checkFields(){
+		return false;
+	}
+	
+	public void updateList(){
+		
+	}
+	
+	public void clearFields(){
+		
+	}
+	
+	public void enableAllComponents(){
+		
+	}
+	
+	public void disableAllComponents(){
+		
+	}
+	
 
 }

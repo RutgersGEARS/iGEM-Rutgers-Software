@@ -468,26 +468,31 @@ public class Data implements Serializable {
 		enzymes.add(BamHI);
 		enzymes.add(BglII);
 		enzymes.add(BsaI);
+		
 		enzymes.add(DraIII);
 		enzymes.add(EagI);
 		enzymes.add(EcoRI);
 		enzymes.add(EcoRV);
 		enzymes.add(HindIII);
+		
 		enzymes.add(KpnI);
 		enzymes.add(MfeI);
 		enzymes.add(NcoI);
 		enzymes.add(NgoMIV);
 		enzymes.add(NheI);
+		
 		enzymes.add(NotI);
 		enzymes.add(PstI);
 		enzymes.add(PvuI);
 		enzymes.add(PvuII);
 		enzymes.add(SacI);
+		
 		enzymes.add(SalI);
 		enzymes.add(SapI);
 		enzymes.add(SbfI);
 		enzymes.add(ScaI);
 		enzymes.add(SpeI);
+		
 		enzymes.add(SphI);
 		enzymes.add(SspI);
 		enzymes.add(StyI);
@@ -591,14 +596,21 @@ public class Data implements Serializable {
 		return codons[index];
 	}
 	
-
-	
 	public RestrictionEnzyme getEnzyme(int index){
 		return enzymes.get(index);
 	}
 	
 	public int getNumberOfEnzymes(){
 		return enzymes.size();
+	}
+	
+	public int getEnzymeIndex(String name){
+		for(int i = 0; i < this.enzymes.size(); i++){
+			if(name.compareToIgnoreCase(this.enzymes.get(i).getName()) == 0){
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	public OrgCodonTable getOrganism(int index){

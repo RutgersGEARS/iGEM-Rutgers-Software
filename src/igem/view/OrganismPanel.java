@@ -160,10 +160,10 @@ public class OrganismPanel extends JPanel{
 
 				// somthing is notify user
 				if(editState == 2){
-					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified : " + "add listener");
+					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified.");
 				}
 				else if(editState == 1){
-					ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism : " + "add listener");
+					ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism.");
 				}
 				// nothing else is going on
 				else{
@@ -189,23 +189,30 @@ public class OrganismPanel extends JPanel{
 		deleteButton.addActionListener(new ActionListener() {
 			// delete organism
 			public void actionPerformed(ActionEvent e) {
-				// TODO allow this to be an actual choice
-				// show dialog that requires user to confirm whether or not they want to delete the organism
-				ErrorMessage.giveErrorMessage("Are you sure you want to delete this organism?");
-				
-				
-				// delete organism
-				int selectedIndex = organismList.getSelectedIndex();
-				
-				if(selectedIndex != -1){
-					MainFrame.myss.removeOrganism(selectedIndex);
+				if(editState == 0){
+					// TODO allow this to be an actual choice
+					// show dialog that requires user to confirm whether or not they want to delete the organism
+					ErrorMessage.giveErrorMessage("Are you sure you want to delete this organism?");
 					
-					clearFields();
-					updateList();
-					disableAllComponents();
-					editState = 0;
-					ErrorMessage.giveErrorMessage("Organism deleted successfully");
 					
+					// delete organism
+					int selectedIndex = organismList.getSelectedIndex();
+					
+					if(selectedIndex != -1){
+						MainFrame.myss.removeOrganism(selectedIndex);
+						
+						clearFields();
+						updateList();
+						disableAllComponents();
+						editState = 0;
+						ErrorMessage.giveErrorMessage("Organism deleted successfully");
+					}
+				}
+				else if(editState == 1){
+					ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism.");
+				}
+				else{
+					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified.");
 				}
 				
 			}

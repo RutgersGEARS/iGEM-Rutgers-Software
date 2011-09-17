@@ -309,6 +309,12 @@ public class MainFrame extends JFrame{
 			goButton = new JButton("Go!");
 			goButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					// check all the fields
+					
+					// gather data
+					
+					// call method to process it
+					
 				}
 			});
 			GridBagConstraints gbc_btnGo = new GridBagConstraints();

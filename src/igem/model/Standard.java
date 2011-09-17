@@ -71,8 +71,8 @@ public class Standard implements Serializable {
 		return this.requiredRestrictionSites.size();
 	}
 	
-	public void setName(String name){
-		this.standardName = name;
+	public RestrictionEnzyme getEnzyme(int index){
+		return this.requiredRestrictionSites.get(index);
 	}
 	
 	public String getName(){
@@ -87,7 +87,9 @@ public class Standard implements Serializable {
 		return this.suffix;
 	}
 	
-	
+	public void setName(String name){
+		this.standardName = name;
+	}
 	
 	
 

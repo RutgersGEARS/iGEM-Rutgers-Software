@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+@SuppressWarnings("serial")
 public class StandardPanel extends JPanel{
 	
 	RestrictEnzymePanel enzymePanel;
@@ -39,6 +40,7 @@ public class StandardPanel extends JPanel{
 	private JButton saveButton;
 	private JButton addButton;
 	private JButton cancelButton;
+	private JLabel restrictionSitesLabel;
 	
 	public StandardPanel(){
 		
@@ -104,6 +106,7 @@ public class StandardPanel extends JPanel{
 					if(selectedIndex != -1){
 								if(editState == 0 || editState == 2){
 									enableAllComponents();
+									clearFields();
 									displayStandard(selectedIndex);
 									
 									// save index so that when saving it the right organism can be changed
@@ -158,13 +161,13 @@ public class StandardPanel extends JPanel{
 		add(suffixTextField, gbc_suffixTextField);
 		suffixTextField.setColumns(10);
 		
-		JLabel lblRestrictionSites = new JLabel("Restriction Sites");
-		GridBagConstraints gbc_lblRestrictionSites = new GridBagConstraints();
-		gbc_lblRestrictionSites.gridwidth = 4;
-		gbc_lblRestrictionSites.insets = new Insets(10, 0, 5, 0);
-		gbc_lblRestrictionSites.gridx = 2;
-		gbc_lblRestrictionSites.gridy = 3;
-		add(lblRestrictionSites, gbc_lblRestrictionSites);
+		restrictionSitesLabel = new JLabel("Restriction Sites");
+		GridBagConstraints gbc_restrictionSitesLabel = new GridBagConstraints();
+		gbc_restrictionSitesLabel.gridwidth = 4;
+		gbc_restrictionSitesLabel.insets = new Insets(10, 0, 5, 0);
+		gbc_restrictionSitesLabel.gridx = 2;
+		gbc_restrictionSitesLabel.gridy = 3;
+		add(restrictionSitesLabel, gbc_restrictionSitesLabel);
 		
 		enzymePanel = new RestrictEnzymePanel();
 		enzymePanel.setBorder(null);
@@ -212,23 +215,32 @@ public class StandardPanel extends JPanel{
 		deleteButton = new JButton("-");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO allow this to be an actual choice
-				// show dialog that requires user to confirm whether or not they want to delete the organism
-				ErrorMessage.giveErrorMessage("Are you sure you want to delete this standard?");
-				
-				
-				// delete organism
-				int selectedIndex = standardList.getSelectedIndex();
-				
-				if(selectedIndex != -1){
-					MainFrame.myss.removeStandard(selectedIndex);
-					clearFields();
-					updateList();
-					disableAllComponents();
-					editState = 0;
-					ErrorMessage.giveErrorMessage("Standard deleted successfully");
+				if(editState == 0){
+					// TODO allow this to be an actual choice
+					// show dialog that requires user to confirm whether or not they want to delete the organism
+					ErrorMessage.giveErrorMessage("Are you sure you want to delete this standard?");
 					
+					
+					// delete organism
+					int selectedIndex = standardList.getSelectedIndex();
+					
+					if(selectedIndex != -1){
+						MainFrame.myss.removeStandard(selectedIndex);
+						clearFields();
+						updateList();
+						disableAllComponents();
+						editState = 0;
+						ErrorMessage.giveErrorMessage("Standard deleted successfully");
+						
+					}
 				}
+				else if(editState == 1){
+					ErrorMessage.giveErrorMessage("Please either save or cancel adding new standard.");
+				}
+				else{
+					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the standard being modified");
+				}
+				
 			}
 		});
 		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
@@ -306,6 +318,8 @@ public class StandardPanel extends JPanel{
 		gbc_cancelButton.gridy = 5;
 		add(cancelButton, gbc_cancelButton);
 		
+		disableAllComponents();
+		
 	}
 	
 	public void displayStandard(int index){
@@ -314,6 +328,14 @@ public class StandardPanel extends JPanel{
 		this.nameTextField.setText(tempStandard.getName());
 		this.prefixTextField.setText(tempStandard.getPrefix());
 		this.suffixTextField.setText(tempStandard.getSuffix());
+		
+		int enzymeIndex;
+		
+		for(int i = 0; i < tempStandard.getNumbRestrictionEnzymes(); i++){
+			// find index of required enzyme in data's array list
+			enzymeIndex = MainFrame.myss.getEnzymeIndex(tempStandard.getEnzyme(i).getName());
+			this.enzymePanel.enzymeCheckBoxes[enzymeIndex].setSelected(true);
+		}
 		
 		
 	}
@@ -413,8 +435,10 @@ public class StandardPanel extends JPanel{
 	
 	public void enableAllComponents(){
 		this.nameTextField.setEnabled(true);
-		this.prefixTextField.setEditable(true);
-		this.suffixTextField.setEditable(true);
+		this.prefixTextField.setEnabled(true);
+		this.suffixTextField.setEnabled(true);
+		
+		this.restrictionSitesLabel.setEnabled(true);
 		
 		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
 			this.enzymePanel.enzymeCheckBoxes[i].setEnabled(true);
@@ -427,8 +451,10 @@ public class StandardPanel extends JPanel{
 	
 	public void disableAllComponents(){
 		this.nameTextField.setEnabled(false);
-		this.prefixTextField.setEditable(false);
-		this.suffixTextField.setEditable(false);
+		this.prefixTextField.setEnabled(false);
+		this.suffixTextField.setEnabled(false);
+		
+		this.restrictionSitesLabel.setEnabled(false);
 		
 		for(int i = 0; i < this.enzymePanel.enzymeCheckBoxes.length; i++){
 			this.enzymePanel.enzymeCheckBoxes[i].setEnabled(false);

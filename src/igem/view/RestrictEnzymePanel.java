@@ -2,12 +2,11 @@ package igem.view;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
+@SuppressWarnings("serial")
 public class RestrictEnzymePanel extends JPanel{
 	
 		JCheckBox[] enzymeCheckBoxes = new JCheckBox[MainFrame.myss.getNumberOfEnzymes()];
@@ -258,6 +257,14 @@ public class RestrictEnzymePanel extends JPanel{
 		gbc_lblSali.gridx = 1;
 		gbc_lblSali.gridy = 9;
 		add(enzymeCheckBoxes[19], gbc_lblSali);
+		
+		//XhoI
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.anchor = GridBagConstraints.WEST;
+		gc.insets = new Insets(0, 20, 5, 0);
+		gc.gridx = 2;
+		gc.gridy = 9;
+		add(enzymeCheckBoxes[29], gc);
 		
 	}
 

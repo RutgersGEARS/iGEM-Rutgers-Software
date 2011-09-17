@@ -46,5 +46,15 @@ public class RestrictionEnzyme implements Serializable{
 	public String toString(){
 		return this.name + " \"" + recognitionSequence + "\"";
 	}
+	
+	public int compareTo(RestrictionEnzyme enzyme){
+		if((enzyme.getName().compareTo(this.name) == 0) 
+				&& (enzyme.getRecognitionSequence().compareToIgnoreCase(this.recognitionSequence) == 0)){
+			return 0;
+		}
+		else{
+			return -1;
+		}
+	}
 
 }

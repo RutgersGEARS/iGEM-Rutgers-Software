@@ -1,6 +1,12 @@
 package igem.view;
 
+import igem.control.PrimerDesign;
+import igem.control.SeqModification;
+import igem.control.SiteDirectedMutagenesis;
 import igem.model.Data;
+import igem.model.GeneSequence;
+import igem.model.OrgCodonTable;
+import igem.model.Standard;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -23,6 +29,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
@@ -36,10 +43,7 @@ public class MainFrame extends JFrame{
 	
 	ManageFrame manageView;
 	
-	SeqAnalysisPanel sequencePanel = new SeqAnalysisPanel();
-	ProtocolPanel protocolPanel = new ProtocolPanel();
-	RNAStructurePanel structurePanel = new RNAStructurePanel();
-	
+	CodonOptimizationPanel codonOptimizationPanel;
 	
 	private JMenuBar menuBar;
 	private JMenu myssMenu;
@@ -56,15 +60,6 @@ public class MainFrame extends JFrame{
 	private JMenuItem manageMyssMenuItem;
 	private JMenuItem quitMyssMenuItem;
 	private JMenuItem tutorialMenuItem;
-	
-	
-	private JTextField seqNameTextField;
-	private JComboBox plasmidComboBox;
-	private JComboBox standardComboBox;
-	private JComboBox organismComboBox;
-	private JButton goButton;
-	
-
 	
 	
 	public MainFrame(){
@@ -191,8 +186,42 @@ public class MainFrame extends JFrame{
 		});
 		helpMenu.add(tutorialMenuItem);
 		
+		/*
+		 * Set parameters for grid bag
+		 */
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		getContentPane().setLayout(gridBagLayout);
 		
 
+		
+
+	}
+	
+
+	
+	public static void main(String[] args){
+
+		MainFrame mainMenu = new MainFrame();
+
+		// set the close program operation
+		mainMenu.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				// TODO make sure everything saves
+				
+				System.exit(0);
+			}
+		});
+		mainMenu.setSize(900, 700);
+		//mainMenu.pack();  // least possible size for your window
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		mainMenu.setLocation(d.width/2-mainMenu.getWidth()/2,
+					  d.height/2-mainMenu.getHeight()/2);
+		mainMenu.setResizable(true);
+		mainMenu.setVisible(true);
 	}
 	
 	public void openManageComponentsView(){
@@ -219,133 +248,13 @@ public class MainFrame extends JFrame{
 			// set the parameter so multiple sequence views don't appear
 			seqViewVisible = 1;
 			
-			// get vectors of component names
+			codonOptimizationPanel = new CodonOptimizationPanel();
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 0;
+			getContentPane().add(codonOptimizationPanel, gbc_panel);
 			
-			orgVector = myss.getOrganismNames();
-
-			
-			for(int i = 0; i < myss.standards.size(); i++){
-				standardVector.add(myss.standards.get(i).getName());
-			}
-
-			
-			for(int i = 0; i < myss.backbones.size(); i++){
-				plasmidVector.add(myss.backbones.get(i).getPlasmidName());
-			}
-			
-			// set up the layout
-			GridBagLayout gridBagLayout = new GridBagLayout();
-			gridBagLayout.columnWidths = new int[]{0, 142, 0, 125, 0, 125, 0, 125, 0, 0};
-			gridBagLayout.rowHeights = new int[]{32, 529, 0};
-			gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-			gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-			getContentPane().setLayout(gridBagLayout);
-			
-			JLabel lblSequenceName = new JLabel("Sequence Name");
-			GridBagConstraints gbc_lblSequenceName = new GridBagConstraints();
-			gbc_lblSequenceName.anchor = GridBagConstraints.EAST;
-			gbc_lblSequenceName.insets = new Insets(5, 5, 5, 5);
-			gbc_lblSequenceName.gridx = 0;
-			gbc_lblSequenceName.gridy = 0;
-			getContentPane().add(lblSequenceName, gbc_lblSequenceName);
-			
-			seqNameTextField = new JTextField();
-			GridBagConstraints gbc_textField = new GridBagConstraints();
-			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField.insets = new Insets(5, 5, 5, 5);
-			gbc_textField.gridx = 1;
-			gbc_textField.gridy = 0;
-			getContentPane().add(seqNameTextField, gbc_textField);
-			seqNameTextField.setColumns(15);
-			
-			JLabel lblOrganism = new JLabel("Organism");
-			GridBagConstraints gbc_lblOrganism = new GridBagConstraints();
-			gbc_lblOrganism.anchor = GridBagConstraints.EAST;
-			gbc_lblOrganism.insets = new Insets(5, 5, 5, 5);
-			gbc_lblOrganism.gridx = 2;
-			gbc_lblOrganism.gridy = 0;
-			getContentPane().add(lblOrganism, gbc_lblOrganism);
-			
-			organismComboBox = new JComboBox(orgVector);
-			GridBagConstraints gbc_comboBox = new GridBagConstraints();
-			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox.insets = new Insets(5, 5, 5, 5);
-			gbc_comboBox.gridx = 3;
-			gbc_comboBox.gridy = 0;
-			getContentPane().add(organismComboBox, gbc_comboBox);
-			
-			JLabel lblStandard = new JLabel("Standard");
-			GridBagConstraints gbc_lblStandard = new GridBagConstraints();
-			gbc_lblStandard.insets = new Insets(5, 5, 5, 5);
-			gbc_lblStandard.anchor = GridBagConstraints.EAST;
-			gbc_lblStandard.gridx = 4;
-			gbc_lblStandard.gridy = 0;
-			getContentPane().add(lblStandard, gbc_lblStandard);
-			
-			standardComboBox = new JComboBox(standardVector);
-			GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-			gbc_comboBox_1.insets = new Insets(5, 5, 5, 5);
-			gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox_1.gridx = 5;
-			gbc_comboBox_1.gridy = 0;
-			getContentPane().add(standardComboBox, gbc_comboBox_1);
-			
-			JLabel lblPlasmid = new JLabel("Plasmid");
-			GridBagConstraints gbc_lblPlasmid = new GridBagConstraints();
-			gbc_lblPlasmid.anchor = GridBagConstraints.EAST;
-			gbc_lblPlasmid.insets = new Insets(5, 5, 5, 5);
-			gbc_lblPlasmid.gridx = 6;
-			gbc_lblPlasmid.gridy = 0;
-			getContentPane().add(lblPlasmid, gbc_lblPlasmid);
-			
-			plasmidComboBox = new JComboBox(plasmidVector);
-			GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
-			gbc_comboBox_2.insets = new Insets(5, 5, 5, 5);
-			gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox_2.gridx = 7;
-			gbc_comboBox_2.gridy = 0;
-			getContentPane().add(plasmidComboBox, gbc_comboBox_2);
-			
-			goButton = new JButton("Go!");
-			goButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// check all the fields
-					
-					// gather data
-					
-					// call method to process it
-					
-				}
-			});
-			GridBagConstraints gbc_btnGo = new GridBagConstraints();
-			gbc_btnGo.insets = new Insets(5, 5, 5, 5);
-			gbc_btnGo.gridx = 8;
-			gbc_btnGo.gridy = 0;
-			getContentPane().add(goButton, gbc_btnGo);
-			
-			/*
-			 * Handles everything with the tabbed pane layout
-			 * 
-			 */
-			
-			// set to transparent so you don't have to worry about the background
-			sequencePanel.setOpaque(false);
-			protocolPanel.setOpaque(false);
-			structurePanel.setOpaque(false);
-			
-			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-			// add sequnce analysis view
-			tabbedPane.addTab("Sequence", sequencePanel);
-			tabbedPane.addTab("RNA Structure", structurePanel);
-			tabbedPane.addTab("Protocol", protocolPanel);
-			
-			
-			GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-			gbc_tabbedPane.gridwidth = 9;
-			gbc_tabbedPane.fill = GridBagConstraints.BOTH;
-			gbc_tabbedPane.gridx = 0;
-			gbc_tabbedPane.gridy = 1;
-			getContentPane().add(tabbedPane, gbc_tabbedPane);
 			
 			this.paintAll(getGraphics());
 		}
@@ -376,27 +285,7 @@ public class MainFrame extends JFrame{
 		
 	}
 	
-	public static void main(String[] args){
-
-		MainFrame mainMenu = new MainFrame();
-
-		// set the close program operation
-		mainMenu.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				// TODO make sure everything saves
-				
-				System.exit(0);
-			}
-		});
-		mainMenu.setSize(900, 700);
-		//mainMenu.pack();  // least possible size for your window
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		mainMenu.setLocation(d.width/2-mainMenu.getWidth()/2,
-					  d.height/2-mainMenu.getHeight()/2);
-		mainMenu.setResizable(true);
-		mainMenu.setVisible(true);
-	}
-
+	
 }
 
 

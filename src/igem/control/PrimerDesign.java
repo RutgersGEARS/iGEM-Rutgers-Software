@@ -1,5 +1,6 @@
 package igem.control;
 
+import igem.model.CodonOptimization;
 import igem.model.GeneSequence;
 import igem.model.Primer;
 import igem.model.Standard;
@@ -12,7 +13,7 @@ public class PrimerDesign {
 	 * @param seq
 	 * @return
 	 */
-	public static GeneSequence linearPrimerDesignAlgo(GeneSequence seq, Standard format){
+	public static CodonOptimization linearPrimerDesignAlgo(CodonOptimization seq, Standard format){
 		int[] primerIndices = new int[4];
 		ArrayList<Integer> internalChanges = seq.changes;
 		int primerDesignCount;
@@ -138,7 +139,7 @@ public class PrimerDesign {
 	/*
 	 * Just used to test for now
 	 */
-	public static Primer designPrimer(GeneSequence seq, int[] indices, Standard format){
+	public static Primer designPrimer(CodonOptimization seq, int[] indices, Standard format){
 		
 
 		

@@ -17,5 +17,25 @@ public class CodonOptimization extends GeneSequence {
 		this.organism = org;
 		this.format = standard;
 	}
+	
+	public OrgCodonTable getOrganism(){
+		return this.organism;
+	}
+	
+	public Standard getStandard(){
+		return this.format;
+	}
+	
+	public void generateUnmodifiedHTML(){
+		
+	}
+	
+	public void generateModifiedHTML(){
+		
+	}
+	
+	public void generatePrimerHTML(){
+		
+	}
 
 }

@@ -138,7 +138,8 @@ public class CodonOptimizationPanel extends JPanel{
 				// check fields
 				if(checkFields() == true){
 					// gather data
-					CodonOptimization nucleotideSequence = gatherData();
+				CodonOptimization nucleotideSequence = gatherData();
+				UtilityMethods.performCodonOptimization(nucleotideSequence);
 					
 					// create CodonOptimization object
 				}

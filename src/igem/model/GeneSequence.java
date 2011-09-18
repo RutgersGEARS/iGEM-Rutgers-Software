@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class GeneSequence {
 	
+	public String name;
 	public String unmodifiedSequence;
 	public String modifiedSequence;
 	public ArrayList<Primer> primers;
@@ -34,7 +35,7 @@ public class GeneSequence {
 		changes = new ArrayList<Integer>();
 	}
 	
-	public GeneSequence(String newSeq, Backbone plasmid){
+	public GeneSequence(String newSeq, Backbone plasmid, String identifier){
 		unmodifiedSequence = newSeq;
 		modifiedSequence = null;
 		
@@ -42,6 +43,8 @@ public class GeneSequence {
 		changes = new ArrayList<Integer>();
 		
 		backbone = plasmid;
+		
+		name = identifier;
 	}
 	
 	/**

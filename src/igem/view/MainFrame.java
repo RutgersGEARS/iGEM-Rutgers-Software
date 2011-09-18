@@ -255,7 +255,6 @@ public class MainFrame extends JFrame{
 			gbc_panel.gridy = 0;
 			getContentPane().add(codonOptimizationPanel, gbc_panel);
 			
-			
 			this.paintAll(getGraphics());
 		}
 		

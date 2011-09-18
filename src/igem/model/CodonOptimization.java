@@ -11,8 +11,8 @@ public class CodonOptimization extends GeneSequence {
 	String protocolHTML;
 	
 	
-	public CodonOptimization(String newSeq, Backbone plasmid, OrgCodonTable org, Standard standard){
-		super(newSeq, plasmid);
+	public CodonOptimization(String newSeq, Backbone plasmid, String identifier, OrgCodonTable org, Standard standard){
+		super(newSeq, plasmid, identifier);
 		
 		this.organism = org;
 		this.format = standard;

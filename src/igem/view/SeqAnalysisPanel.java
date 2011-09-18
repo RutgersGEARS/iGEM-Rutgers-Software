@@ -1,6 +1,5 @@
 package igem.view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,8 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 
+@SuppressWarnings("serial")
 public class SeqAnalysisPanel extends JPanel{
-
+	private JEditorPane originalEditorPane;
+	private JEditorPane primerEditorPane;
+	private JEditorPane modifiedEditorPane;
 		
 		public SeqAnalysisPanel(){
 			setBackground(UIManager.getColor("TabbedPane.background"));
@@ -47,7 +49,7 @@ public class SeqAnalysisPanel extends JPanel{
 			gbc_originalScrollPane.gridy = 1;
 			add(originalScrollPane, gbc_originalScrollPane);
 			
-			JEditorPane originalEditorPane = new JEditorPane();
+			originalEditorPane = new JEditorPane();
 			originalScrollPane.setViewportView(originalEditorPane);
 			originalEditorPane.setText("Enter DNA sequence to be analyzed here");
 			
@@ -60,7 +62,7 @@ public class SeqAnalysisPanel extends JPanel{
 			gbc_primerScrollPane.gridy = 1;
 			add(primerScrollPane, gbc_primerScrollPane);
 			
-			JEditorPane primerEditorPane = new JEditorPane();
+			primerEditorPane = new JEditorPane();
 			primerScrollPane.setViewportView(primerEditorPane);
 			primerEditorPane.setEditable(false);
 			
@@ -80,10 +82,34 @@ public class SeqAnalysisPanel extends JPanel{
 			gbc_modifiedScrollPane.gridy = 3;
 			add(modifiedScrollPane, gbc_modifiedScrollPane);
 			
-			JEditorPane modifiedEditorPane = new JEditorPane();
+			modifiedEditorPane = new JEditorPane();
 			modifiedScrollPane.setViewportView(modifiedEditorPane);
 			modifiedEditorPane.setEditable(false);
 			
+		}
+		
+		public String getOrginalText(){
+			return this.originalEditorPane.getText();
+		}
+		
+		public String getModifiedText(){
+			return this.modifiedEditorPane.getText();
+		}
+		
+		public String getPrimerText(){
+			return this.primerEditorPane.getText();
+		}
+		
+		public void setOrginalText(String text){
+			this.originalEditorPane.setText(text);
+		}
+		
+		public void setModifiedPane(String text){
+			this.modifiedEditorPane.setText(text);
+		}
+		
+		public void setPrimerPane(String text){
+			this.primerEditorPane.setText(text);
 		}
 
 	}

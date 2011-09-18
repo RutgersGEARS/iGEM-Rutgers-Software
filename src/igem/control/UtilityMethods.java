@@ -1,5 +1,6 @@
 package igem.control;
 
+import igem.model.CodonOptimization;
 import igem.model.Data;
 
 import java.util.regex.Matcher;
@@ -143,5 +144,9 @@ public class UtilityMethods {
 		{
 			return true;
 		}
+	}
+	
+	public CodonOptimization performCodonOptimization(CodonOptimization informationBundle){
+		return null;
 	}
 }

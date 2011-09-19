@@ -9,6 +9,7 @@ public class GeneSequence {
 	public String modifiedSequence;
 	public ArrayList<Primer> primers;
 	public ArrayList<Integer> changes;
+	public ArrayList<Integer> remainingChanges;
 	
 	public Backbone backbone;
 	public String antibioticResistance;
@@ -28,11 +29,13 @@ public class GeneSequence {
 		
 		primers = new ArrayList<Primer>();
 		changes = new ArrayList<Integer>();
+		remainingChanges = new ArrayList<Integer>();
 	}
 	
 	public GeneSequence(){
 		primers = new ArrayList<Primer>();
 		changes = new ArrayList<Integer>();
+		remainingChanges = new ArrayList<Integer>();
 	}
 	
 	public GeneSequence(String newSeq, Backbone plasmid, String identifier){
@@ -41,6 +44,7 @@ public class GeneSequence {
 		
 		primers = new ArrayList<Primer>();
 		changes = new ArrayList<Integer>();
+		remainingChanges = new ArrayList<Integer>();
 		
 		backbone = plasmid;
 		
@@ -117,6 +121,14 @@ public class GeneSequence {
 	
 	public void setModifiedSequence(String modSeq){
 		this.modifiedSequence = modSeq;
+	}
+	
+	public void setRemainingChanges(ArrayList<Integer> changes){
+		this.remainingChanges = changes;
+	}
+	
+	public int getRemainingChange(int index){
+		return this.remainingChanges.get(index);
 	}
 	
 	

@@ -113,7 +113,8 @@ public class PrimerDesign {
 			
 			
 		}
-		seq.changes = internalChanges;
+		seq.setRemainingChanges(internalChanges);
+
 		
 		/*
 		 * TODO for testing purposes only print out all the information about the indices of the designed primer
@@ -124,15 +125,15 @@ public class PrimerDesign {
 		//}
 		
 		// prints the final changes unable to be made
-		String remainingChanges = "REMAINING CHANGES ";
+		/*String remainingChanges = "REMAINING CHANGES ";
 		for(int i = 0; i < seq.changes.size(); i++){
-			if(seq.changes.get(i) != -1){
+			if(seq.get(i) != -1){
 				remainingChanges += seq.changes.get(i);
 				remainingChanges += " ";
 			}
 
 		}
-		System.out.println(remainingChanges);
+		System.out.println(remainingChanges);*/
 		
 		return seq;
 	}

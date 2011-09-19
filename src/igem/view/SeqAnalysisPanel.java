@@ -7,8 +7,9 @@ import java.awt.Insets;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.text.html.HTMLEditorKit;
 
 @SuppressWarnings("serial")
 public class SeqAnalysisPanel extends JPanel{
@@ -81,14 +82,15 @@ public class SeqAnalysisPanel extends JPanel{
 			gbc_modifiedScrollPane.gridx = 0;
 			gbc_modifiedScrollPane.gridy = 3;
 			add(modifiedScrollPane, gbc_modifiedScrollPane);
-			
+
+
 			modifiedEditorPane = new JEditorPane();
 			modifiedScrollPane.setViewportView(modifiedEditorPane);
 			modifiedEditorPane.setEditable(false);
 			
 		}
 		
-		public String getOrginalText(){
+		public String getOriginalText(){
 			return this.originalEditorPane.getText();
 		}
 		
@@ -100,15 +102,19 @@ public class SeqAnalysisPanel extends JPanel{
 			return this.primerEditorPane.getText();
 		}
 		
-		public void setOrginalText(String text){
+		public void setOriginalText(String text){
+			this.originalEditorPane.setEditable(false);
+			this.originalEditorPane.setContentType("text/html");
 			this.originalEditorPane.setText(text);
 		}
 		
 		public void setModifiedPane(String text){
+			this.modifiedEditorPane.setContentType("text/html");
 			this.modifiedEditorPane.setText(text);
 		}
 		
 		public void setPrimerPane(String text){
+			this.primerEditorPane.setContentType("text/html");
 			this.primerEditorPane.setText(text);
 		}
 

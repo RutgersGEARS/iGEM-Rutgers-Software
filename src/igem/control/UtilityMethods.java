@@ -3,6 +3,7 @@ package igem.control;
 import igem.model.CodonOptimization;
 import igem.model.Data;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -148,6 +149,7 @@ public class UtilityMethods {
 	
 	public static CodonOptimization performCodonOptimization(CodonOptimization informationBundle){
 			String modifiedSequence;
+			ArrayList<Integer> tempChanges = new ArrayList<Integer>();
 			// call the function that replaces codons
 			modifiedSequence = SeqModification.seqOptimizationAlgorithimSimple(informationBundle.unmodifiedSequence, informationBundle.getOrganism());
 
@@ -186,6 +188,7 @@ public class UtilityMethods {
 			// print out the changes array
 			changesString = "CHANGES AFTER MODIFICATION ";
 			for(int i = 0; i < informationBundle.changes.size(); i++){
+			tempChanges.add(informationBundle.changes.get(i));
 			changesString += informationBundle.changes.get(i);
 			changesString += " : ";
 			}
@@ -194,9 +197,20 @@ public class UtilityMethods {
 			System.out.println(changesString);
 
 			System.out.println("NUMBER OF CHANGES : " + informationBundle.changes.size());
-
+			
+			
 			// design the primers
 			informationBundle = PrimerDesign.linearPrimerDesignAlgo(informationBundle, informationBundle.getStandard());
+			
+			
+			// replace all the changes I understand this is really messy cod
+			informationBundle.changes.clear();
+			
+			for(int i = 0; i < tempChanges.size(); i++){
+				informationBundle.changes.add(tempChanges.get(i));
+			}
+			
+			System.out.println("LENGTH OF STRING : " + informationBundle.modifiedSequence.length());
 
 			/*String fName;
 
@@ -208,6 +222,6 @@ public class UtilityMethods {
 
 
 		
-		return null;
+		return informationBundle;
 	}
 }

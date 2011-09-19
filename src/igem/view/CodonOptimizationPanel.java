@@ -30,6 +30,8 @@ public class CodonOptimizationPanel extends JPanel{
 	ProtocolPanel protocolPanel = new ProtocolPanel();
 	RNAStructurePanel structurePanel = new RNAStructurePanel();
 	
+	CodonOptimization currentCO;
+	
 	private final JTextField nameTextField = new JTextField();
 
 	private final JComboBox organismComboBox;
@@ -139,9 +141,10 @@ public class CodonOptimizationPanel extends JPanel{
 				if(checkFields() == true){
 					// gather data
 				CodonOptimization nucleotideSequence = gatherData();
-				UtilityMethods.performCodonOptimization(nucleotideSequence);
-					
-					// create CodonOptimization object
+				
+				// create CodonOptimization object
+				nucleotideSequence = UtilityMethods.performCodonOptimization(nucleotideSequence);
+				setEditorPanes(nucleotideSequence);	
 				}
 				else{
 					ErrorMessage.giveErrorMessage("Unable to perform codon optimization.");
@@ -178,12 +181,12 @@ public class CodonOptimizationPanel extends JPanel{
 			return false;
 		}
 		
-		if(this.sequencePanel.getOrginalText().compareTo("") == 0){
+		if(this.sequencePanel.getOriginalText().compareTo("") == 0){
 			ErrorMessage.giveErrorMessage("Please enter a genetic sequence.");
 			return false;
 		}
 		else{
-			if(UtilityMethods.checkNucleotideSequence(this.sequencePanel.getOrginalText()) == false){
+			if(UtilityMethods.checkNucleotideSequence(this.sequencePanel.getOriginalText()) == false){
 				ErrorMessage.giveErrorMessage("Nucleotide sequence must contain only the characters 'g', 'c', 'a', 't', 'G', 'C', 'A', or 'T'.");
 				return false;
 			}
@@ -210,11 +213,21 @@ public class CodonOptimizationPanel extends JPanel{
 		organism = MainFrame.myss.getOrganism(this.organismComboBox.getSelectedIndex());
 		standard = MainFrame.myss.getStandard(this.standardComboBox.getSelectedIndex());
 		backbone = MainFrame.myss.getBackbone(this.plasmidComboBox.getSelectedIndex());
-		nucleotideSequence = this.sequencePanel.getOrginalText();
+		nucleotideSequence = this.sequencePanel.getOriginalText();
 		
 		CodonOptimization sequence = new CodonOptimization(nucleotideSequence, backbone, name, organism, standard);
 	
 		return sequence;
+	}
+	
+	public void setEditorPanes(CodonOptimization seq){
+		seq.generateUnmodifiedHTML();
+		seq.generateModifiedHTML();
+		seq.generatePrimerHTML();
+		
+		this.sequencePanel.setOriginalText(seq.getUnmodifiedHTML());
+		this.sequencePanel.setModifiedPane(seq.getModifiedHTML());
+		
 	}
 
 }

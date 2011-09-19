@@ -44,8 +44,6 @@ public class CodonOptimization extends GeneSequence {
 			
 			unmodified += "<font face=arial color=purple>";
 			unmodified += this.unmodifiedSequence.charAt(changeIndex);
-			
-			System.out.println(changeIndex);
 			unmodified += "</font";
 			
 			currentIndex = changeIndex + 1;
@@ -84,8 +82,6 @@ public class CodonOptimization extends GeneSequence {
 			
 			modified += "<font face=arial color=green>";
 			modified += this.modifiedSequence.charAt(changeIndex);
-			
-			System.out.println(changeIndex);
 			modified += "</font";
 			
 			currentIndex = changeIndex + 1;
@@ -107,6 +103,33 @@ public class CodonOptimization extends GeneSequence {
 	
 	public void generatePrimerHTML(){
 		
+		String primerString = "<html>\n";
+		String tempTopPrimer;
+		Primer currentPrimer;
+		
+		for(int i = 0; i < this.primers.size(); i++){
+			currentPrimer = this.primers.get(i);
+			primerString += "<p>" + "<font face=courier color=red>" + "3' " + "</font>" ;
+			
+			tempTopPrimer = "";
+			primerString += "<font face=courier color=black>";
+			for(int j = currentPrimer.getTopSequence().length() - 1; j >= 0; j--){
+				primerString += currentPrimer.getTopSequence().charAt(j);
+			}
+			primerString +=  "</font>" + "<font face=courier color=blue>" + " 5'" + "</font>" + "</p>\n";
+			
+			primerString += "<p>" + "<font face=courier color=blue>" + "5' " + "</font>" + "<font face=courier color=black>";
+			primerString += currentPrimer.getBottomSequence();
+			primerString += "</font>" + "<font face=arial color=red>" + " 3'" + "</font>" + "</p>\n";
+			
+			
+			primerString += "<hr width=2500>\n";
+		}
+		
+		this.primerHTML = primerString;
+		return;
+	
+		
 	}
 	
 	public String getUnmodifiedHTML(){
@@ -121,7 +144,5 @@ public class CodonOptimization extends GeneSequence {
 		return primerHTML;
 	}
 	
-	/*String initialText = "<html>\n" +
-		    "<p>gcgtgcagc<font face=arial color=red>ccc</font>gcgtgcagc</p>\n";*/
 
 }

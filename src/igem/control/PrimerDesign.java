@@ -280,18 +280,6 @@ public class PrimerDesign {
 			else if(currentNuc == 'a'){
 				topSeq += "t";
 			}
-			
-			// get complement of nucleotide
-			/*switch(currentNuc){
-			case 'c' :
-				currentNuc = 'g';
-			case 'g' :
-				currentNuc = 'c';
-			case 'a' :
-				currentNuc = 't';
-			case 't' :
-				currentNuc = 'a';*/
-				
 
 		}
 		

@@ -214,6 +214,7 @@ public class CodonOptimizationPanel extends JPanel{
 		standard = MainFrame.myss.getStandard(this.standardComboBox.getSelectedIndex());
 		backbone = MainFrame.myss.getBackbone(this.plasmidComboBox.getSelectedIndex());
 		nucleotideSequence = this.sequencePanel.getOriginalText();
+		nucleotideSequence = nucleotideSequence.toLowerCase();
 		
 		CodonOptimization sequence = new CodonOptimization(nucleotideSequence, backbone, name, organism, standard);
 	
@@ -227,6 +228,7 @@ public class CodonOptimizationPanel extends JPanel{
 		
 		this.sequencePanel.setOriginalText(seq.getUnmodifiedHTML());
 		this.sequencePanel.setModifiedPane(seq.getModifiedHTML());
+		this.sequencePanel.setPrimerPane(seq.getPrimerHTML());
 		
 	}
 

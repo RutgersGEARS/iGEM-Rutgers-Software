@@ -215,11 +215,12 @@ public class MainFrame extends JFrame{
 				System.exit(0);
 			}
 		});
-		mainMenu.setSize(900, 700);
+		//mainMenu.setSize(1000, 700);
 		//mainMenu.pack();  // least possible size for your window
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		mainMenu.setLocation(d.width/2-mainMenu.getWidth()/2,
-					  d.height/2-mainMenu.getHeight()/2);
+		mainMenu.setSize(d.width, d.height);
+		//mainMenu.setLocation(d.width/2-mainMenu.getWidth()/2,
+					  //d.height/2-mainMenu.getHeight()/2);
 		mainMenu.setResizable(true);
 		mainMenu.setVisible(true);
 	}

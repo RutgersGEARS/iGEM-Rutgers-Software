@@ -1,8 +1,9 @@
 package igem.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GeneSequence {
+public class GeneSequence implements Serializable{
 	
 	public String name;
 	public String unmodifiedSequence;

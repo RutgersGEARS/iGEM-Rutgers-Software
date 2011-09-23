@@ -1,6 +1,14 @@
 package igem.model;
 
-public class CodonOptimization extends GeneSequence {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class CodonOptimization extends GeneSequence implements Serializable{
 	
 	OrgCodonTable organism;
 	Standard format;
@@ -104,14 +112,13 @@ public class CodonOptimization extends GeneSequence {
 	public void generatePrimerHTML(){
 		
 		String primerString = "<html>\n";
-		String tempTopPrimer;
+
 		Primer currentPrimer;
 		
 		for(int i = 0; i < this.primers.size(); i++){
 			currentPrimer = this.primers.get(i);
 			primerString += "<p>" + "<font face=courier color=red>" + "3' " + "</font>" ;
 			
-			tempTopPrimer = "";
 			primerString += "<font face=courier color=black>";
 			for(int j = currentPrimer.getTopSequence().length() - 1; j >= 0; j--){
 				primerString += currentPrimer.getTopSequence().charAt(j);
@@ -142,6 +149,71 @@ public class CodonOptimization extends GeneSequence {
 	
 	public String getPrimerHTML(){
 		return primerHTML;
+	}
+	
+	/**
+	 * 
+	 * Stores all data into the file specified by storeDir and storeFile.
+	 * 
+	 * @param usrList
+	 * @throws IOException
+	 */
+	public static void store(Data d, String filePath) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(
+				new FileOutputStream(filePath));
+		oos.writeObject(d);
+	}
+	
+	/**
+	 * @param data
+	 * @return
+	 */
+	public int saveData(Data data){
+		try{
+			Data.store(data);
+		}
+		catch(IOException e){
+			System.out.println("Data failed to save : IOException"); // Error checking statement
+			return -1;
+		}
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * Loads all data from the file specified by storeDir and storeFile.
+	 * 
+	 */
+	public static Data load(String filePath)
+	throws IOException, ClassNotFoundException {
+		ObjectInputStream ois = new ObjectInputStream(
+			new FileInputStream(filePath));
+		Data d = (Data)ois.readObject();
+		return d;
+	}
+	
+
+	public Data loadData(Data data, String filePath){
+		File dataFile = new File(filePath);
+		
+		/* check if file exists */
+		if(dataFile.exists() == true){
+			try{
+				data = Data.load(); // loads data
+			}
+			catch(IOException e){
+				System.out.println("Data failed to load : IOException"); // Error checking statement
+				return null;
+			}
+			catch(ClassNotFoundException e){
+				System.out.println("Data failed to load : ClassNotFoundException"); // Error checking statement
+				return null;
+			}
+			
+			return data;
+		}
+		
+		return null;
 	}
 	
 

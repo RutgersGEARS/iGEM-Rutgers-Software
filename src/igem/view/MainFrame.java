@@ -1,41 +1,38 @@
 package igem.view;
 
-import igem.control.PrimerDesign;
-import igem.control.SeqModification;
-import igem.control.SiteDirectedMutagenesis;
+
 import igem.model.Data;
-import igem.model.GeneSequence;
-import igem.model.OrgCodonTable;
-import igem.model.Standard;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
 	public static Data myss;
 	
 	private int seqViewVisible;
+	
+	// 0 nothing open
+	// 1 codon optimization
+	// 2 format check
+	private int isAnalysisOpen;
 	
 	private Vector<String> orgVector = new Vector<String>();
 	private Vector<String> standardVector = new Vector<String>();
@@ -45,6 +42,11 @@ public class MainFrame extends JFrame{
 	
 	CodonOptimizationPanel codonOptimizationPanel;
 	
+	// Stuff that has to do with handling opening and closing of files
+	JFileChooser fileChooser;
+	FileFilter codonOptimizationFilter;
+	FileFilter formatCheckFilter;
+	
 	private JMenuBar menuBar;
 	private JMenu myssMenu;
 	private JMenu fileMenu;
@@ -52,7 +54,7 @@ public class MainFrame extends JFrame{
 	private JMenuItem aboutMyssMenuItem;
 	private JMenuItem prefMyssMenuItem;
 	private JMenuItem openSequenceMenuItem;
-	private JMenuItem newSequenceMenuItem;
+	private JMenuItem newMenuItem;
 	private JMenuItem closeMenuItem;
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
@@ -79,7 +81,17 @@ public class MainFrame extends JFrame{
 			 myss.saveData(myss);
 		 }
 		 
-		seqViewVisible = 0;
+		 // Set up everything for the file chooser
+		 fileChooser = new JFileChooser();
+		 codonOptimizationFilter = new FileNameExtensionFilter("Codon Optimization File", ".cdp");
+		 formatCheckFilter = new FileNameExtensionFilter("Standard Check File", ".stk");
+		 
+		 fileChooser.addChoosableFileFilter(codonOptimizationFilter);
+		 fileChooser.addChoosableFileFilter(formatCheckFilter);
+		 fileChooser.setAcceptAllFileFilterUsed(false);
+		 
+		 seqViewVisible = 0;
+		isAnalysisOpen = 0;
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -117,6 +129,8 @@ public class MainFrame extends JFrame{
 		quitMyssMenuItem = new JMenuItem("Quit");
 		quitMyssMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				myss.saveData(myss);
+				System.exit(0);
 			}
 		});
 		myssMenu.add(quitMyssMenuItem);
@@ -124,17 +138,50 @@ public class MainFrame extends JFrame{
 		fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
 		
-		newSequenceMenuItem = new JMenuItem("New Sequence Analysis");
-		newSequenceMenuItem.addActionListener(new ActionListener() {
+		newMenuItem = new JMenuItem("New Sequence Analysis");
+		newMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newSequenceAnalysis();
+				
+
+				
 			}
 		});
-		fileMenu.add(newSequenceMenuItem);
+		fileMenu.add(newMenuItem);
 		
+		/*if(isAnalysisOpen == 0){
+		isAnalysisOpen = 1;
+		newCodonOptAnalysis();
+	}*/
+		
+		/*
+		 * Open an analysis of some type
+		 * 
+		 */
 		openSequenceMenuItem = new JMenuItem("Open Sequence Analysis");
 		openSequenceMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// go ahead open
+				if(isAnalysisOpen == 0){
+					
+					//Open file chooser:
+					int returnVal = fileChooser.showOpenDialog(openSequenceMenuItem);
+					
+				     if (returnVal == JFileChooser.APPROVE_OPTION) {
+				            File file = fileChooser.getSelectedFile();
+				            // try and open a file
+				            System.out.println("Choose a file");
+				            
+				        } else {
+				            // cancelled opening a file
+				        	System.out.println("Did not chooses a file");
+				        }
+					
+				}
+				// ask whether you want to save the existing analysis
+				else{
+					
+				}
 			}
 		});
 		fileMenu.add(openSequenceMenuItem);
@@ -145,6 +192,10 @@ public class MainFrame extends JFrame{
 		closeMenuItem = new JMenuItem("Close");
 		closeMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// prompt user if they want to close and if so if they want to save
+				if(isAnalysisOpen != 0){
+					
+				}
 			}
 		});
 		fileMenu.add(closeMenuItem);
@@ -155,6 +206,18 @@ public class MainFrame extends JFrame{
 		saveMenuItem = new JMenuItem("Save");
 		saveMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Open file chooser only if it has not been saved yet
+				if(isAnalysisOpen != 0){
+					int returnVal = fileChooser.showSaveDialog(saveMenuItem);
+					
+					if(returnVal == JFileChooser.APPROVE_OPTION){
+						File file = fileChooser.getSelectedFile();
+						System.out.println(file.getName());
+						System.out.println(file.getPath());
+					}
+					
+				}
 			}
 		});
 		fileMenu.add(saveMenuItem);
@@ -162,6 +225,11 @@ public class MainFrame extends JFrame{
 		saveAsMenuItem = new JMenuItem("Save As");
 		saveAsMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Open file choose
+				if(isAnalysisOpen != 0){
+					int returnVal = fileChooser.showSaveDialog(saveMenuItem);
+				}
 			}
 		});
 		fileMenu.add(saveAsMenuItem);
@@ -206,7 +274,7 @@ public class MainFrame extends JFrame{
 	public static void main(String[] args){
 
 		MainFrame mainMenu = new MainFrame();
-
+		mainMenu.isAnalysisOpen = 0;
 		// set the close program operation
 		mainMenu.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -242,7 +310,7 @@ public class MainFrame extends JFrame{
         this.manageView.dispose();
 	}
 	
-	public void newSequenceAnalysis(){
+	public void newCodonOptAnalysis(){
 		
 		if(seqViewVisible == 0){
 			

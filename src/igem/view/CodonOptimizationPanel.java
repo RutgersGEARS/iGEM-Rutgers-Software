@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 
 public class CodonOptimizationPanel extends JPanel{
 	
+	public int mode;
+	
 	private Vector<String> organismVector = new Vector<String>();
 	private Vector<String> standardVector = new Vector<String>();
 	private Vector<String> plasmidVector = new Vector<String>();
@@ -30,7 +32,7 @@ public class CodonOptimizationPanel extends JPanel{
 	ProtocolPanel protocolPanel = new ProtocolPanel();
 	RNAStructurePanel structurePanel = new RNAStructurePanel();
 	
-	CodonOptimization currentCO;
+	public CodonOptimization currentCO;
 	
 	private final JTextField nameTextField = new JTextField();
 
@@ -44,10 +46,11 @@ public class CodonOptimizationPanel extends JPanel{
 	private final JLabel organismLabel = new JLabel("Organism");
 	private final JLabel standardLabel = new JLabel("Standard");
 	
-	public CodonOptimizationPanel(){
+	public CodonOptimizationPanel(int purpose){
+		
+		mode = purpose;
 		
 		// get vectors of component names
-		
 		organismVector = MainFrame.myss.getOrganismNames();
 
 		
@@ -139,12 +142,21 @@ public class CodonOptimizationPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// check fields
 				if(checkFields() == true){
-					// gather data
-				CodonOptimization nucleotideSequence = gatherData();
 				
-				// create CodonOptimization object
-				nucleotideSequence = UtilityMethods.performCodonOptimization(nucleotideSequence);
-				setEditorPanes(nucleotideSequence);	
+					// gather data and create codon optimization object
+					currentCO = gatherData();
+				
+					// perform codon optimization
+					if(mode == 1){
+						currentCO = UtilityMethods.performCodonOptimization(currentCO);
+					}
+					
+					if(mode == 2){
+						currentCO = UtilityMethods.performStandardCheck(currentCO);
+					}
+					
+					// set the current analysis so you can get it back later
+					setEditorPanes(currentCO);	
 				}
 				else{
 					ErrorMessage.giveErrorMessage("Unable to perform codon optimization.");

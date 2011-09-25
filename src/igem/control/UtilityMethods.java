@@ -210,7 +210,6 @@ public class UtilityMethods {
 				informationBundle.changes.add(tempChanges.get(i));
 			}
 			
-			System.out.println("LENGTH OF STRING : " + informationBundle.modifiedSequence.length());
 
 			/*String fName;
 
@@ -224,4 +223,47 @@ public class UtilityMethods {
 		
 		return informationBundle;
 	}
+	
+	public static CodonOptimization performStandardCheck(CodonOptimization informationBundle){
+		String modifiedSequence;
+		String changesString;
+		ArrayList<Integer> tempChanges = new ArrayList<Integer>();
+		
+		// Run through standard check
+		modifiedSequence = SeqModification.standardCheck(informationBundle.unmodifiedSequence, informationBundle.getOrganism(), informationBundle.getStandard());
+		informationBundle.setModifiedSequence(modifiedSequence);
+		informationBundle.findChanges();
+
+		// print out the unmodified sequence
+		System.out.println("\nUNMODIFIED SEQUENCE AFTER STANDARD CHECK : " + informationBundle.unmodifiedSequence);
+
+		// print out the modified sequence
+		System.out.println("MODIFIED SEQUENCE AFTER STANDARD CHECK : " + modifiedSequence);
+
+		// print out the changes array
+		changesString = "CHANGES AFTER MODIFICATION ";
+		for(int i = 0; i < informationBundle.changes.size(); i++){
+			tempChanges.add(informationBundle.changes.get(i));
+			changesString += informationBundle.changes.get(i);
+			changesString += " : ";
+		}
+		
+		System.out.println(changesString);
+
+		System.out.println("NUMBER OF CHANGES : " + informationBundle.changes.size());
+
+
+		// design the primers
+		informationBundle = PrimerDesign.linearPrimerDesignAlgo(informationBundle, informationBundle.getStandard());
+					
+					
+		// replace all the changes I understand this is really messy cod
+		informationBundle.changes.clear();
+					
+		for(int i = 0; i < tempChanges.size(); i++){
+			informationBundle.changes.add(tempChanges.get(i));
+		}
+		return informationBundle;
+}
+	
 }

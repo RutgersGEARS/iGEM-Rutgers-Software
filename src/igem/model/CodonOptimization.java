@@ -10,6 +10,11 @@ import java.io.Serializable;
 
 public class CodonOptimization extends GeneSequence implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3149178138193295023L;
+	
 	OrgCodonTable organism;
 	Standard format;
 	
@@ -18,12 +23,16 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 	String primerHTML;
 	String protocolHTML;
 	
+	String currentFilePath;
+	
 	
 	public CodonOptimization(String newSeq, Backbone plasmid, String identifier, OrgCodonTable org, Standard standard){
 		super(newSeq, plasmid, identifier);
 		
 		this.organism = org;
 		this.format = standard;
+		
+		this.currentFilePath = "";
 	}
 	
 	public OrgCodonTable getOrganism(){
@@ -45,8 +54,10 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 			// are there consecutive changes
 			if(currentIndex < changeIndex){
 				unmodified += "<font face=arial color=black>";
-				// put everything up to the changes in the 
-				unmodified += this.unmodifiedSequence.substring(currentIndex, changeIndex);
+				// put everything up to the changes in the
+				for(int j = currentIndex; j < changeIndex; j++){
+					unmodified += this.unmodifiedSequence.charAt(j);
+				}
 				unmodified += "</font";
 			}
 			
@@ -83,8 +94,10 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 			// are there consecutive changes
 			if(currentIndex < changeIndex){
 				modified += "<font face=arial color=black>";
-				// put everything up to the changes in the 
-				modified += this.modifiedSequence.substring(currentIndex, changeIndex);
+				// put everything up to the changes in the
+				for(int j = currentIndex; j < changeIndex; j ++){
+					modified += this.modifiedSequence.charAt(j);
+				}
 				modified += "</font";
 			}
 			
@@ -151,6 +164,14 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 		return primerHTML;
 	}
 	
+	public String getCurrentFilePath(){
+		return currentFilePath;
+	}
+	
+	public void setCurrentFilePath(String path){
+		this.currentFilePath = path;
+	}
+	
 	/**
 	 * 
 	 * Stores all data into the file specified by storeDir and storeFile.
@@ -158,19 +179,19 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 	 * @param usrList
 	 * @throws IOException
 	 */
-	public static void store(Data d, String filePath) throws IOException {
+	public static void store(CodonOptimization c, String filePath) throws IOException {
 		ObjectOutputStream oos = new ObjectOutputStream(
 				new FileOutputStream(filePath));
-		oos.writeObject(d);
+		oos.writeObject(c);
 	}
 	
 	/**
 	 * @param data
 	 * @return
 	 */
-	public int saveData(Data data){
+	public int saveData(CodonOptimization c, String filePath){
 		try{
-			Data.store(data);
+		CodonOptimization.store(c, filePath);
 		}
 		catch(IOException e){
 			System.out.println("Data failed to save : IOException"); // Error checking statement

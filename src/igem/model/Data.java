@@ -234,7 +234,7 @@ public class Data implements Serializable {
 	 * @return
 	 */
 	public Data loadData(Data data){
-		File dataFile = new File(Data.storeDir + File.separator + Data.storeFile);
+		File dataFile = new File(storeDir + File.separator + storeFile);
 		
 		/* check if file exists */
 		if(dataFile.exists() == true){

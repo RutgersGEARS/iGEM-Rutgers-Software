@@ -23,12 +23,14 @@ import javax.swing.JSeparator;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
+
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
 	public static Data myss;
 	
 	private int seqViewVisible;
-	
+
 	// 0 nothing open
 	// 1 codon optimization
 	// 2 format check
@@ -51,13 +53,19 @@ public class MainFrame extends JFrame{
 	private JMenu myssMenu;
 	private JMenu fileMenu;
 	private JMenu helpMenu;
+	private JMenu newSubmenu;
+	
 	private JMenuItem aboutMyssMenuItem;
 	private JMenuItem prefMyssMenuItem;
-	private JMenuItem openSequenceMenuItem;
-	private JMenuItem newMenuItem;
+	
+	private JMenuItem openSequenceItem;
 	private JMenuItem closeMenuItem;
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
+	
+	private JMenuItem codonMenuItem;
+	private JMenuItem formatCheckMenuItem;
+	
 	private JMenuItem helpContentsMenuItem;
 	private JMenuItem manageMyssMenuItem;
 	private JMenuItem quitMyssMenuItem;
@@ -138,34 +146,57 @@ public class MainFrame extends JFrame{
 		fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
 		
-		newMenuItem = new JMenuItem("New Sequence Analysis");
-		newMenuItem.addActionListener(new ActionListener() {
+		// the new components submenu
+		newSubmenu = new JMenu("New");
+		fileMenu.add(newSubmenu);
+		
+		codonMenuItem = new JMenuItem("Codon Optimization");
+		codonMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(isAnalysisOpen == 0){
+					isAnalysisOpen = 1;
+					newCodonOptimizationAnalysis(isAnalysisOpen);
+				}
+				// notify user to close things
+				else{
+					
+				}
+			}
+		});
+		newSubmenu.add(codonMenuItem);
+		
+		formatCheckMenuItem = new JMenuItem("Assembly Standard Check");
+		formatCheckMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-
+				if(isAnalysisOpen == 0){
+					isAnalysisOpen = 2;
+					newCodonOptimizationAnalysis(isAnalysisOpen);
+				}
+				// notify user to close things
+				else{
+					ErrorMessage.giveErrorMessage("Please either close or save current analysis.");
+				}
 				
 			}
 		});
-		fileMenu.add(newMenuItem);
+		newSubmenu.add(formatCheckMenuItem);
 		
-		/*if(isAnalysisOpen == 0){
-		isAnalysisOpen = 1;
-		newCodonOptAnalysis();
-	}*/
+
 		
 		/*
 		 * Open an analysis of some type
 		 * 
 		 */
-		openSequenceMenuItem = new JMenuItem("Open Sequence Analysis");
-		openSequenceMenuItem.addActionListener(new ActionListener() {
+		openSequenceItem = new JMenuItem("Open");
+		openSequenceItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				// go ahead open
 				if(isAnalysisOpen == 0){
 					
 					//Open file chooser:
-					int returnVal = fileChooser.showOpenDialog(openSequenceMenuItem);
+					int returnVal = fileChooser.showOpenDialog(openSequenceItem);
 					
 				     if (returnVal == JFileChooser.APPROVE_OPTION) {
 				            File file = fileChooser.getSelectedFile();
@@ -184,7 +215,7 @@ public class MainFrame extends JFrame{
 				}
 			}
 		});
-		fileMenu.add(openSequenceMenuItem);
+		fileMenu.add(openSequenceItem);
 		
 		JSeparator separator_3 = new JSeparator();
 		fileMenu.add(separator_3);
@@ -192,8 +223,27 @@ public class MainFrame extends JFrame{
 		closeMenuItem = new JMenuItem("Close");
 		closeMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// prompt user if they want to close and if so if they want to save
-				if(isAnalysisOpen != 0){
+				
+				/*
+				 * Codon Optimization
+				 * prompt user if they want to close and if so if they want to save
+				 * 
+				 */ 
+				if(isAnalysisOpen == 1){
+					
+					// TODO change so that there are options to save or just close
+					ErrorMessage.giveErrorMessage("SAF need to remove and give user options");
+					closeCodonOptimizationAnalysis();
+					isAnalysisOpen = 0;
+				}
+				
+				/*
+				 * Standard Check
+				 * prompt user if they want to close and whether or not they want to save
+				 * 
+				 */
+				if(isAnalysisOpen == 2){
+					
 					
 				}
 			}
@@ -208,14 +258,33 @@ public class MainFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				// Open file chooser only if it has not been saved yet
-				if(isAnalysisOpen != 0){
-					int returnVal = fileChooser.showSaveDialog(saveMenuItem);
-					
-					if(returnVal == JFileChooser.APPROVE_OPTION){
-						File file = fileChooser.getSelectedFile();
-						System.out.println(file.getName());
-						System.out.println(file.getPath());
+				if(isAnalysisOpen == 1){
+					// has not been saved yet open file chooser
+					if(codonOptimizationPanel.currentCO.getCurrentFilePath().compareTo("") == 0){
+						int returnVal = fileChooser.showSaveDialog(saveMenuItem);
+						
+						// if you decide to save
+						if(returnVal == JFileChooser.APPROVE_OPTION){
+							
+							// save the file
+							File file = fileChooser.getSelectedFile();
+							String path = file.getPath() + ".cdp";
+							
+							// set path in object
+							codonOptimizationPanel.currentCO.setCurrentFilePath(path);
+							
+							// TODO test statement
+							System.out.println("path");
+							
+							if(codonOptimizationPanel.currentCO.saveData(codonOptimizationPanel.currentCO, path) == -1 ){
+								ErrorMessage.giveErrorMessage("Unable to save file.");
+							}
+							
+							
+						}
+						
 					}
+
 					
 				}
 			}
@@ -227,8 +296,22 @@ public class MainFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				// Open file choose
-				if(isAnalysisOpen != 0){
+				if(isAnalysisOpen == 1){
 					int returnVal = fileChooser.showSaveDialog(saveMenuItem);
+
+					// if you decide to save
+					if(returnVal == JFileChooser.APPROVE_OPTION){
+						
+						// save the file
+						File file = fileChooser.getSelectedFile();
+						String path = file.getPath() + ".cdp";
+						
+						// TODO test statement
+						System.out.println("path");
+						if(codonOptimizationPanel.currentCO.saveData(codonOptimizationPanel.currentCO, path) == -1 ){
+							ErrorMessage.giveErrorMessage("Unable to save file.");
+						}	
+					}
 				}
 			}
 		});
@@ -310,14 +393,14 @@ public class MainFrame extends JFrame{
         this.manageView.dispose();
 	}
 	
-	public void newCodonOptAnalysis(){
+	public void newCodonOptimizationAnalysis(int mode){
 		
 		if(seqViewVisible == 0){
 			
 			// set the parameter so multiple sequence views don't appear
 			seqViewVisible = 1;
 			
-			codonOptimizationPanel = new CodonOptimizationPanel();
+			codonOptimizationPanel = new CodonOptimizationPanel(mode);
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
@@ -334,8 +417,10 @@ public class MainFrame extends JFrame{
 		
 	}
 	
-	public void closeSequenceAnalysis(){
-		
+	public void closeCodonOptimizationAnalysis(){
+		getContentPane().remove(codonOptimizationPanel);
+		this.paintAll(getGraphics());
+		seqViewVisible = 0;
 	}
 	
 	public void refreshSequenceAnalysisComboBoxes(){
@@ -352,6 +437,7 @@ public class MainFrame extends JFrame{
 		}
 		
 	}
+	
 	
 	
 }

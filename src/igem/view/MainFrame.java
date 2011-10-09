@@ -45,31 +45,31 @@ public class MainFrame extends JFrame{
 	CodonOptimizationPanel codonOptimizationPanel;
 	
 	// Stuff that has to do with handling opening and closing of files
-	JFileChooser fileChooser;
-	FileFilter codonOptimizationFilter;
-	FileFilter formatCheckFilter;
+	//JFileChooser fileChooser;
+	//FileFilter codonOptimizationFilter;
+	//FileFilter formatCheckFilter;
 	
 	private JMenuBar menuBar;
 	private JMenu myssMenu;
 	private JMenu fileMenu;
-	private JMenu helpMenu;
-	private JMenu newSubmenu;
+	//private JMenu helpMenu;
+	//private JMenu newSubmenu;
 	
-	private JMenuItem aboutMyssMenuItem;
-	private JMenuItem prefMyssMenuItem;
+	//private JMenuItem aboutMyssMenuItem;
+	//private JMenuItem prefMyssMenuItem;
 	
-	private JMenuItem openSequenceItem;
-	private JMenuItem closeMenuItem;
-	private JMenuItem saveMenuItem;
-	private JMenuItem saveAsMenuItem;
+	//private JMenuItem openSequenceItem;
+	//private JMenuItem closeMenuItem;
+	//private JMenuItem saveMenuItem;
+	//private JMenuItem saveAsMenuItem;
 	
 	private JMenuItem codonMenuItem;
 	private JMenuItem formatCheckMenuItem;
 	
-	private JMenuItem helpContentsMenuItem;
+	//private JMenuItem helpContentsMenuItem;
 	private JMenuItem manageMyssMenuItem;
 	private JMenuItem quitMyssMenuItem;
-	private JMenuItem tutorialMenuItem;
+	//private JMenuItem tutorialMenuItem;
 	
 	
 	public MainFrame(){
@@ -90,13 +90,13 @@ public class MainFrame extends JFrame{
 		 }
 		 
 		 // Set up everything for the file chooser
-		 fileChooser = new JFileChooser();
+		 /*fileChooser = new JFileChooser();
 		 codonOptimizationFilter = new FileNameExtensionFilter("Codon Optimization File", ".cdp");
 		 formatCheckFilter = new FileNameExtensionFilter("Standard Check File", ".stk");
 		 
 		 fileChooser.addChoosableFileFilter(codonOptimizationFilter);
 		 fileChooser.addChoosableFileFilter(formatCheckFilter);
-		 fileChooser.setAcceptAllFileFilterUsed(false);
+		 fileChooser.setAcceptAllFileFilterUsed(false);*/
 		 
 		 seqViewVisible = 0;
 		isAnalysisOpen = 0;
@@ -107,14 +107,14 @@ public class MainFrame extends JFrame{
 		myssMenu = new JMenu("MYS!S");
 		menuBar.add(myssMenu);
 		
-		aboutMyssMenuItem = new JMenuItem("About MYS!S");
-		myssMenu.add(aboutMyssMenuItem);
+		//aboutMyssMenuItem = new JMenuItem("About MYS!S");
+		//myssMenu.add(aboutMyssMenuItem);
 		
-		JSeparator separator = new JSeparator();
-		myssMenu.add(separator);
+		/*JSeparator separator = new JSeparator();
+		myssMenu.add(separator);*/
 		
-		prefMyssMenuItem = new JMenuItem("Preferences");
-		myssMenu.add(prefMyssMenuItem);
+		//prefMyssMenuItem = new JMenuItem("Preferences");
+		//myssMenu.add(prefMyssMenuItem);
 		
 		manageMyssMenuItem = new JMenuItem("Manage Components");
 		manageMyssMenuItem.addActionListener(new ActionListener() {
@@ -147,10 +147,10 @@ public class MainFrame extends JFrame{
 		menuBar.add(fileMenu);
 		
 		// the new components submenu
-		newSubmenu = new JMenu("New");
-		fileMenu.add(newSubmenu);
+		//newSubmenu = new JMenu("New");
+		//fileMenu.add(newSubmenu);
 		
-		codonMenuItem = new JMenuItem("Codon Optimization");
+		codonMenuItem = new JMenuItem("New Codon Optimization");
 		codonMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isAnalysisOpen == 0){
@@ -159,13 +159,15 @@ public class MainFrame extends JFrame{
 				}
 				// notify user to close things
 				else{
-					
+					closeCodonOptimizationAnalysis();
+					isAnalysisOpen = 1;
+					newCodonOptimizationAnalysis(isAnalysisOpen);
 				}
 			}
 		});
-		newSubmenu.add(codonMenuItem);
+		fileMenu.add(codonMenuItem);
 		
-		formatCheckMenuItem = new JMenuItem("Assembly Standard Check");
+		formatCheckMenuItem = new JMenuItem("New Assembly Standard Check");
 		formatCheckMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -175,12 +177,14 @@ public class MainFrame extends JFrame{
 				}
 				// notify user to close things
 				else{
-					ErrorMessage.giveErrorMessage("Please either close or save current analysis.");
+					closeCodonOptimizationAnalysis();
+					isAnalysisOpen = 2;
+					newCodonOptimizationAnalysis(isAnalysisOpen);
 				}
 				
 			}
 		});
-		newSubmenu.add(formatCheckMenuItem);
+		fileMenu.add(formatCheckMenuItem);
 		
 
 		
@@ -188,7 +192,7 @@ public class MainFrame extends JFrame{
 		 * Open an analysis of some type
 		 * 
 		 */
-		openSequenceItem = new JMenuItem("Open");
+		/*openSequenceItem = new JMenuItem("Open");
 		openSequenceItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -215,45 +219,45 @@ public class MainFrame extends JFrame{
 				}
 			}
 		});
-		fileMenu.add(openSequenceItem);
+		fileMenu.add(openSequenceItem);*/
 		
-		JSeparator separator_3 = new JSeparator();
-		fileMenu.add(separator_3);
+		/*JSeparator separator_3 = new JSeparator();
+		fileMenu.add(separator_3);*/
 		
-		closeMenuItem = new JMenuItem("Close");
+		/*closeMenuItem = new JMenuItem("Close");
 		closeMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {*/
 				
 				/*
 				 * Codon Optimization
 				 * prompt user if they want to close and if so if they want to save
 				 * 
 				 */ 
-				if(isAnalysisOpen == 1){
+				/*if(isAnalysisOpen == 1){
 					
 					// TODO change so that there are options to save or just close
 					ErrorMessage.giveErrorMessage("SAF need to remove and give user options");
 					closeCodonOptimizationAnalysis();
 					isAnalysisOpen = 0;
-				}
+				}*/
 				
 				/*
 				 * Standard Check
 				 * prompt user if they want to close and whether or not they want to save
 				 * 
 				 */
-				if(isAnalysisOpen == 2){
+				/*if(isAnalysisOpen == 2){
 					
 					
 				}
 			}
 		});
-		fileMenu.add(closeMenuItem);
+		fileMenu.add(closeMenuItem);*/
 		
-		JSeparator separator_2 = new JSeparator();
-		fileMenu.add(separator_2);
+		/*JSeparator separator_2 = new JSeparator();
+		fileMenu.add(separator_2);*/
 		
-		saveMenuItem = new JMenuItem("Save");
+		/*saveMenuItem = new JMenuItem("Save");
 		saveMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -289,9 +293,9 @@ public class MainFrame extends JFrame{
 				}
 			}
 		});
-		fileMenu.add(saveMenuItem);
+		fileMenu.add(saveMenuItem);*/
 		
-		saveAsMenuItem = new JMenuItem("Save As");
+		/*saveAsMenuItem = new JMenuItem("Save As");
 		saveAsMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -315,9 +319,9 @@ public class MainFrame extends JFrame{
 				}
 			}
 		});
-		fileMenu.add(saveAsMenuItem);
+		fileMenu.add(saveAsMenuItem);*/
 		
-		helpMenu = new JMenu("Help");
+		/*helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
 		
 		helpContentsMenuItem = new JMenuItem("Help Contents");
@@ -325,9 +329,9 @@ public class MainFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		helpMenu.add(helpContentsMenuItem);
+		helpMenu.add(helpContentsMenuItem);*/
 		
-		JSeparator separator_4 = new JSeparator();
+		/*JSeparator separator_4 = new JSeparator();
 		helpMenu.add(separator_4);
 		
 		tutorialMenuItem = new JMenuItem("Tutorial");
@@ -335,7 +339,7 @@ public class MainFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		helpMenu.add(tutorialMenuItem);
+		helpMenu.add(tutorialMenuItem);*/
 		
 		/*
 		 * Set parameters for grid bag
@@ -346,10 +350,6 @@ public class MainFrame extends JFrame{
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
-		
-
-		
-
 	}
 	
 

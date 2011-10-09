@@ -215,7 +215,7 @@ public class StandardPanel extends JPanel{
 		deleteButton = new JButton("-");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(editState == 0){
+				if(editState != 1){
 					// TODO allow this to be an actual choice
 					// show dialog that requires user to confirm whether or not they want to delete the organism
 					ErrorMessage.giveErrorMessage("Are you sure you want to delete this standard?");
@@ -234,12 +234,10 @@ public class StandardPanel extends JPanel{
 						
 					}
 				}
-				else if(editState == 1){
+				if(editState == 1){
 					ErrorMessage.giveErrorMessage("Please either save or cancel adding new standard.");
 				}
-				else{
-					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the standard being modified");
-				}
+
 				
 			}
 		});

@@ -168,13 +168,13 @@ public class CodonOptimizationPanel extends JPanel{
 		// set to transparent so you don't have to worry about the background
 		sequencePanel.setOpaque(false);
 		protocolPanel.setOpaque(false);
-		structurePanel.setOpaque(false);
+		//structurePanel.setOpaque(false);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		// add sequnce analysis view
 		tabbedPane.addTab("Sequence", sequencePanel);
-		tabbedPane.addTab("RNA Structure", structurePanel);
+		//tabbedPane.addTab("RNA Structure", structurePanel);
 		tabbedPane.addTab("Protocol", protocolPanel);
 					
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();

@@ -17,7 +17,7 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 	
 	OrgCodonTable organism;
 	Standard format;
-	
+	int[] restrictionIndex;
 	String unmodifiedHTML;
 	String modifiedHTML;
 	String primerHTML;
@@ -29,6 +29,10 @@ public class CodonOptimization extends GeneSequence implements Serializable{
 	public CodonOptimization(String newSeq, Backbone plasmid, String identifier, OrgCodonTable org, Standard standard){
 		super(newSeq, plasmid, identifier);
 		
+		this.restrictionIndex = new int[this.unmodifiedSequence.length()];
+		for(int i = 0; i < this.unmodifiedSequence.length(); i++){
+			this.restrictionIndex[i] = 0;
+		}
 		this.organism = org;
 		this.format = standard;
 		

@@ -42,7 +42,7 @@ public class BiocoderGenerator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String myDir = "/Users/sfairclough/Documents/iGEM-Rutgers-Software";
+		String myDir = "BioCoder";
 		String myProtocol = "DNA_Sequencing";
 		BiocoderGenerator bg = new BiocoderGenerator (myDir, myProtocol);
 		bg.make();		// Run make

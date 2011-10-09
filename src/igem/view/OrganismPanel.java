@@ -189,7 +189,7 @@ public class OrganismPanel extends JPanel{
 		deleteButton.addActionListener(new ActionListener() {
 			// delete organism
 			public void actionPerformed(ActionEvent e) {
-				if(editState == 0){
+				if(editState != 1){
 					// TODO allow this to be an actual choice
 					// show dialog that requires user to confirm whether or not they want to delete the organism
 					ErrorMessage.giveErrorMessage("Are you sure you want to delete this organism?");
@@ -208,12 +208,10 @@ public class OrganismPanel extends JPanel{
 						ErrorMessage.giveErrorMessage("Organism deleted successfully");
 					}
 				}
-				else if(editState == 1){
+				if(editState == 1){
 					ErrorMessage.giveErrorMessage("Please either save or cancel adding new organism.");
 				}
-				else{
-					ErrorMessage.giveErrorMessage("Please either save or cancel changes to the organism being modified.");
-				}
+
 				
 			}
 		});
@@ -237,10 +235,10 @@ public class OrganismPanel extends JPanel{
 				if(editState == 1){
 					if(newOrg != null){
 						if(MainFrame.myss.addOrganism(newOrg)){
-							ErrorMessage.giveErrorMessage("Organism added successfully : " + "save listener");
+							ErrorMessage.giveErrorMessage("Organism added successfully.");
 						}
 						else{
-							ErrorMessage.giveErrorMessage("Unable to add organism : " + "save listener");
+							ErrorMessage.giveErrorMessage("Unable to add organism.");
 						}
 						
 						clearFields();
